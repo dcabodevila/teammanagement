@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+
+<Configure class="org.mortbay.jetty.webapp.WebAppContext">
+
+    <New id="POJO-ExamplesDS" class="org.mortbay.jetty.plus.naming.Resource">
+        <Arg>jdbc/teammanagement-ds</Arg>
+        <Arg>
+            <New class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+                <Set name="driverClassName">com.mysql.jdbc.Driver</Set>
+                <Set name="url">jdbc:mysql://aazt4w28dc2nl2.craopvxk65tw.eu-west-2.rds.amazonaws.com/teammanagement</Set>
+                <Set name="username">sirnolimit</Set>
+                <Set name="password">2kligas33</Set>
+            </New>
+        </Arg>
+   </New>
+
+</Configure>

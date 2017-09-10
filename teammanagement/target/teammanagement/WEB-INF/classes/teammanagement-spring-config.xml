@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+
+<!-- Enable usage of @Autowired. -->
+
+<context:annotation-config/>
+
+<!--
+    <bean id="dataSource"
+        class="org.springframework.jdbc.datasource.SingleConnectionDataSource"
+        p:driverClassName="com.mysql.jdbc.Driver"
+        p:url="jdbc:mysql://aazt4w28dc2nl2.craopvxk65tw.eu-west-2.rds.amazonaws.com/teammanagement" p:username="sirnolimit"
+        p:password="2kligas33" 
+        p:suppressClose="true" />
+-->        
+
+	<bean id="dataSource"
+	class="org.springframework.jndi.JndiObjectFactoryBean"
+	p:jndiName="jdbc/teammanagement-ds"
+	p:resourceRef="true" />
+
+<!-- <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
+<!-- 	<property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
+<!--     <property name="url" value="jdbc:mysql://aazt4w28dc2nl2.craopvxk65tw.eu-west-2.rds.amazonaws.com/teammanagement" /> -->
+<!--     <property name="username" value="sirnolimit" /> -->
+<!--     <property name="password" value="2kligas33" /> -->
+<!-- </bean> -->
+
+    <!-- Enable component scanning for defining beans with annotations. -->
+    <context:component-scan base-package="es.ligasnba.app.model"/>
+
+<!--  For translating native persistence exceptions to Spring's 
+          DataAccessException hierarchy. -->
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+	
+	<!-- Hibernate Session Factory -->
+    <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
+        p:dataSource-ref="dataSource"
+        p:configLocation="classpath:/teammanagement-hibernate-config.xml"/>
+
+    <!-- Transaction manager for a single Hibernate SessionFactory.  -->
+    <bean id="transactionManager"
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+        p:sessionFactory-ref="sessionFactory" />
+
+	<!-- Enable the configuration of transactional behavior based on
+	     annotations. -->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+
+<!--  ======================== Business Objects ======================== -->
+
+    <!--  DAOs. -->
+
+<bean id="UsuarioDao"
+class = "es.ligasnba.app.model.usuario.UsuarioDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+<bean id="EquipoDao"
+class = "es.ligasnba.app.model.equipo.EquipoDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+<bean id="JugadorDao"
+class = "es.ligasnba.app.model.jugador.JugadorDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+<bean id="TraspasoDao"
+class = "es.ligasnba.app.model.traspaso.TraspasoDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+<bean id="ContratoDao"
+class = "es.ligasnba.app.model.contrato.ContratoDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+<bean id="LineaContratoDao"
+class = "es.ligasnba.app.model.lineacontrato.LineaContratoDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+<bean id="CompeticionDao"
+class = "es.ligasnba.app.model.competicion.CompeticionDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+<bean id="ClasificacionDao"
+class = "es.ligasnba.app.model.clasificacion.ClasificacionDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+<bean id="TemporadaDao"
+class = "es.ligasnba.app.model.temporada.TemporadaDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+<bean id="PartidoDao"
+class = "es.ligasnba.app.model.partido.PartidoDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+<bean id="ActaPartidoDao"
+class = "es.ligasnba.app.model.actapartido.ActaPartidoDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+<bean id="EstadisticaDao"
+class = "es.ligasnba.app.model.estadistica.EstadisticaDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+<bean id="CompetitionRolDao"
+class = "es.ligasnba.app.model.competitionrol.CompetitionRolDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+<bean id="NoticiaDao"
+class = "es.ligasnba.app.model.noticia.NoticiaDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+<bean id="MaintenanceDao"
+class = "es.ligasnba.app.model.maintenance.MaintenanceDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+<bean id="HistoricoEquipoJugadorDao"
+class = "es.ligasnba.app.model.historicoEquipoJugador.HistoricoEquipoJugadorDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+<bean id="AsientoDao"
+class = "es.ligasnba.app.model.finanzas.AsientoDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+<bean id="ArquetipoEquipoDao"
+class = "es.ligasnba.app.model.arquetipoEquipo.ArquetipoEquipoDaoHibernate"
+p:sessionFactory-ref="sessionFactory"/>
+    <!--  Service layer. -->
+
+<bean id="teamService"
+class = "es.ligasnba.app.model.equipo.teamServiceImpl"
+p:equipoDao-ref="EquipoDao"
+p:jugadorDao-ref="JugadorDao"
+p:competicionDao-ref="CompeticionDao"
+p:transactionManager-ref="transactionManager"
+/>
+
+<bean id="actaPartidoService"
+class = "es.ligasnba.app.model.actapartido.actaPartidoServiceImpl"
+p:transactionManager-ref="transactionManager"/>
+
+<bean id="userService"
+class = "es.ligasnba.app.model.usuario.userServiceImpl"
+p:usuarioDao-ref="UsuarioDao"
+p:competicionDao-ref="CompeticionDao"
+p:transactionManager-ref="transactionManager"
+/>
+<bean id="MailService"
+class = "es.ligasnba.app.model.mail.MailServiceImpl"
+p:transactionManager-ref="transactionManager"
+/>
+<bean id="playerService"
+class = "es.ligasnba.app.model.jugador.playerServiceImpl"
+p:jugadorDao-ref="JugadorDao"
+p:equipoDao-ref="EquipoDao"
+p:transactionManager-ref="transactionManager"
+/>
+<bean id="segundoPlanoService"
+class = "es.ligasnba.app.model.segundoPlano.SegundoPlanoServiceImpl"
+p:transactionManager-ref="transactionManager"
+/>
+
+<bean id="tradeService"
+class = "es.ligasnba.app.model.traspaso.tradeServiceImpl"
+p:traspasoDao-ref="TraspasoDao"
+p:equipoDao-ref="EquipoDao"
+p:transactionManager-ref="transactionManager"
+/>
+<bean id="contractService"
+class = "es.ligasnba.app.model.contrato.contractServiceImpl"
+p:jugadorDao-ref="JugadorDao"
+p:equipoDao-ref="EquipoDao"
+p:contratoDao-ref="ContratoDao"
+p:lineaContratoDao-ref="LineaContratoDao"
+p:temporadaDao-ref="TemporadaDao"
+p:transactionManager-ref="transactionManager"
+/>
+
+
+
+<bean id="seasonService"
+class = "es.ligasnba.app.model.temporada.seasonServiceImpl"
+p:temporadaDao-ref="TemporadaDao"
+p:transactionManager-ref="transactionManager"
+/>
+
+<bean id="matchService"
+class = "es.ligasnba.app.model.partido.matchServiceImpl"
+p:temporadaDao-ref="TemporadaDao"
+p:equipoDao-ref="EquipoDao"
+p:partidoDao-ref="PartidoDao"
+p:competicionDao-ref="CompeticionDao"
+p:actaPartidoDao-ref="ActaPartidoDao"
+p:transactionManager-ref="transactionManager"
+/>
+
+<bean id="classificationService"
+class = "es.ligasnba.app.model.clasificacion.classificationServiceImpl"
+p:transactionManager-ref="transactionManager"
+/>
+
+<bean id="competitionService"
+class = "es.ligasnba.app.model.competicion.competitionServiceImpl"
+p:usuarioDao-ref="UsuarioDao"
+p:temporadaDao-ref="TemporadaDao"
+p:competicionDao-ref="CompeticionDao"
+p:transactionManager-ref="transactionManager"
+/>
+
+<bean id="competitionRolService"
+class = "es.ligasnba.app.model.competitionrol.competitionRolServiceImpl"
+p:competitionRolDao-ref="CompetitionRolDao"
+p:transactionManager-ref="transactionManager"
+/>
+
+<bean id="statsService"
+class = "es.ligasnba.app.model.estadistica.statsServiceImpl"
+p:estadisticaDao-ref="EstadisticaDao"
+p:transactionManager-ref="transactionManager"
+/>
+<bean id="newsService"
+class = "es.ligasnba.app.model.noticia.newsServiceImpl"
+p:noticiaDao-ref="NoticiaDao"
+p:transactionManager-ref="transactionManager"
+/>
+
+<bean id="finanzasService"
+class = "es.ligasnba.app.model.finanzas.finanzasServiceImpl"
+p:asientoDao-ref="AsientoDao"
+p:transactionManager-ref="transactionManager"
+/>
+
+<bean id="maintenanceService"
+class = "es.ligasnba.app.model.maintenance.maintenanceServiceImpl"
+p:maintenanceDao-ref="MaintenanceDao"
+p:transactionManager-ref="transactionManager"
+/>
+<bean id="ArquetipoEquipoService"
+class = "es.ligasnba.app.model.arquetipoEquipo.ArquetipoEquipoServiceImpl"
+p:noticiaDao-ref="NoticiaDao"
+p:transactionManager-ref="transactionManager"
+/>
+
+
+
+</beans>

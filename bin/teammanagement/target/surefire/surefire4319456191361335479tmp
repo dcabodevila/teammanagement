@@ -1,0 +1,5 @@
+#surefire
+#Wed Apr 13 17:40:25 CEST 2011
+user.dir=/home/sirnolimit/apps/teammanagement
+localRepository=/home/sirnolimit/.m2/repository
+basedir=/home/sirnolimit/apps/teammanagement

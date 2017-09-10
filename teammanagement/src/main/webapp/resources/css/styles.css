@@ -1,0 +1,1076 @@
+body {
+font-family: Helvetica Ltd ,Arial, sans-serif;
+width: 100%;
+margin: auto;
+}
+
+.mainContainer{
+width:80%;
+margin: auto;
+}
+
+h1, hr {
+margin: 0px;
+padding: 0px;
+}
+
+.loginForm {
+margin-left: auto;
+margin-right: auto;
+}
+
+/**
+*Table http://veerle-v2.duoh.com/blog/comments/a_css_styled_table/
+*/
+.datatable{
+
+	display:block;
+	width: auto;
+	height:auto;
+	margin-left:auto; 
+	margin-right:auto;
+	margin-top: auto;
+	margin-bottom: auto;
+	text-align: center;
+}
+
+.datatable caption {
+	padding: 0 0 5px 0;
+	width: 700px;	 
+	font: italic 20px "Helvetica Ltd", Verdana, Arial, Helvetica, sans-serif;
+	text-align: left;
+}
+.datatable th {
+	font: bold 11px "Helvetica Ltd", Verdana, Arial, Helvetica,
+	sans-serif;
+	color: #6D929B;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #CAE8EA;
+}
+
+.datatable th.nobg {
+	border-top: 0;
+	border-left: 0;
+	border-right: 1px solid #C1DAD7;
+	background: none;
+}
+.datatable td {
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	background: #fff;
+	padding: 6px 6px 6px 12px;
+	color: #6D929B;
+	align: center;
+}
+
+
+.datatable td.alt {
+	background: #F5FAFA;
+	color: #B4AA9D;
+}
+
+#banner {
+display: block;
+}
+
+#username {
+
+}
+
+#menu-username {
+color: green;
+float: right;
+margin-top: 10px;
+margin-right: 10px;
+}
+
+.message {
+color: red;
+text-align: center;
+}
+
+.messageOK {
+color: green;
+text-align: center;
+
+}
+
+.starthidden { display:none; }
+
+.login-form {
+	background: -webkit-gradient(linear, bottom, left 175px, from(#CCCCCC), to(#EEEEEE));
+	background: -moz-linear-gradient(bottom, #CCCCCC, #EEEEEE 175px);
+	margin:auto;
+	position:relative;
+	width:400px;
+	height:auto;
+	font-family: Helvetica Ltd;
+	font-size: 14px;
+	font-style: italic;
+	line-height: 24px;
+	font-weight: bold;
+	color: #09C;
+	text-decoration: none;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding:10px;
+	border: 1px solid #999;
+	border: inset 1px solid #333;
+	-webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+	box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+	padding: 50;
+	margin-top : 50;
+}
+
+.login-form input {
+width:375px;
+display:block;
+border: 1px solid #999;
+height: 25px;
+margin-left: auto;
+margin-right: auto;
+
+-webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+-moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+
+.loginNavigation{
+    height: 50;
+    width: 100%;
+    display: block;
+    background-color: #333;
+}
+
+.loginNavigation ul{
+    margin: 0;
+    padding: 0;
+}
+
+.loginNavigation ul li{
+    display: inline;
+}
+.loginNavigation ul li a{
+    float: left;
+    text-decoration: none;
+    color: white;
+    padding: 15px 15px;
+    background-color: #333;
+}
+
+.loginNavigation ul li a:visited {
+    color: white;
+}
+ 
+.loginNavigation ul li a:hover, .menu ul li .current {
+    color: #fff;
+    background-color:#0b75b2;
+}
+.registerNavigation{
+    height:50;
+    width: 100%;    
+    display: block;
+    background-color: #333;
+}
+.registerNavigation ul{    
+    margin: 0;
+    padding: 0;
+}
+
+.registerNavigation ul li{
+    display: inline;
+}
+.registerNavigation ul li a{
+    float: left;
+    text-decoration: none;
+    color: white;
+    padding: 15px 15px;
+    background-color: #333;
+}
+
+.registerNavigation ul li a:visited {
+    color: white;
+}
+ 
+.registerNavigation ul li a:hover, .menu ul li .current {
+    color: #fff;
+    background-color:#0b75b2;
+}
+
+/**
+* Menu based on James Owers' Horizontal CSS List Menu
+* @see http://jamesowers.co.uk/css-tutorials/50/horizontal-css-list-menu/
+*/
+.menu {
+    width: 100%;
+    background-color: #333;
+    display: block;
+}
+    
+.menu ul {
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+ 
+.menu ul li {
+    display: inline;
+}
+ 
+.menu ul li a {
+    float: left;
+    text-decoration: none;
+    color: white;
+    padding: 15px 15px;
+    background-color: #333;
+}
+ 
+.menu ul li a:visited {
+    color: white;
+}
+ 
+.menu ul li a:hover, .menu ul li .current {
+    color: #fff;
+    background-color:#0b75b2;
+}
+.datatable {
+	display: block;
+	padding: 10 0;
+	margin-top:10;
+}
+.standings {
+
+}
+
+.newsData ul{
+height: auto;
+}
+
+.newsData ul li{
+ 
+    float: left;
+    display: block;
+    margin: 3;
+    width: 80%;
+    height: auto;
+    background: white;
+    font-family: Helvetica Ltd;
+    font-size: 14px;
+    font-style: italic;
+    line-height: 24px;
+    font-weight: bold;
+    color: #09C;
+    text-decoration: none;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: 1px solid #999;
+    border: inset 1px solid #333;
+    -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    padding: 5;
+    text-align:center;
+
+}
+
+.newsDate {
+
+    border: 1px solid #999;
+    float:left;
+
+}
+.newsText{
+
+
+
+}
+
+.teamData {
+
+
+    height: 120;
+    font-size:22px;
+    font-family: "Helvetica Ltd";
+
+
+
+
+
+}
+
+.teamData div {
+
+
+
+}
+#teamLogoName{
+   position: relative;
+   height: 60;
+}
+#logo{
+
+   position: absolute;
+   left: 0;
+}
+#teamName{
+   position: absolute;
+   top: 50%;
+   left: 80;   	
+
+
+}
+
+.register-form {
+    width: 100%;
+    color: #333;
+    padding: 5px;
+    width: 800px;
+    height: 600px;
+    margin: auto;
+    text-align: center;
+
+}
+.register-form fieldset {
+    margin-top: 50px;
+    border: 1px solid gray;
+    padding :30;
+}
+
+.register-form legend {
+    margin: 0px;
+    padding: 0px;
+    text-align: left;
+}
+
+.register-form hr {
+    height: 1px;
+    border: 0px;
+    border-top: 1px solid black;
+}
+
+.register-form input {
+   float: right;
+}
+
+
+.competitioncreate-form    {
+background: -webkit-gradient(linear, bottom, left 175px, from(#CCCCCC), to(#EEEEEE));
+background: -moz-linear-gradient(bottom, #CCCCCC, #EEEEEE 175px);
+margin:auto;
+position:relative;
+width:550px;
+height:auto;
+    font-family: "Helvetica Ltd";
+font-size: 14px;
+
+line-height: 24px;
+font-weight: bold;
+color: #09C;
+text-decoration: none;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
+padding:10px;
+border: 1px solid #999;
+border: inset 1px solid #333;
+-webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+-moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+padding: 50;
+margin-top : 50;
+
+}
+
+.competitioncreate-form input {
+width:375px;
+display:block;
+border: 1px solid #999;
+height: 25px;
+margin-left: auto;
+margin-right: auto;
+
+-webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+-moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+
+.competitioncreate-form select {
+width:375px;
+display:block;
+border: 1px solid #999;
+height: 25px;
+margin-left: auto;
+margin-right: auto;
+
+-webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+-moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+
+.formbutton {
+
+width:100px;
+position:absolute;
+right:20px;
+bottom:20px;
+
+
+}
+
+
+.playercontract-form    {
+background: -webkit-gradient(linear, bottom, left 175px, from(#CCCCCC), to(#EEEEEE));
+background: -moz-linear-gradient(bottom, #CCCCCC, #EEEEEE 175px);
+margin:auto;
+position:relative;
+width:auto;
+font-family: "Helvetica Ltd";
+font-size: 14px;
+font-style: italic;
+line-height: 24px;
+font-weight: bold;
+color: #09C;
+text-decoration: none;
+-webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
+padding:10px;
+border: 1px solid #999;
+border: inset 1px solid #333;
+-webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+-moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+padding: 50;
+margin-top : 50;
+
+}
+
+.playercontract-form input {
+width:375px;
+display:block;
+border: 1px solid #999;
+height: 25px;
+margin-left: auto;
+margin-right: auto;
+
+-webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+-moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+
+.playercontract-form select {
+width:375px;
+display:block;
+border: 1px solid #999;
+height: 25px;
+margin-left: auto;
+margin-right: auto;
+
+-webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+-moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+.textarea:focus, input:focus {
+border: 1px solid #09C;
+}
+
+#competitionMenu {
+
+text-align:center;      
+
+}
+
+.listCompetitionMenu {
+  height: 200;
+  width: 500;
+margin-left:auto; 
+margin-right:auto;
+
+}
+
+#listCompetitionMenu ul{
+    text-align: center;
+    width: 500;
+
+    	
+}
+.listCompetitionMenu ul{
+    	
+    list-style-type: none;
+    height: auto;
+    margin: 0;
+    padding: 10;
+}
+
+.listCompetitionMenu ul li{
+
+}
+.listCompetitionMenu ul li a{
+    float: left;
+    text-decoration: none;
+    color: #333;
+    padding: 26px 26px;
+    background-color: #F8F8FF;
+}
+
+.listCompetitionMenu ul li a:visited {
+    color: #333;
+}
+ 
+.listCompetitionMenu ul li a:hover, .menu ul li .current {
+    color: #fff;
+    background-color:#0b75b2;
+}
+
+
+.competitionPanelCenter{
+ position: relative;
+ width: auto;
+ height: 550;
+}
+
+#seasons {
+
+
+
+}
+.standings{
+position: absolute;
+top: 0;
+left: 0;
+width: auto;
+height: auto;
+
+}
+.competitionPanelRight{
+position: absolute;
+top: 0;
+left: 550;
+width: 350;
+height: auto;
+
+
+}
+
+#panel1 {
+    position:absolute; 
+    border: 1px; 
+    border-color:#F8F8FF; 
+    background-color:#F8F8FF; 
+    border-style:outset; 
+    left:0px;
+    top:50px; 
+    margin:0px; 
+    padding:6px; 
+}
+
+.teamLogoName ul {
+   list-style-type: none;
+   padding: 0;
+    margin: 0;
+	}
+.teamLogoName ul li{
+   display: inline;
+}
+
+.textDate{
+   width: 50;
+}
+
+.adminUsersTableDiv{
+ float:left;
+ width: 380;
+ height: auto;
+
+}
+
+#news-container{
+    margin-left:auto; 
+    margin-right:auto;
+
+}
+
+#tradeData{
+position: relative;
+
+}
+#localTradeDate{
+position: absolute;
+top: 0;
+left:0;
+}
+#visitorTradeData{
+position: absolute;
+left: 50%;
+top:0;
+}
+.sliderSalary{
+   position: relative;
+   left:45%;
+   right: 50%; 
+}
+
+
+/* PURE */
+
+
+.pure-button {
+    font-family: inherit;
+    font-size: 100%;
+    *font-size: 90%; /*IE 6/7 - To reduce IE's oversized button text*/
+    *overflow: visible; /*IE 6/7 - Because of IE's overly large left/right padding on buttons */
+    padding: 0.5em 1em;
+    color: #444; /* rgba not supported (IE 8) */
+    color: rgba(0, 0, 0, 0.80); /* rgba supported */
+    *color: #444; /* IE 6 & 7 */
+    border: 1px solid #999; /*IE 6/7/8*/
+    border: none rgba(0, 0, 0, 0); /*IE9 + everything else*/
+    background-color: #E6E6E6;
+    text-decoration: none;
+    border-radius: 2px;
+    /* Transitions */
+    -webkit-transition: 0.1s linear -webkit-box-shadow;
+    -moz-transition: 0.1s linear -moz-box-shadow;
+    -ms-transition: 0.1s linear box-shadow;
+    -o-transition: 0.1s linear box-shadow;
+    transition: 0.1s linear box-shadow;
+}
+
+.pure-button-hover,
+.pure-button:hover,
+.pure-button:focus {
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#1a000000',GradientType=0);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(transparent), color-stop(40%, rgba(0,0,0, 0.05)), to(rgba(0,0,0, 0.10)));
+    background-image: -webkit-linear-gradient(transparent, rgba(0,0,0, 0.05) 40%, rgba(0,0,0, 0.10));
+    background-image: -moz-linear-gradient(top, rgba(0,0,0, 0.05) 0%, rgba(0,0,0, 0.10));
+    background-image: -o-linear-gradient(transparent, rgba(0,0,0, 0.05) 40%, rgba(0,0,0, 0.10));
+    background-image: linear-gradient(transparent, rgba(0,0,0, 0.05) 40%, rgba(0,0,0, 0.10));
+}
+.pure-button:focus {
+    outline: 0;
+}
+.pure-button-active,
+.pure-button:active {
+    box-shadow: 0 0 0 1px rgba(0,0,0, 0.15) inset, 0 0 6px rgba(0,0,0, 0.20) inset;
+}
+
+.pure-button[disabled],
+.pure-button-disabled,
+.pure-button-disabled:hover,
+.pure-button-disabled:focus,
+.pure-button-disabled:active {
+    border: none;
+    background-image: none;
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    filter: alpha(opacity=40);
+    -khtml-opacity: 0.40;
+    -moz-opacity: 0.40;
+    opacity: 0.40;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.pure-button-hidden {
+    display: none;
+}
+
+/* Firefox: Get rid of the inner focus border */
+.pure-button::-moz-focus-inner{
+    padding: 0;
+    border: 0;
+}
+
+.pure-button-primary,
+.pure-button-selected,
+a.pure-button-primary,
+a.pure-button-selected {
+    background-color: rgb(0, 120, 231);
+    color: #fff;
+}
+
+
+.pure-form input[type="text"],
+.pure-form input[type="password"],
+.pure-form input[type="email"],
+.pure-form input[type="url"],
+.pure-form input[type="date"],
+.pure-form input[type="month"],
+.pure-form input[type="time"],
+.pure-form input[type="datetime"],
+.pure-form input[type="datetime-local"],
+.pure-form input[type="week"],
+.pure-form input[type="number"],
+.pure-form input[type="search"],
+.pure-form input[type="tel"],
+.pure-form input[type="color"],
+.pure-form select,
+.pure-form textarea {
+    padding: 0.5em 0.6em;
+    display: inline-block;
+    border: 1px solid #ccc;
+    font-size: 0.8em;
+    box-shadow: inset 0 1px 3px #ddd;
+    border-radius: 4px;
+    -webkit-transition: 0.3s linear border;
+    -moz-transition: 0.3s linear border;
+    -ms-transition: 0.3s linear border;
+    -o-transition: 0.3s linear border;
+    transition: 0.3s linear border;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.pure-form input[type="text"]:focus,
+.pure-form input[type="password"]:focus,
+.pure-form input[type="email"]:focus,
+.pure-form input[type="url"]:focus,
+.pure-form input[type="date"]:focus,
+.pure-form input[type="month"]:focus,
+.pure-form input[type="time"]:focus,
+.pure-form input[type="datetime"]:focus,
+.pure-form input[type="datetime-local"]:focus,
+.pure-form input[type="week"]:focus,
+.pure-form input[type="number"]:focus,
+.pure-form input[type="search"]:focus,
+.pure-form input[type="tel"]:focus,
+.pure-form input[type="color"]:focus,
+.pure-form select:focus,
+.pure-form textarea:focus {
+    outline: 0;
+    outline: thin dotted \9; /* IE6-9 */
+    border-color: #129FEA;
+}
+
+.pure-form input[type="file"]:focus,
+.pure-form input[type="radio"]:focus,
+.pure-form input[type="checkbox"]:focus {
+    outline: thin dotted #333;
+    outline: 1px auto #129FEA;
+}
+.pure-form .pure-checkbox,
+.pure-form .pure-radio {
+    margin: 0.5em 0;
+    display: block;
+}
+.pure-form input[type="text"][disabled],
+.pure-form input[type="password"][disabled],
+.pure-form input[type="email"][disabled],
+.pure-form input[type="url"][disabled],
+.pure-form input[type="date"][disabled],
+.pure-form input[type="month"][disabled],
+.pure-form input[type="time"][disabled],
+.pure-form input[type="datetime"][disabled],
+.pure-form input[type="datetime-local"][disabled],
+.pure-form input[type="week"][disabled],
+.pure-form input[type="number"][disabled],
+.pure-form input[type="search"][disabled],
+.pure-form input[type="tel"][disabled],
+.pure-form input[type="color"][disabled],
+.pure-form select[disabled],
+.pure-form textarea[disabled] {
+    cursor: not-allowed;
+    background-color: #eaeded;
+    color: #cad2d3;
+}
+.pure-form input[readonly],
+.pure-form select[readonly],
+.pure-form textarea[readonly] {
+    background: #eee; /* menu hover bg color */
+    color: #777; /* menu text color */
+    border-color: #ccc;
+}
+
+.pure-form input:focus:invalid,
+.pure-form textarea:focus:invalid,
+.pure-form select:focus:invalid {
+    color: #b94a48;
+    border: 1px solid #ee5f5b;
+}
+.pure-form input:focus:invalid:focus,
+.pure-form textarea:focus:invalid:focus,
+.pure-form select:focus:invalid:focus {
+    border-color: #e9322d;
+}
+.pure-form input[type="file"]:focus:invalid:focus,
+.pure-form input[type="radio"]:focus:invalid:focus,
+.pure-form input[type="checkbox"]:focus:invalid:focus {
+    outline-color: #e9322d;
+}
+.pure-form select {
+    border: 1px solid #ccc;
+    background-color: white;
+}
+.pure-form select[multiple] {
+    height: auto;
+}
+.pure-form label {
+    margin: 0.5em 0 0.2em;
+    font-size: 90%;
+}
+.pure-form fieldset {
+    margin: 0;
+    padding: 0.35em 0 0.75em;
+    border: 0;
+}
+.pure-form legend {
+    display: block;
+    width: 100%;
+    padding: 0.3em 0;
+    margin-bottom: 0.3em;
+    font-size: 125%;
+    color: #333;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+#createcompetitionform-container{
+    position:relative;
+}
+
+.pure-form-stacked {
+    text-align:center;
+}
+
+
+.pure-form-stacked input[type="text"],
+.pure-form-stacked input[type="password"],
+.pure-form-stacked input[type="email"],
+.pure-form-stacked input[type="url"],
+.pure-form-stacked input[type="date"],
+.pure-form-stacked input[type="month"],
+.pure-form-stacked input[type="time"],
+.pure-form-stacked input[type="datetime"],
+.pure-form-stacked input[type="datetime-local"],
+.pure-form-stacked input[type="week"],
+.pure-form-stacked input[type="number"],
+.pure-form-stacked input[type="search"],
+.pure-form-stacked input[type="tel"],
+.pure-form-stacked input[type="color"],
+.pure-form-stacked select,
+.pure-form-stacked label,
+.pure-form-stacked textarea {
+    display: block;
+    margin: 0.25em 0;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+.pure-form-aligned input,
+.pure-form-aligned textarea,
+.pure-form-aligned select,
+/* NOTE: pure-help-inline is deprecated. Use .pure-form-message-inline instead. */
+.pure-form-aligned .pure-help-inline,
+.pure-form-message-inline {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: middle;
+}
+.pure-form-aligned textarea {
+    vertical-align: top;
+}
+
+/* Aligned Forms */
+.pure-form-aligned .pure-control-group {
+    margin-bottom: 0.5em;
+}
+.pure-form-aligned .pure-control-group label {
+    text-align: right;
+    display: inline-block;
+    vertical-align: middle;
+    width: 10em;
+    margin: 0 1em 0 0;
+}
+.pure-form-aligned .pure-controls {
+    margin: 1.5em 0 0 10em;
+}
+
+/* Rounded Inputs */
+.pure-form input.pure-input-rounded,
+.pure-form .pure-input-rounded {
+    border-radius: 2em;
+    padding: 0.5em 1em;
+}
+
+/* Grouped Inputs */
+.pure-form .pure-group fieldset {
+    margin-bottom: 10px;
+}
+.pure-form .pure-group input {
+    display: block;
+    padding: 10px;
+    margin: 0;
+    border-radius: 0;
+    position: relative;
+    top: -1px;
+}
+.pure-form .pure-group input:focus {
+    z-index: 2;
+}
+.pure-form .pure-group input:first-child {
+    top: 1px;
+    border-radius: 4px 4px 0 0;
+}
+.pure-form .pure-group input:last-child {
+    top: -2px;
+    border-radius: 0 0 4px 4px;
+}
+.pure-form .pure-group button {
+    margin: 0.35em 0;
+}
+
+.pure-form .pure-input-1 {
+    width: 100%;
+}
+.pure-form .pure-input-2-3 {
+    width: 66%;
+}
+.pure-form .pure-input-1-2 {
+    width: 50%;
+}
+.pure-form .pure-input-1-3 {
+    width: 33%;
+}
+.pure-form .pure-input-1-4 {
+    width: 25%;
+}
+
+/* Inline help for forms */
+/* NOTE: pure-help-inline is deprecated. Use .pure-form-message-inline instead. */
+.pure-form .pure-help-inline,
+.pure-form-message-inline {
+    display: inline-block;
+    padding-left: 0.3em;
+    color: #666;
+    vertical-align: middle;
+    font-size: 90%;
+}
+
+/* Block help for forms */
+.pure-form-message {
+    display: block;
+    color: #666;
+    font-size: 90%;
+}
+
+.pure-menu.pure-menu-open,
+.pure-menu.pure-menu-horizontal li .pure-menu-children {
+    background: #fff; /* Old browsers */
+    border: 1px solid #b7b7b7;
+}
+
+/* remove borders for horizontal menus */
+.pure-menu.pure-menu-horizontal,
+.pure-menu.pure-menu-horizontal .pure-menu-heading {
+    border: none;
+}
+
+
+/* LINK STYLES */
+
+.pure-menu a {
+    border: 1px solid transparent;
+    border-left: none;
+    border-right: none;
+
+}
+
+.pure-menu a,
+.pure-menu .pure-menu-can-have-children > li:after {
+    color: #777;
+}
+
+.pure-menu .pure-menu-can-have-children > li:hover:after {
+    color: #fff;
+}
+
+/* Focus style for a dropdown menu-item when the parent has been opened */
+.pure-menu .pure-menu-open {
+    background: #dedede;
+}
+
+
+.pure-menu li a:hover,
+.pure-menu li a:focus {
+    background: #eee;
+}
+
+/* DISABLED STATES */
+.pure-menu li.pure-menu-disabled a:hover,
+.pure-menu li.pure-menu-disabled a:focus {
+    background: #fff;
+    color: #bfbfbf;
+}
+
+.pure-menu .pure-menu-disabled > a {
+    background-image: none;
+    border-color: transparent;
+    cursor: default;
+}
+
+.pure-menu .pure-menu-disabled > a,
+.pure-menu .pure-menu-can-have-children.pure-menu-disabled > a:after {
+    color: #bfbfbf;
+}
+
+/* HEADINGS */
+.pure-menu .pure-menu-heading {
+    color: #565d64;
+    text-transform: uppercase;
+    font-size: 90%;
+    margin-top: 0.5em;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #dfdfdf;
+}
+
+/* ACTIVE MENU ITEM */
+.pure-menu .pure-menu-selected a {
+    color: #000;
+}
+
+/* FIXED MENU */
+.pure-menu.pure-menu-open.pure-menu-fixed {
+    border: none;
+    border-bottom: 1px solid #b7b7b7;
+}
+/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   speak for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('http://sampsonresume.com/labs/pIkfp.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;   
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+    display: block;
+}

@@ -1,0 +1,905 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+	
+<hibernate-mapping>
+	<sql-query name="FIND_DEFAULT_PLAYER_BY_NAME">
+	    <return-scalar column="idJugador" type="long"/>
+	    <return-scalar column="equipoOriginal" type="string"/>
+	    <return-scalar column="nombre" type="string"/>
+	    <return-scalar column="logoEquipoOriginal" type="string"/>
+	    <return-scalar column="edad" type="integer"/>
+	    <return-scalar column="imagen" type="string"/>
+	    <return-scalar column="loyaltyInterest" type="integer"/>
+	    <return-scalar column="media" type="integer"/>
+	    <return-scalar column="moneyInterest" type="integer"/>
+	    <return-scalar column="posicion1" type="string"/>
+	    <return-scalar column="posicion2" type="string"/>
+	    <return-scalar column="contractYears" type="integer"/>
+	    <return-scalar column="currentSalary" type="big_decimal"/>
+	    <return-scalar column="nextSalary" type="big_decimal"/>
+	    <return-scalar column="yearsPro" type="integer"/>
+	    <return-scalar column="cache" type="big_decimal"/>
+			 <![CDATA[
+			 SELECT 
+	             jugadordef0_.idJugadorDefault as 'idJugador', 
+	             equipodefa1_.nombreEquipo as 'equipoOriginal', 
+	             equipodefa1_.logo as 'logoEquipoOriginal',
+	             YEAR(CURRENT_TIMESTAMP) - YEAR(jugadordef0_.fechaNacimiento) - (RIGHT(CURRENT_TIMESTAMP, 5) < RIGHT(jugadordef0_.fechaNacimiento, 5)) as 'edad',  
+	             jugadordef0_.imagen as 'imagen', 
+	             jugadordef0_.loyaltyInterest as 'loyaltyInterest', 
+	             jugadordef0_.media as 'media', 
+	            jugadordef0_.moneyInterest as 'moneyInterest', 
+	             jugadordef0_.nombre as 'nombre',  
+	             p1.nombre as 'posicion1',  
+	             p2.nombre as 'posicion2',  
+				 CASE  
+					WHEN jugadordef0_.salario4 is not null THEN 4                  
+	                WHEN jugadordef0_.salario3 is not null THEN 3  
+	                WHEN jugadordef0_.salario2 is not null THEN 2  
+	                WHEN jugadordef0_.salario1 is not null THEN 1  
+					ELSE 0  
+			END as 'contractYears',  
+	           jugadordef0_.salario1 as 'currentSalary',  
+	            jugadordef0_.salario2 as 'nextSalary',  
+	            jugadordef0_.winningInterest as 'winningInterest',  
+	            jugadordef0_.yearsPro as 'yearsPro',
+	            jugadordef0_.cache as 'cache'  
+	         from  
+	            jugadordefault jugadordef0_   
+	         inner join  
+	            equipodefault equipodefa1_   
+	               on jugadordef0_.idEquipoDefault=equipodefa1_.idEquipo  
+			 left join  
+				posicion p1  
+					on p1.idPosicion=jugadordef0_.pos1  
+			 left join  
+				posicion p2  
+					on p2.idPosicion=jugadordef0_.pos2                  
+	         where jugadordef0_.nombre LIKE :nombre AND  
+	            (  
+	                jugadordef0_.idJugadorDefault not in  (  
+	                    select  
+	                       jugador2_.idJugadorOriginal   
+	                  from   
+	                        jugador jugador2_   
+	                    inner join  
+	                        competicion competicio3_   
+	                            on jugador2_.idCompeticion=competicio3_.idCompeticion   
+	                    where  
+	                        competicio3_.idCompeticion=:idCompeticion    
+	          )) order by jugadordef0_.salario1 DESC			 			 
+			 ]]>
+
+	</sql-query>
+	
+	<sql-query name="FIND_DEFAULT_PLAYER_BY_ID">
+	    <return-scalar column="idJugador" type="long"/>
+	    <return-scalar column="equipoOriginal" type="string"/>
+	    <return-scalar column="nombre" type="string"/>
+	    <return-scalar column="logoEquipoOriginal" type="string"/>
+	    <return-scalar column="edad" type="integer"/>
+	    <return-scalar column="imagen" type="string"/>
+	    <return-scalar column="loyaltyInterest" type="integer"/>
+	    <return-scalar column="media" type="integer"/>
+	    <return-scalar column="moneyInterest" type="integer"/>
+	    <return-scalar column="winningInterest" type="integer"/>
+	    <return-scalar column="posicion1" type="string"/>
+	    <return-scalar column="posicion2" type="string"/>
+	    <return-scalar column="contractYears" type="integer"/>
+	    <return-scalar column="currentSalary" type="big_decimal"/>
+	    <return-scalar column="nextSalary" type="big_decimal"/>
+	    <return-scalar column="yearsPro" type="integer"/>
+	    <return-scalar column="cache" type="big_decimal"/>
+			 <![CDATA[
+			 SELECT 
+	             jugadordef0_.idJugadorDefault as 'idJugador', 
+	             equipodefa1_.nombreEquipo as 'equipoOriginal', 
+	             equipodefa1_.logo as 'logoEquipoOriginal',
+	             YEAR(CURRENT_TIMESTAMP) - YEAR(jugadordef0_.fechaNacimiento) - (RIGHT(CURRENT_TIMESTAMP, 5) < RIGHT(jugadordef0_.fechaNacimiento, 5)) as 'edad',  
+	             jugadordef0_.imagen as 'imagen', 
+	             jugadordef0_.loyaltyInterest as 'loyaltyInterest', 
+	             jugadordef0_.media as 'media', 
+	             jugadordef0_.moneyInterest as 'moneyInterest', 
+	             jugadordef0_.winningInterest as 'winningInterest',
+	             jugadordef0_.nombre as 'nombre',  
+	             p1.nombre as 'posicion1',  
+	             p2.nombre as 'posicion2',  
+				 CASE  
+					WHEN jugadordef0_.salario4 is not null THEN 4                  
+	                WHEN jugadordef0_.salario3 is not null THEN 3  
+	                WHEN jugadordef0_.salario2 is not null THEN 2  
+	                WHEN jugadordef0_.salario1 is not null THEN 1  
+					ELSE 0  
+			END as 'contractYears',  
+	           jugadordef0_.salario1 as 'currentSalary',  
+	            jugadordef0_.salario2 as 'nextSalary',  
+	            jugadordef0_.winningInterest as 'winningInterest',  
+	            jugadordef0_.yearsPro as 'yearsPro',
+	            jugadordef0_.cache as 'cache'   
+	         from  
+	            jugadordefault jugadordef0_   
+	         inner join  
+	            equipodefault equipodefa1_   
+	               on jugadordef0_.idEquipoDefault=equipodefa1_.idEquipo  
+			 left join  
+				posicion p1  
+					on p1.idPosicion=jugadordef0_.pos1  
+			 left join  
+				posicion p2  
+					on p2.idPosicion=jugadordef0_.pos2                  
+	         where jugadordef0_.idJugadorDefault = :idJugadorDefault		 			 
+			 ]]>
+
+	</sql-query>	
+
+	<sql-query name="FIND_MENU_NAVIGATION">
+	    <return-scalar column="idCompeticion" type="long"/>
+	    <return-scalar column="nombreCompeticion" type="string"/>
+	    <return-scalar column="estadoCompeticion" type="short"/>
+	    <return-scalar column="idEquipo" type="long"/>
+		<![CDATA[
+			SELECT 
+				c.idCompeticion as "idCompeticion",  
+			    c.nombre as "nombreCompeticion",
+			    c.idTipoEstado as "estadoCompeticion",
+			    e.idEquipo as "idEquipo"
+			FROM 	
+				 competicion c
+			    inner join equipo e     
+					on e.idCompeticion = c.idCompeticion
+				inner join tipo_estado_competicion tec
+					on c.idTipoEstado = tec.idTipoEstado
+			WHERE c.idCompeticion = :idCompeticion
+			AND e.idEquipo = :idEquipo				 			 
+		]]>
+
+	</sql-query>
+	
+	<sql-query name="FIND_COMPETITION_INFO">
+	    <return-scalar column="idCompeticion" type="long"/>
+	    <return-scalar column="nombreCompeticion" type="string"/>
+	    <return-scalar column="estadoCompeticion" type="short"/>
+	    <return-scalar column="idEquipo" type="long"/>
+	    <return-scalar column="nombreEquipo" type="string"/>
+	    <return-scalar column="logo" type="string"/>
+	    <return-scalar column="actualDate" type="date"/>
+	    <return-scalar column="descripcionEstadoCompeticion" type="string"/>
+	    <return-scalar column="temporada" type="string"/>
+	    <return-scalar column="presupuestoActual" type="big_decimal"/>
+	    <return-scalar column="presupuestoSiguiente" type="big_decimal"/>
+		<![CDATA[
+			SELECT 
+				c.idCompeticion as "idCompeticion",  
+			    c.nombre as "nombreCompeticion",
+			    c.idTipoEstado as "estadoCompeticion",
+			    e.idEquipo as "idEquipo",
+			    e.nombreEquipo as "nombreEquipo",
+			    e.logo as "logo",
+			    c.actualDate as "actualDate",
+			    tec.nombre as "descripcionEstadoCompeticion",
+			    t.orden as "temporada",
+			    e.presupuestoActual as "presupuestoActual",
+			    e.presupuestoProximaTemporada as "presupuestoSiguiente"
+			FROM 	
+				 competicion c
+			    inner join equipo e     
+					on e.idCompeticion = c.idCompeticion
+				inner join tipo_estado_competicion tec
+					on c.idTipoEstado = tec.idTipoEstado
+				inner join temporada t
+					on c.idTemporadaActual = t.idTemporada
+			WHERE c.idCompeticion = :idCompeticion
+			AND e.idEquipo = :idEquipo				 			 
+		]]>
+
+	</sql-query>		
+
+	
+	<sql-query name="FIND_PLANTILLA_PLAYER_DATA">
+	    <return-scalar column="idJugador" type="long"/>
+	    <return-scalar column="equipoOriginal" type="string"/>
+	    <return-scalar column="nombre" type="string"/>
+	    <return-scalar column="logoEquipoOriginal" type="string"/>
+	    <return-scalar column="edad" type="integer"/>
+	    <return-scalar column="imagen" type="string"/>
+	    <return-scalar column="loyaltyInterest" type="integer"/>
+	    <return-scalar column="media" type="integer"/>
+	    <return-scalar column="moneyInterest" type="integer"/>
+	    <return-scalar column="posicion1" type="string"/>
+	    <return-scalar column="posicion2" type="string"/>
+	    <return-scalar column="contractYears" type="integer"/>
+	    <return-scalar column="currentSalary" type="big_decimal"/>
+	    <return-scalar column="yearsPro" type="integer"/>
+	    <return-scalar column="idContrato" type="long"/>
+	    <return-scalar column="cache" type="big_decimal"/>
+		<![CDATA[
+			 SELECT 
+	             jugador0_.idJugador as 'idJugador', 
+	             ed.nombreEquipo as 'equipoOriginal', 
+	             ed.logo as 'logoEquipoOriginal',
+	             YEAR(CURRENT_TIMESTAMP) - YEAR(jugador0_.fechaNacimiento) - (RIGHT(CURRENT_TIMESTAMP, 5) < RIGHT(jugador0_.fechaNacimiento, 5)) as 'edad',  
+	             jugador0_.imagen as 'imagen', 
+	             jugador0_.loyaltyInterest as 'loyaltyInterest', 
+	             jugador0_.media as 'media', 
+	            jugador0_.moneyInterest as 'moneyInterest', 
+	             jugador0_.nombreJugador as 'nombre',  
+	             p1.nombre as 'posicion1',  
+	             p2.nombre as 'posicion2',    
+				COUNT(lc.idLineaContrato) as 'contractYears',  
+	            lcSalario.salario as 'currentSalary',  
+	            jugador0_.winningInterest as 'winningInterest',  
+	            jugador0_.yearsPro as 'yearsPro',
+	            c.idContrato as 'idContrato',
+        	    jugador0_.cache as 'cache' 
+	         FROM  
+	            jugador jugador0_   
+			inner join jugadordefault jd
+				on jugador0_.idJugadorOriginal = jd.idJugadorDefault
+			inner join equipodefault ed
+				on jd.idEquipoDefault = ed.idEquipo
+			inner join contrato c
+				on (jugador0_.idContrato = c.idContrato AND (c.firmado or c.pendiente))
+			inner join competicion com
+				on jugador0_.idCompeticion = com.idCompeticion                
+			inner join lineacontrato lc 
+				on (lc.idContrato = c.idContrato )                
+			inner join lineacontrato lcSalario 
+				on (lcSalario.idContrato = c.idContrato AND lcSalario.idTemporada = com.idTemporadaActual)
+			inner join equipo e
+				on jugador0_.idEquipo = e.idEquipo   
+			 left join  
+				posicion p1  
+					on p1.idPosicion=jugador0_.pos1  
+			 left join  
+				posicion p2  
+					on p2.idPosicion=jugador0_.pos2                  			 
+			WHERE e.idEquipo = :idEquipo
+            GROUP BY 
+				jugador0_.idJugador,
+	             ed.nombreEquipo, 
+	             ed.logo,
+	             jugador0_.fechaNacimiento,  
+	             jugador0_.imagen , 
+	             jugador0_.loyaltyInterest, 
+	             jugador0_.media, 
+	            jugador0_.moneyInterest, 
+	             jugador0_.nombreJugador,  
+	             p1.nombre,  
+	             p2.nombre,    
+	            lcSalario.salario,  
+	            jugador0_.winningInterest,  
+	            jugador0_.yearsPro,
+	            c.idContrato,
+	            jugador0_.cache 			
+            ORDER BY 
+            jugador0_.media DESC
+             
+		]]>
+
+	</sql-query>
+	
+		<sql-query name="FIND_PLAYER_DATA_BY_ID_JUGADOR">
+	    <return-scalar column="idJugador" type="long"/>
+	    <return-scalar column="equipoOriginal" type="string"/>
+	    <return-scalar column="nombre" type="string"/>
+	    <return-scalar column="logoEquipoOriginal" type="string"/>
+	    <return-scalar column="edad" type="integer"/>
+	    <return-scalar column="imagen" type="string"/>
+	    <return-scalar column="loyaltyInterest" type="integer"/>
+	    <return-scalar column="media" type="integer"/>
+	    <return-scalar column="moneyInterest" type="integer"/>
+	    <return-scalar column="winningInterest" type="integer"/>
+	    <return-scalar column="posicion1" type="string"/>
+	    <return-scalar column="posicion2" type="string"/>
+	    <return-scalar column="contractYears" type="integer"/>
+	    <return-scalar column="currentSalary" type="big_decimal"/>
+	    <return-scalar column="yearsPro" type="integer"/>
+	    <return-scalar column="idContrato" type="long"/>
+	    <return-scalar column="cache" type="big_decimal"/>
+	    <return-scalar column="pendiente" type="boolean"/>
+		<![CDATA[
+				 SELECT 
+	             jugador0_.idJugador as 'idJugador', 
+	             ed.nombreEquipo as 'equipoOriginal', 
+	             ed.logo as 'logoEquipoOriginal',
+	             YEAR(CURRENT_TIMESTAMP) - YEAR(jugador0_.fechaNacimiento) - (RIGHT(CURRENT_TIMESTAMP, 5) < RIGHT(jugador0_.fechaNacimiento, 5)) as 'edad',  
+	             jugador0_.imagen as 'imagen', 
+	             jugador0_.loyaltyInterest as 'loyaltyInterest', 
+	             jugador0_.media as 'media', 
+	            jugador0_.moneyInterest as 'moneyInterest', 
+	             jugador0_.nombreJugador as 'nombre',  
+	             p1.nombre as 'posicion1',  
+	             p2.nombre as 'posicion2',    
+				COUNT(lc.idLineaContrato) as 'contractYears',  
+	            lcSalario.salario as 'currentSalary',  
+	            jugador0_.winningInterest as 'winningInterest',  
+	            jugador0_.yearsPro as 'yearsPro',
+	            c.idContrato as 'idContrato',
+	            jugador0_.cache as 'cache',
+				c.pendiente as 'pendiente'	             
+	         FROM  
+	            jugador jugador0_   
+			inner join jugadordefault jd
+				on jugador0_.idJugadorOriginal = jd.idJugadorDefault
+			inner join equipodefault ed
+				on jd.idEquipoDefault = ed.idEquipo
+			inner join contrato c
+				on (jugador0_.idContrato = c.idContrato AND (c.firmado OR c.pendiente))
+			inner join competicion com
+				on jugador0_.idCompeticion = com.idCompeticion                
+			inner join lineacontrato lc 
+				on (lc.idContrato = c.idContrato )                
+			inner join lineacontrato lcSalario 
+				on (lcSalario.idContrato = c.idContrato AND lcSalario.idTemporada = com.idTemporadaActual)
+			inner join equipo e
+				on jugador0_.idEquipo = e.idEquipo   
+			 left join  
+				posicion p1  
+					on p1.idPosicion=jugador0_.pos1  
+			 left join  
+				posicion p2  
+					on p2.idPosicion=jugador0_.pos2                  			 
+			WHERE jugador0_.idJugador=:idJugador
+            GROUP BY 
+				jugador0_.idJugador,
+	             ed.nombreEquipo, 
+	             ed.logo,
+	             jugador0_.fechaNacimiento,  
+	             jugador0_.imagen , 
+	             jugador0_.loyaltyInterest, 
+	             jugador0_.media, 
+	            jugador0_.moneyInterest, 
+	             jugador0_.nombreJugador,  
+	             p1.nombre,  
+	             p2.nombre,    
+	            lcSalario.salario,  
+	            jugador0_.winningInterest,  
+	            jugador0_.yearsPro,
+	            jugador0_.cache,
+	            c.idContrato,
+	            c.pendiente 		 
+		]]>
+
+	</sql-query>
+
+	
+	
+	<sql-query name="FIND_PLANTILLA_PLAYER_DATA_NEXT_SEASON">
+	    <return-scalar column="idJugador" type="long"/>
+	    <return-scalar column="nombre" type="string"/>
+	    <return-scalar column="nextSalary" type="big_decimal"/>
+		<![CDATA[
+			 SELECT 
+	             jugador0_.idJugador as 'idJugador', 
+				 jugador0_.nombreJugador as 'nombre',  
+	            lc.salario as 'nextSalary'  
+	         FROM  
+	            jugador jugador0_   
+			inner join equipo e
+				on jugador0_.idEquipo = e.idEquipo
+			inner join contrato c
+				on (jugador0_.idContrato = c.idContrato AND c.firmado)			
+			inner join competicion com
+				on jugador0_.idCompeticion = com.idCompeticion                               
+			inner join lineacontrato lc 
+				on (lc.idContrato = c.idContrato )
+			inner join temporada t
+				on t.idTemporada = lc.idTemporada                
+			 left join  
+				posicion p1  
+					on p1.idPosicion=jugador0_.pos1  
+			 left join  
+				posicion p2  
+					on p2.idPosicion=jugador0_.pos2                  			 
+			WHERE e.idEquipo = :idEquipo
+            AND t.orden = (SELECT tempActual.orden FROM temporada tempActual WHERE tempActual.idTemporada = com.idTemporadaActual)+ 1
+            ORDER BY jugador0_.media DESC	 			 
+		]]>
+
+	</sql-query>	
+
+	<sql-query name="FIND_EQUIPOS_NOT_SELECTED">
+	    <return-scalar column="idEquipo" type="long"/>
+	    <return-scalar column="nombre" type="string"/>
+	    <return-scalar column="logo" type="string"/>
+		<![CDATA[		
+			SELECT 
+				e.idEquipo as 'idEquipo',
+			    e.nombreEquipo as 'nombre',
+			    e.logo as 'logo'    
+				FROM equipo e
+					inner join equipodefault ed
+						on e.idEquipoOriginal = ed.idEquipo
+				WHERE e.idCompeticion = :idCompeticion
+					AND e.idUsuario is null	
+		]]>
+
+	</sql-query>
+	
+	<sql-query name="FIND_ALL_EQUIPOS_BY_COMPETICION">
+	    <return-scalar column="idEquipo" type="long"/>
+	    <return-scalar column="nombre" type="string"/>
+	    <return-scalar column="logo" type="string"/>
+		<![CDATA[		
+			SELECT 
+				e.idEquipo as 'idEquipo',
+			    e.nombreEquipo as 'nombre',
+			    e.logo as 'logo'    
+				FROM equipo e
+				WHERE e.idCompeticion = :idCompeticion	
+		]]>
+
+	</sql-query>
+	
+	<sql-query name="FIND_GAMES_LIST">
+	    <return-scalar column="idPartido" type="long"/>
+	    <return-scalar column="idEquipo" type="long"/>
+	    <return-scalar column="nombreEquipo" type="string"/>
+   	    <return-scalar column="logo" type="string"/>
+   	    <return-scalar column="validado" type="boolean"/>
+   	    <return-scalar column="discrepancia" type="boolean"/>
+   	    <return-scalar column="fecha" type="date"/>
+   	    <return-scalar column="nombreUsuario" type="string"/>
+		<![CDATA[		
+			select 
+				p.idPartido as "idPartido",
+			    CASE WHEN (p.idEquipoVisitante=:idEquipo) THEN
+					p.idEquipoLocal
+				ELSE p.idEquipoVisitante END as "idEquipo",
+				CASE WHEN (p.idEquipoVisitante=:idEquipo) THEN
+					equipoLocal.nombreEquipo 
+				ELSE equipoVisitante.nombreEquipo END as "nombreEquipo", 
+		    	CASE WHEN (p.idEquipoVisitante=:idEquipo) THEN
+					equipoLocal.logo 
+				ELSE equipoVisitante.logo END as "logo",
+				CASE WHEN (p.idEquipoVisitante=:idEquipo) THEN
+					COALESCE(usuarioLocal.nombreUsuario, "") 
+				ELSE COALESCE(usuarioVisitante.nombreUsuario, "") END as "nombreUsuario",    				
+			    p.validado as "validado",
+			    p.discrepancia as "discrepancia",
+			    p.fecha as "fecha"
+			from partido p
+				inner join equipo equipoLocal
+					on p.idEquipoLocal= equipoLocal.idEquipo
+				inner join equipo equipoVisitante
+					on p.idEquipoVisitante = equipoVisitante.idEquipo
+				inner join competicion c
+					on (equipoLocal.idCompeticion = c.idCompeticion AND equipoVisitante.idCompeticion = c.idCompeticion)
+				left join usuario usuarioLocal
+					on equipoLocal.idUsuario = usuarioLocal.idUsuario
+				left join usuario usuarioVisitante
+					on equipoVisitante.idUsuario = usuarioVisitante.idUsuario
+			where (p.idEquipoLocal = :idEquipo or p.idEquipoVisitante = :idEquipo)
+				AND (c.idTemporadaActual=p.idTemporada)
+				AND (((usuarioLocal.nombreUsuario LIKE :texto) OR (usuarioVisitante.nombreUsuario LIKE :texto)) OR ((equipoLocal.nombreEquipo LIKE :texto) OR (equipoVisitante.nombreEquipo LIKE :texto)))
+			    AND (validado is null or validado=:isValidado)
+		    ORDER BY nombreEquipo
+		]]>
+
+	</sql-query>
+	
+	
+	<sql-query name="FIND_GAME_DATA_BY_ID">
+	    <return-scalar column="idPartido" type="long"/>
+	    <return-scalar column="idEquipo" type="long"/>
+	    <return-scalar column="nombreEquipo" type="string"/>
+   	    <return-scalar column="logo" type="string"/>
+   	    <return-scalar column="validado" type="boolean"/>
+   	    <return-scalar column="fecha" type="date"/>
+   	    <return-scalar column="nombreUsuario" type="string"/>
+		<![CDATA[		
+			select 
+				p.idPartido as "idPartido",
+			    CASE WHEN (p.idEquipoVisitante=:idEquipo) THEN
+					p.idEquipoLocal
+				ELSE p.idEquipoVisitante END as "idEquipo",
+				CASE WHEN (p.idEquipoVisitante=:idEquipo) THEN
+					equipoLocal.nombreEquipo 
+				ELSE equipoVisitante.nombreEquipo END as "nombreEquipo", 
+		    	CASE WHEN (p.idEquipoVisitante=:idEquipo) THEN
+					equipoLocal.logo 
+				ELSE equipoVisitante.logo END as "logo",
+				CASE WHEN (p.idEquipoVisitante=:idEquipo) THEN
+					COALESCE(usuarioLocal.nombreUsuario, "") 
+				ELSE COALESCE(usuarioVisitante.nombreUsuario, "") END as "nombreUsuario",    				
+			    p.validado as "validado",
+			    p.fecha as "fecha"
+			from partido p
+				inner join equipo equipoLocal
+					on p.idEquipoLocal= equipoLocal.idEquipo
+				inner join equipo equipoVisitante
+					on p.idEquipoVisitante = equipoVisitante.idEquipo
+				inner join competicion c
+					on (equipoLocal.idCompeticion = c.idCompeticion AND equipoVisitante.idCompeticion = c.idCompeticion)
+				left join usuario usuarioLocal
+					on equipoLocal.idUsuario = usuarioLocal.idUsuario
+				left join usuario usuarioVisitante
+					on equipoVisitante.idUsuario = usuarioVisitante.idUsuario
+			where p.idPartido=:idPartido
+		]]>
+
+	</sql-query>	
+	
+		<sql-query name="FIND_VALORACION_DATA_BY_PARTIDO_USUARIO">
+	    <return-scalar column="idActaPartido" type="long"/>
+	    <return-scalar column="valoracion" type="short"/>
+	    <return-scalar column="comentario" type="string"/>
+   	    <return-scalar column="victoria" type="boolean"/>
+		<![CDATA[		
+			SELECT 
+				ac.idActaPartido as "idActaPartido",
+				ac.valoracion as "valoracion",
+			    ac.comentario as "comentario",
+			    ac.victoria as "victoria"
+			FROM actapartido ac
+			WHERE ac.idPartido=:idPartido
+				AND ac.idUsuarioValorador = :idUsuario			
+		]]>
+
+	</sql-query>
+	
+	<sql-query name="FIND_VALORACIONES_RECIBIDAS_USUARIO">
+	    <return-scalar column="valoracionMedia" type="big_decimal"/>
+	    <return-scalar column="numeroValoraciones" type="short"/>
+		<![CDATA[		
+			select avg(valoracion) as "valoracionMedia", 
+			count(ac.idActaPartido) as "numeroValoraciones" 
+			from 
+				actapartido ac
+				inner join partido p 
+					on (ac.idPartido = p.idPartido and p.validado)
+			where ac.idUsuarioValorado = :idUsuario			
+		]]>
+
+	</sql-query>	
+	
+	<sql-query name="FIND_VALORACIONES_REALIZADAS_USUARIO">
+	    <return-scalar column="valoracionMedia" type="big_decimal"/>
+	    <return-scalar column="numeroValoraciones" type="short"/>
+		<![CDATA[		
+			select avg(valoracion) as "valoracionMedia", 
+			count(ac.idActaPartido) as "numeroValoraciones" 
+			from 
+				actapartido ac
+				inner join partido p 
+					on (ac.idPartido = p.idPartido and p.validado)
+			where ac.idUsuarioValorador = :idUsuario			
+		]]>
+
+	</sql-query>
+	
+	<sql-query name="FIND_BALANCE_EQUIPO_TEMPORADA">
+	    <return-scalar column="numeroVictorias" type="short"/>
+	    <return-scalar column="numeroDerrotas" type="short"/>
+		<![CDATA[		
+			select 
+				COALESCE(SUM(CASE WHEN ac.victoria THEN 1 ELSE 0 END),0) as numeroVictorias, 
+				COALESCE(SUM(CASE WHEN ac.victoria THEN 0 ELSE 1 END),0) as numeroDerrotas
+			from 
+				actapartido ac
+				inner join partido p 
+					on (ac.idPartido = p.idPartido and p.validado)
+			where ac.idEquipoValorador=:idEquipo AND p.idTemporada = :idTemporada AND p.playoff = :isPlayOff			
+		]]>
+
+	</sql-query>	
+
+	<sql-query name="FIND_BALANCE_USUARIO_GLOBAL">
+	    <return-scalar column="numeroVictorias" type="short"/>
+	    <return-scalar column="numeroDerrotas" type="short"/>
+		<![CDATA[		
+			select 
+				COALESCE(SUM(CASE WHEN ac.victoria THEN 1 ELSE 0 END),0) as numeroVictorias, 
+				COALESCE(SUM(CASE WHEN ac.victoria THEN 0 ELSE 1 END),0) as numeroDerrotas
+			from 
+				actapartido ac
+				inner join partido p 
+					on (ac.idPartido = p.idPartido and p.validado)
+			where ac.idUsuarioValorador= :idUsuario	AND p.playoff = :isPlayOff		
+		]]>
+
+	</sql-query>
+
+
+	<sql-query name="INSERT_JUGADOR_DEFAULT_IN_COMPETITION">
+		<![CDATA[		
+			INSERT INTO jugador(idCompeticion, idJugadorOriginal, idEquipoOriginal, nombreJugador, imagen, media, fechaNacimiento, moneyInterest, winningInterest, loyaltyInterest, pos1, pos2, cache, yearsPro)
+			SELECT :idCompeticion, jd.idJugadorDefault, jd.idEquipoDefault, jd.nombre, jd.imagen, jd.media, jd.fechaNacimiento, jd.moneyInterest, jd.winningInterest, jd.loyaltyInterest, jd.pos1, jd.pos2, jd.cache, jd.yearsPro  
+			FROM teammanagement.jugadordefault jd
+				LEFT JOIN jugador j 
+					on (j.idJugadorOriginal = jd.idJugadorDefault AND j.idCompeticion=:idCompeticion)
+			WHERE j.idJugador is null	
+		]]>
+
+	</sql-query>	
+
+	<sql-query name="UPDATE_JUGADOR_DEFAULT_IN_COMPETITION">
+		<![CDATA[		
+			UPDATE 
+				jugador j inner join jugadordefault jd
+					on (j.idJugadorOriginal = jd.idJugadorDefault AND j.idCompeticion=1)
+			SET 
+				j.nombreJugador = jd.nombre,
+			    j.idEquipoOriginal = jd.idEquipoDefault,
+			    j.imagen = jd.imagen,
+			    j.media = jd.media,
+			    j.moneyInterest = jd.moneyInterest,
+			    j.winningInterest = jd.winningInterest,
+			    j.loyaltyInterest = jd.loyaltyInterest,
+			    j.pos1 = jd.pos1,
+			    j.pos2 = jd.pos2,
+			    j.cache = jd.cache,
+			    j.yearsPro = jd.yearsPro
+			WHERE j.idJugador is not null AND j.idCompeticion=:idCompeticion		
+		]]>
+
+	</sql-query>	
+	
+
+	<sql-query name="FIND_FREE_AGENTS_BY_COMPETITION">
+	    <return-scalar column="idJugador" type="long"/>
+	    <return-scalar column="equipoOriginal" type="string"/>
+	    <return-scalar column="nombre" type="string"/>
+	    <return-scalar column="logoEquipoOriginal" type="string"/>
+	    <return-scalar column="edad" type="integer"/>
+	    <return-scalar column="imagen" type="string"/>
+	    <return-scalar column="loyaltyInterest" type="integer"/>
+	    <return-scalar column="media" type="integer"/>
+	    <return-scalar column="moneyInterest" type="integer"/>
+	    <return-scalar column="winningInterest" type="integer"/>
+	    <return-scalar column="posicion1" type="string"/>
+	    <return-scalar column="posicion2" type="string"/>
+	    <return-scalar column="contractYears" type="integer"/>
+	    <return-scalar column="currentSalary" type="big_decimal"/>
+	    <return-scalar column="yearsPro" type="integer"/>
+	    <return-scalar column="idContrato" type="long"/>
+		<![CDATA[
+			 SELECT 
+	             jugador0_.idJugador as 'idJugador', 
+	             ed.nombreEquipo as 'equipoOriginal', 
+	             ed.logo as 'logoEquipoOriginal',
+	             YEAR(CURRENT_TIMESTAMP) - YEAR(jugador0_.fechaNacimiento) - (RIGHT(CURRENT_TIMESTAMP, 5) < RIGHT(jugador0_.fechaNacimiento, 5)) as 'edad',  
+	             jugador0_.imagen as 'imagen', 
+	             jugador0_.loyaltyInterest as 'loyaltyInterest', 
+	             jugador0_.media as 'media', 
+	            jugador0_.moneyInterest as 'moneyInterest', 
+	             jugador0_.nombreJugador as 'nombre',  
+	             p1.nombre as 'posicion1',  
+	             p2.nombre as 'posicion2',    
+				0 as 'contractYears',  
+	            0 as 'currentSalary',  
+	            jugador0_.winningInterest as 'winningInterest',  
+	            jugador0_.yearsPro as 'yearsPro',
+	            jugador0_.idContrato as 'idContrato',
+	            jugador0_.cache as 'cache'
+	         FROM  
+	            jugador jugador0_   
+			inner join jugadordefault jd
+				on jugador0_.idJugadorOriginal = jd.idJugadorDefault
+			inner join equipodefault ed
+				on jd.idEquipoDefault = ed.idEquipo
+			inner join competicion com
+				on jugador0_.idCompeticion = com.idCompeticion                
+			 left join  
+				posicion p1  
+					on p1.idPosicion=jugador0_.pos1  
+			 left join  
+				posicion p2  
+					on p2.idPosicion=jugador0_.pos2                  			 
+			WHERE jugador0_.idEquipo is null and jugador0_.idCompeticion = :idCompeticion
+			AND jugador0_.nombreJugador LIKE :nombre
+			AND not jugador0_.retirado 
+            ORDER BY 
+            jugador0_.media DESC
+             
+		]]>
+
+	</sql-query>
+	
+	
+			<sql-query name="FIND_FREE_AGENT_DATA_BY_ID_JUGADOR">
+	    <return-scalar column="idJugador" type="long"/>
+	    <return-scalar column="equipoOriginal" type="string"/>
+	    <return-scalar column="nombre" type="string"/>
+	    <return-scalar column="logoEquipoOriginal" type="string"/>
+	    <return-scalar column="edad" type="integer"/>
+	    <return-scalar column="imagen" type="string"/>
+	    <return-scalar column="loyaltyInterest" type="integer"/>
+	    <return-scalar column="media" type="integer"/>
+	    <return-scalar column="moneyInterest" type="integer"/>
+	    <return-scalar column="posicion1" type="string"/>
+	    <return-scalar column="posicion2" type="string"/>
+	    <return-scalar column="contractYears" type="integer"/>
+	    <return-scalar column="currentSalary" type="big_decimal"/>
+	    <return-scalar column="yearsPro" type="integer"/>
+	    <return-scalar column="idContrato" type="long"/>
+	    <return-scalar column="cache" type="big_decimal"/>
+		<![CDATA[
+			 SELECT 
+	             jugador0_.idJugador as 'idJugador', 
+	             ed.nombreEquipo as 'equipoOriginal', 
+	             ed.logo as 'logoEquipoOriginal',
+	             YEAR(CURRENT_TIMESTAMP) - YEAR(jugador0_.fechaNacimiento) - (RIGHT(CURRENT_TIMESTAMP, 5) < RIGHT(jugador0_.fechaNacimiento, 5)) as 'edad',  
+	             jugador0_.imagen as 'imagen', 
+	             jugador0_.loyaltyInterest as 'loyaltyInterest', 
+	             jugador0_.media as 'media', 
+	            jugador0_.moneyInterest as 'moneyInterest', 
+	             jugador0_.nombreJugador as 'nombre',  
+	             p1.nombre as 'posicion1',  
+	             p2.nombre as 'posicion2',    
+				0 as 'contractYears',  
+	            0 as 'currentSalary',  
+	            jugador0_.winningInterest as 'winningInterest',  
+	            jugador0_.yearsPro as 'yearsPro',
+	            jugador0_.idContrato as 'idContrato',
+	            jugador0_.cache as 'cache'
+	         FROM  
+	            jugador jugador0_   
+			inner join jugadordefault jd
+				on jugador0_.idJugadorOriginal = jd.idJugadorDefault
+			inner join equipodefault ed
+				on jd.idEquipoDefault = ed.idEquipo
+			inner join competicion com
+				on jugador0_.idCompeticion = com.idCompeticion                
+			 left join  
+				posicion p1  
+					on p1.idPosicion=jugador0_.pos1  
+			 left join  
+				posicion p2  
+					on p2.idPosicion=jugador0_.pos2                  			 
+			WHERE jugador0_.idEquipo is null and jugador0_.idJugador = :idJugador
+				AND not jugador0_.retirado 
+		]]>
+
+	</sql-query>
+	
+	<sql-query name="FIND_ASIENTOS_BY_EQUIPO_TEMPORADA">
+	    <return-scalar column="idAsiento" type="long"/>
+	    <return-scalar column="idEquipo" type="long"/>
+	    <return-scalar column="nombreEquipo" type="string"/>
+	    <return-scalar column="concepto" type="string"/>
+	    <return-scalar column="fecha" type="date"/>
+	    <return-scalar column="importe" type="big_decimal"/>
+	    <return-scalar column="idTemporada" type="long"/>
+		<![CDATA[		
+			SELECT a.idAsiento as "idAsiento",
+				a.idEquipo as "idEquipo",
+			    e.nombreEquipo as "nombreEquipo",
+			    a.concepto as "concepto",
+			    a.fecha as "fecha",
+			    a.importe as "importe",
+			    a.idTemporada as "idTemporada"
+			FROM asiento a
+				inner join equipo e
+					on a.idEquipo = e.idEquipo
+			WHERE a.idEquipo=:idEquipo AND a.idTemporada=:idTemporada
+			ORDER BY fecha desc	
+		]]>
+
+	</sql-query>		
+		
+		
+	<sql-query name="FIND_BALANCE_BY_EQUIPO_TEMPORADA">
+	    <return-scalar column="balance" type="big_decimal"/>
+		<![CDATA[		
+			SELECT COALESCE(SUM(a.importe),0) as "balance"
+			FROM asiento a
+				inner join equipo e
+					on a.idEquipo = e.idEquipo
+			WHERE a.idEquipo=:idEquipo AND a.idTemporada=:idTemporada	
+		]]>
+
+	</sql-query>
+
+	<sql-query name="FIND_ARQUETIPOS_BY_COMPETICION">
+		<return-scalar column="idArquetipo" type="long"/>
+		<return-scalar column="nombre" type="string"/>
+		<return-scalar column="descripcion" type="string"/>
+		<return-scalar column="idCompeticion" type="long"/>
+		<return-scalar column="activo" type="boolean"/>		
+	    <return-scalar column="ingresoFijo" type="big_decimal"/>
+	    <return-scalar column="ingresoPartidoJugadoRS" type="big_decimal"/>
+	    <return-scalar column="ingresoPartidoGanadoRS" type="big_decimal"/>
+	    <return-scalar column="ingresoClasificacionPO" type="big_decimal"/>
+	    <return-scalar column="ingresoPartidoJugadoPO" type="big_decimal"/>
+	    <return-scalar column="ingresoPartidoGanadoPO" type="big_decimal"/>
+	    <return-scalar column="ingresoRondasPOGanadas" type="big_decimal"/>
+	    <return-scalar column="numPartidosGanadosObjetivo1" type="short"/>
+	    <return-scalar column="numPartidosGanadosObjetivo2" type="short"/>
+	    <return-scalar column="numRondasGanadasObjetivo3" type="short"/>
+	    <return-scalar column="ingresoObjetivo1" type="big_decimal"/>
+	    <return-scalar column="ingresoObjetivo2" type="big_decimal"/>
+	    <return-scalar column="ingresoObjetivo3" type="big_decimal"/>
+	    <return-scalar column="ingresoCampeon" type="big_decimal"/>
+		<![CDATA[		
+			SELECT ar.idArquetipo as "idArquetipo",
+				ar.nombre as "nombre",
+			    ar.descripcion as "descripcion",
+			    ar.idCompeticion as "idCompeticion",
+			    ar.activo as "activo",
+			    ar.ingresoFijo as "ingresoFijo",
+			    ar.ingresoPartidoJugadoRS as "ingresoPartidoJugadoRS",
+			    ar.ingresoPartidoGanadoRS as "ingresoPartidoGanadoRS",
+			    ar.ingresoClasificacionPO as "ingresoClasificacionPO",
+			    ar.ingresoPartidoJugadoPO as "ingresoPartidoJugadoPO",
+			    ar.ingresoPartidoGanadoPO as "ingresoPartidoGanadoPO",
+			    ar.ingresoRondasPOGanadas as "ingresoRondasPOGanadas",
+			    ar.numPartidosGanadosObjetivo1 as "numPartidosGanadosObjetivo1",
+			    ar.numPartidosGanadosObjetivo2 as "numPartidosGanadosObjetivo2",
+			    ar.numRondasGanadasObjetivo3 as "numRondasGanadasObjetivo3",
+			    ar.ingresoObjetivo1 as "ingresoObjetivo1",
+			    ar.ingresoObjetivo2 as "ingresoObjetivo2",
+			    ar.ingresoObjetivo3 as "ingresoObjetivo3",
+			    ar.ingresoCampeon as "ingresoCampeon"
+			FROM arquetipoEquipo ar
+			WHERE ar.idCompeticion = :idCompeticion
+			ORDER BY idArquetipo	
+		]]>
+
+	</sql-query>
+	
+	<sql-query name="FIND_CONTRACT_DATA_BY_ID_EQUIPO">
+	    <return-scalar column="idJugador" type="long"/>
+	    <return-scalar column="nombre" type="string"/>
+	    <return-scalar column="idContrato" type="long"/>
+	    <return-scalar column="salarioTemporada1" type="big_decimal"/>
+	    <return-scalar column="salarioTemporada2" type="big_decimal"/>
+	    <return-scalar column="salarioTemporada3" type="big_decimal"/>
+	    <return-scalar column="to" type="boolean"/>
+	    <return-scalar column="po" type="boolean"/>
+		<![CDATA[		
+			SELECT j.idJugador as "idJugador",
+				j.nombreJugador  as "nombre",
+				c.idContrato  as "idContrato",
+			    SUM(CASE WHEN(t.orden=1) THEN lc.salario
+			    ELSE 0
+			    END) as "salarioTemporada1",
+			    SUM(CASE WHEN(t.orden=2) THEN lc.salario
+			    ELSE 0
+			    END) as "salarioTemporada2",    
+			    SUM(CASE WHEN(t.orden=3) THEN lc.salario
+			    ELSE 0
+			    END) as "salarioTemporada3",
+			    lc.opcionEquipo as "to",
+			    lc.opcionJugador as "po"
+			FROM 
+				equipo e
+			    inner join jugador j 
+					on e.idEquipo = j.idEquipo
+				inner join contrato c
+					on j.idContrato = c.idContrato
+				inner join lineacontrato lc
+					on c.idContrato=lc.idContrato	
+				inner join temporada t
+					on lc.idTemporada = t.idTemporada
+			WHERE c.firmado AND e.idEquipo = :idEquipo
+			GROUP BY
+				j.idJugador,
+				j.nombreJugador,
+			    lc.opcionEquipo,
+			    lc.opcionJugador,
+			    c.idContrato
+			ORDER BY lc.salario DESC			    
+
+		]]>
+
+	</sql-query>
+	
+	
+	<sql-query name="FIND_LISTA_TEMPORADA_DATA_BY_ID_COMPETICION">
+	    <return-scalar column="idTemporada" type="long"/>
+	    <return-scalar column="nombreTemporada" type="string"/>
+	    <return-scalar column="orden" type="short"/>
+		<![CDATA[		
+			SELECT t.idTemporada as "idTemporada",
+				t.nombre as "nombreTemporada",
+			    t.orden as "orden"
+			FROM temporada t
+			WHERE t.idCompeticion = :idCompeticion
+		]]>
+
+	</sql-query>				
+
+</hibernate-mapping>
+

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+	">
+  <context:annotation-config />
+
+  <mvc:annotation-driven />
+
+  <context:component-scan base-package="es.ligasnba.app.controller"/>
+
+  <mvc:resources mapping="/resources/**" location="/resources/" /> 
+  <mvc:resources mapping="/js/**" location="/resources/js/" /> 
+
+
+<!-- Loads Quartz Job related configurations -->
+<import resource="quartz-job.xml" />
+
+<!-- Declare a view resolver -->
+<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+     p:prefix="/" p:suffix=".jsp" p:order="1"/>
+
+	
+	<bean id="messageSource"
+
+	class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+
+	<property name="basename" value="/WEB-INF/messages" />
+
+	</bean>
+
+    <mvc:interceptors>
+    <bean id="maintenanceInterceptor" class="es.ligasnba.app.model.util.TeamManagementInterceptor">
+<!--	<property name="maintenanceStartTime" value="22" />
+	<property name="maintenanceEndTime" value="23" />
+-->
+    </bean>
+    </mvc:interceptors> 
+<!--
+<bean id="propertyPlaceholderConfigurer"   
+class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+  <property name="locations">  
+    <list>  
+      <value>classpath:maintenance.properties</value>  
+    </list>  
+  </property>  
+</bean>
+
+<context:property-placeholder location="classpath:maintenance.properties" /> 
+
+-->
+
+<!-- Beans Declaration -->
+<!-- Core Dynamic Properties Bean Declaration -->
+<bean id="CoreDynamicPropertiesBean" class="org.springframework.beans.factory.config.PropertiesFactoryBean" scope="prototype">
+<property name="location" value="classpath:maintenance.properties" />
+</bean>
+<!-- Dynamic Properties Map Declaration -->
+<bean id="DynamicPropertiesMap" class="java.util.HashMap"/>
+ 
+<!-- Dynamic Properties File Reader Task Declaration -->
+<bean id="DynamicPropertiesFileReader" class="es.ligasnba.app.model.util.DynamicPropertiesFileReader">
+<property name="dynamicPropertiesMap"   ref="DynamicPropertiesMap"/>
+</bean>
+<!-- End of Beans Declaration -->
+
+
+
+
+</beans>

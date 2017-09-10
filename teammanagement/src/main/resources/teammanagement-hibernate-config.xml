@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<!-- Database connection settings -->
+		<property name="hibernate.connection.driver_class">${jdbcDriver.className}</property>
+		<property name="hibernate.connection.url">${dataSource.url}</property>
+		<property name="hibernate.connection.username">${dataSource.user}</property>
+		<property name="hibernate.connection.password">${dataSource.password}</property>
+		<!-- JDBC connection pool (use the built-in) -->
+		<property name="hibernate.connection.pool_size">1</property>
+
+
+
+
+		<property name="hibernate.dialect">${hibernate.dialect}</property>
+		<property name="hibernate.show_sql">${hibernate.show_sql}</property>
+		<property name="hibernate.format_sql">${hibernate.format_sql}</property>
+		<property name="hibernate.use_sql_comments">${hibernate.use_sql_comments}</property>
+
+
+
+
+		<mapping class="es.ligasnba.app.model.usuario.Usuario" />
+		<mapping class="es.ligasnba.app.model.rol.Rol" />
+		<mapping class="es.ligasnba.app.model.competitionrol.CompetitionRol" />
+		<mapping class="es.ligasnba.app.model.jugador.Jugador"/>
+		<mapping class="es.ligasnba.app.model.equipo.Equipo" />
+		<mapping class="es.ligasnba.app.model.equipodefault.EquipoDefault" />
+		<mapping class="es.ligasnba.app.model.jugadordefault.JugadorDefault"/>
+		<mapping class="es.ligasnba.app.model.contrato.Contrato"/>
+		<mapping class="es.ligasnba.app.model.lineacontrato.LineaContrato"/>
+		<mapping class="es.ligasnba.app.model.plantilla.Plantilla"/>
+		<mapping class="es.ligasnba.app.model.traspaso.Traspaso"/>		
+		<mapping class="es.ligasnba.app.model.competicion.Competicion"/>
+		<mapping class="es.ligasnba.app.model.tipo_competicion.TipoCompeticion"/>
+		<mapping class="es.ligasnba.app.model.tipo_estado_competicion.TipoEstadoCompeticion"/>
+		<mapping class="es.ligasnba.app.model.temporada.Temporada"/>
+		<mapping class="es.ligasnba.app.model.partido.Partido"/>
+		<mapping class="es.ligasnba.app.model.valoracion.Valoracion"/>
+		<mapping class="es.ligasnba.app.model.actapartido.ActaPartido"/>
+		<mapping class="es.ligasnba.app.model.clasificacion.Clasificacion"/>		
+		<mapping class="es.ligasnba.app.model.estadistica.Estadistica"/>		
+		<mapping class="es.ligasnba.app.model.noticia.Noticia"/>		
+		<mapping class="es.ligasnba.app.model.maintenance.Maintenance"/>
+		<mapping class="es.ligasnba.app.model.historicoEquipoJugador.HistoricoEquipoJugador"/>
+		<mapping class="es.ligasnba.app.model.arquetipoEquipo.ArquetipoEquipo"/>
+		<mapping class="es.ligasnba.app.model.finanzas.Asiento"/>		
+		
+		<mapping resource="named-queries.xml" />
+		
+	</session-factory>
+</hibernate-configuration>

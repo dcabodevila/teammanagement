@@ -1,0 +1,25 @@
+[INFO] Scanning for projects...
+[INFO] Reactor build order: 
+[INFO]   Proyecto Team Management
+[INFO]   Team Management
+[INFO]   POJO-Examples ModelUtil Subsystem
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Proyecto Team Management
+[INFO]    task-segment: [jetty:run]
+[INFO] ------------------------------------------------------------------------
+[INFO] Preparing jetty:run
+[INFO] [sql:execute {execution: create-tables-for-testing}]
+[INFO] Skipping sql execution for project with packaging type 'pom'
+[INFO] [jetty:run {execution: default-cli}]
+[INFO] Configuring Jetty for project: Proyecto Team Management
+[INFO] ------------------------------------------------------------------------
+[ERROR] BUILD ERROR
+[INFO] ------------------------------------------------------------------------
+[INFO] Webapp source directory /home/sirnolimit/apps/src/main/webapp does not exist
+[INFO] ------------------------------------------------------------------------
+[INFO] For more information, run Maven with the -e switch
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 3 seconds
+[INFO] Finished at: Wed Apr 13 18:51:20 CEST 2011
+[INFO] Final Memory: 15M/175M
+
