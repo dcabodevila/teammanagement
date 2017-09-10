@@ -49,6 +49,9 @@
         <!-- REMINDER FOR SPRING 3: Upgrade to Spring 3 when Tapestry 5.2 be
              released. -->
         <!-- <spring.version>3.0.5.RELEASE</spring.version>-->
+        
+     	  <maven.compiler.target>1.8</maven.compiler.target>
+		  <maven.compiler.source>1.8</maven.compiler.source>        
   	<spring.version>3.2.3.RELEASE</spring.version>
         <servletApi.version>2.3</servletApi.version>
         
@@ -468,7 +471,11 @@
                     </dependency>
                 </dependencies>
             </plugin>
-
+			<plugin>
+			   <groupId>com.google.appengine</groupId>
+			   <artifactId>appengine-maven-plugin</artifactId>
+			   <version>1.9.55</version>
+			</plugin>
         </plugins>
 
     </build>
