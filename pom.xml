@@ -438,7 +438,7 @@
                     </requestLog>
                     <connectors>
                         <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-                            <port>9090</port>
+                            <port>8080</port>
                         </connector>
                     </connectors>
                 </configuration>

@@ -1,6 +1,5 @@
 package es.ligasnba.app.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,14 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.ligasnba.app.controller.util.ControllerUtils;
 import es.ligasnba.app.model.competicion.MenuNavigationForm;
-import es.ligasnba.app.model.contrato.ContractService;
 import es.ligasnba.app.model.equipo.Equipo;
 import es.ligasnba.app.model.equipo.teamService;
-import es.ligasnba.app.model.finanzas.AsientoDto;
 import es.ligasnba.app.model.finanzas.FinanzasDto;
 import es.ligasnba.app.model.finanzas.finanzasService;
 import es.ligasnba.app.model.jugador.FinanzasForm;
-import es.ligasnba.app.model.jugador.playerService;
 import es.ligasnba.app.model.temporada.TemporadaData;
 import es.ligasnba.app.model.temporada.seasonService;
 import es.ligasnba.app.util.constants.Constants;
@@ -84,10 +80,8 @@ public class FinanzasController {
 	@RequestMapping(value="/findAsientosEquipoTemporada", method=RequestMethod.GET)
 	public @ResponseBody FinanzasDto getAsientosEquipoTemporada(@RequestParam("idEquipo") long idEquipo, @RequestParam("idTemporada") long idTemporada) throws InstanceNotFoundException{
 		final Equipo equipo = teamservice.findById(idEquipo);
-    	int userRole = CustomUserDetailsService.userRoleInCompetition(equipo.getCompeticion().getIdCompeticion());
-		   	
+    	int userRole = CustomUserDetailsService.userRoleInCompetition(equipo.getCompeticion().getIdCompeticion());		   	
 		if (userRole != -1){		
-
 			final CustomAuthenticatedUser userSession = (CustomAuthenticatedUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			final boolean isPropietarioEquipo =  userSession.getListaEquipos().contains(equipo);		
 			final boolean isAdminCompeticion = (userRole==Constants.cRolAdminCompeticion);
