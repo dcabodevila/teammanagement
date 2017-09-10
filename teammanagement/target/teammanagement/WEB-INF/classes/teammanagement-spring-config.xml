@@ -19,7 +19,7 @@
     <bean id="dataSource"
         class="org.springframework.jdbc.datasource.SingleConnectionDataSource"
         p:driverClassName="com.mysql.jdbc.Driver"
-        p:url="jdbc:mysql://35.187.84.38/teammanagement" p:username="sirnolimit"
+        p:url="jdbc:mysql://aazt4w28dc2nl2.craopvxk65tw.eu-west-2.rds.amazonaws.com/teammanagement" p:username="sirnolimit"
         p:password="2kligas33" 
         p:suppressClose="true" />
 -->        
