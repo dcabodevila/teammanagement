@@ -15543,3 +15543,4 @@ Log de Mon Aug 14 13:06:48 CEST 2017:12:13 a different object with the same iden
 Log de Mon Aug 14 14:09:19 CEST 2017:12:13 Could not execute JDBC batch update; SQL [/* update es.ligasnba.app.model.contrato.Contrato */ update contrato set idEquipo=?, fecha=?, firmado=?, idJugador=?, idJugadorOfrecido=?, idTraspaso=?, useMidLevelException=? where idContrato=?]; nested exception is org.hibernate.exception.LockAcquisitionException: Could not execute JDBC batch update
 Log de Mon Aug 28 21:30:42 CEST 2017:12:13 Instance not found (key = 'ligasnbatest123' - className = 'es.ligasnba.app.model.usuario.Usuario')
 Log de Thu Aug 31 19:16:09 CEST 2017:12:13 Instance not found (key = 'ligasnbatest123' - className = 'es.ligasnba.app.model.usuario.Usuario')
+Log de Sun Sep 10 15:36:06 CEST 2017:12:13 Instance not found (key = 'sir' - className = 'es.ligasnba.app.model.usuario.Usuario')

@@ -39,7 +39,7 @@ public class FinanzasController {
 	@Autowired
 	private seasonService seasonService;
 	
-	private static final Logger logger = Logger.getLogger(FinanzasController.class);
+//	private static final Logger logger = Logger.getLogger(FinanzasController.class);
 	
 	public void setTeamservice(teamService teamservice) {
 		this.teamservice = teamservice;

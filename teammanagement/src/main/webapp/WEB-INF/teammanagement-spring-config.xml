@@ -18,7 +18,8 @@
 <!-- Comentar para arrancar contra BD local   -->
 <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-    <property name="url" value="jdbc:mysql://aazt4w28dc2nl2.craopvxk65tw.eu-west-2.rds.amazonaws.com/teammanagement" />
+	<property name="url" value="jdbc:mysql://35.187.84.38/teammanagement" />
+<!--     <property name="url" value="jdbc:mysql://aazt4w28dc2nl2.craopvxk65tw.eu-west-2.rds.amazonaws.com/teammanagement" /> -->
     <property name="username" value="sirnolimit" />
     <property name="password" value="2kligas33" />
 </bean>
