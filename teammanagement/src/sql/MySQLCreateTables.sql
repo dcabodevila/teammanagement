@@ -97,6 +97,7 @@ CREATE TABLE jugador (
   cache DECIMAL(15,2) default 473604,
   yearsPro INT default 1,
   aprobado BOOLEAN default false,
+  retirado BOOLEAN default false,
   PRIMARY KEY(idJugador)
 )
 ENGINE = InnoDB	;
