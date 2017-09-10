@@ -15545,3 +15545,4 @@ Log de Mon Aug 28 21:30:42 CEST 2017:12:13 Instance not found (key = 'ligasnbate
 Log de Thu Aug 31 19:16:09 CEST 2017:12:13 Instance not found (key = 'ligasnbatest123' - className = 'es.ligasnba.app.model.usuario.Usuario')
 Log de Sun Sep 10 15:36:06 CEST 2017:12:13 Instance not found (key = 'sir' - className = 'es.ligasnba.app.model.usuario.Usuario')
 Log de Sun Sep 10 16:08:44 CEST 2017:12:13 7b4d8122-db34-4160-8beb-29d2801fa990
+Log de Mon Sep 11 00:19:11 CEST 2017:12:13 Instance not found (key = 'ligasnbatest' - className = 'es.ligasnba.app.model.usuario.Usuario')
