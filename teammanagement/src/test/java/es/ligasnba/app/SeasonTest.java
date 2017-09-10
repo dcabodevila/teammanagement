@@ -57,93 +57,93 @@ import static org.junit.Assert.assertTrue;
 @Transactional
 public class SeasonTest {
     
-	@Autowired
-	private teamService teamservice;
-	@Autowired
-	private userService userservice;
-	@Autowired
-	private playerService playerservice;
-	@Autowired
-	private ContractService contractservice;
-	@Autowired
-	private competitionService competitionservice;
-	@Autowired
-	private tradeService tradeservice;
-	@Autowired
-	private seasonService seasonservice;
-	@Autowired
-	private matchService matchservice;	
-		
-	public void initializeBeans(){
-		try{
-			
-			String[] configlocations = {"classpath:/teammanagement-spring-config.xml","classpath:/teammanagement-spring-config-test.xml"};
-			ApplicationContext context = new ClassPathXmlApplicationContext(configlocations);
-			playerservice = (playerService) context.getBean("playerService");
-			teamservice = (teamService) context.getBean("teamService");
-			userservice=(userService) context.getBean("userService");
-			contractservice=(ContractService) context.getBean("contractService");
-			competitionservice=(competitionService) context.getBean("competitionService");
-			seasonservice=(seasonService) context.getBean("seasonService");
-			tradeservice=(tradeService) context.getBean("tradeService");
-			matchservice=(matchService) context.getBean("matchService");
-
-
-		}catch (Exception e){
-			System.out.println("No instanciado");			
-		}
-	}
-	
-	@Test 
-	public void test(){
-		
-	}	
-	@Test
-	public void CompetitionCreate() throws Exception{
-		
-		int numEquipos = 10;
-		
-		Usuario u1 = userservice.userRegister("usuario2", "123456", "u@gmail.com");
-		Usuario u2 = userservice.userRegister("usuario3", "123456", "u@gmail.com");		
-
-
-
-		Competicion c = competitionservice.createCompetitionWithoutTeams("Liga A", "www.2k.com", u1.getIdUsuario(),new Date(), new Date(), new BigDecimal(0), new BigDecimal(0));
-
-		Competicion com2 = competitionservice.findByName("Liga A");
-
-				
-		Iterator<Equipo> itEquipos =  c.getListaEquipos().iterator();
-		while (itEquipos.hasNext()) {
-			Equipo e = (Equipo) itEquipos.next();	
-			assert(e.getListaClasificaciones().size() == c.getListaTemporadas().size());	
-		}
-
-		Iterator<Temporada> itTemporadas =  c.getListaTemporadas().iterator();
-		while (itTemporadas.hasNext()) {
-			Temporada t = (Temporada) itTemporadas.next();	
-			assert(t.getListaClasificaciones().size() == c.getListaEquipos().size());	
-		}
-
-		
-		competitionservice.removeTeamFromCompetition( c.getListaEquipos().get(0).getIdEquipo(), com2.getIdCompeticion());
-		
-		assert(c.getListaTemporadas().get(0).getListaClasificaciones().size() == c.getListaEquipos().size() );
-		assert(c.getListaEquipos().size() == (numEquipos-1));
-		
-		
-		
-		
-		assert(userservice.joinUserCompetition(u1.getIdUsuario(), c.getListaEquipos().get(0).getIdEquipo(), c.getIdCompeticion()));
-		assert(userservice.joinUserCompetition(u2.getIdUsuario(), c.getListaEquipos().get(1).getIdEquipo(), c.getIdCompeticion()));		
-		assert( competitionservice.getAdminCompetitionsOfUser(u1.getIdUsuario(), 0, 3).getCompeticiones().contains(com2) );
-		
-		
-		
-		
-		
-		
-	}
+//	@Autowired
+//	private teamService teamservice;
+//	@Autowired
+//	private userService userservice;
+//	@Autowired
+//	private playerService playerservice;
+//	@Autowired
+//	private ContractService contractservice;
+//	@Autowired
+//	private competitionService competitionservice;
+//	@Autowired
+//	private tradeService tradeservice;
+//	@Autowired
+//	private seasonService seasonservice;
+//	@Autowired
+//	private matchService matchservice;	
+//		
+//	public void initializeBeans(){
+//		try{
+//			
+//			String[] configlocations = {"classpath:/teammanagement-spring-config.xml","classpath:/teammanagement-spring-config-test.xml"};
+//			ApplicationContext context = new ClassPathXmlApplicationContext(configlocations);
+//			playerservice = (playerService) context.getBean("playerService");
+//			teamservice = (teamService) context.getBean("teamService");
+//			userservice=(userService) context.getBean("userService");
+//			contractservice=(ContractService) context.getBean("contractService");
+//			competitionservice=(competitionService) context.getBean("competitionService");
+//			seasonservice=(seasonService) context.getBean("seasonService");
+//			tradeservice=(tradeService) context.getBean("tradeService");
+//			matchservice=(matchService) context.getBean("matchService");
+//
+//
+//		}catch (Exception e){
+//			System.out.println("No instanciado");			
+//		}
+//	}
+//	
+//	@Test 
+//	public void test(){
+//		
+//	}	
+//	@Test
+//	public void CompetitionCreate() throws Exception{
+//		
+//		int numEquipos = 10;
+//		
+//		Usuario u1 = userservice.userRegister("usuario2", "123456", "u@gmail.com");
+//		Usuario u2 = userservice.userRegister("usuario3", "123456", "u@gmail.com");		
+//
+//
+//
+//		Competicion c = competitionservice.createCompetitionWithoutTeams("Liga A", "www.2k.com", u1.getIdUsuario(),new Date(), new Date(), new BigDecimal(0), new BigDecimal(0));
+//
+//		Competicion com2 = competitionservice.findByName("Liga A");
+//
+//				
+//		Iterator<Equipo> itEquipos =  c.getListaEquipos().iterator();
+//		while (itEquipos.hasNext()) {
+//			Equipo e = (Equipo) itEquipos.next();	
+//			assert(e.getListaClasificaciones().size() == c.getListaTemporadas().size());	
+//		}
+//
+//		Iterator<Temporada> itTemporadas =  c.getListaTemporadas().iterator();
+//		while (itTemporadas.hasNext()) {
+//			Temporada t = (Temporada) itTemporadas.next();	
+//			assert(t.getListaClasificaciones().size() == c.getListaEquipos().size());	
+//		}
+//
+//		
+//		competitionservice.removeTeamFromCompetition( c.getListaEquipos().get(0).getIdEquipo(), com2.getIdCompeticion());
+//		
+//		assert(c.getListaTemporadas().get(0).getListaClasificaciones().size() == c.getListaEquipos().size() );
+//		assert(c.getListaEquipos().size() == (numEquipos-1));
+//		
+//		
+//		
+//		
+//		assert(userservice.joinUserCompetition(u1.getIdUsuario(), c.getListaEquipos().get(0).getIdEquipo(), c.getIdCompeticion()));
+//		assert(userservice.joinUserCompetition(u2.getIdUsuario(), c.getListaEquipos().get(1).getIdEquipo(), c.getIdCompeticion()));		
+//		assert( competitionservice.getAdminCompetitionsOfUser(u1.getIdUsuario(), 0, 3).getCompeticiones().contains(com2) );
+//		
+//		
+//		
+//		
+//		
+//		
+//	}
 	
 
 }

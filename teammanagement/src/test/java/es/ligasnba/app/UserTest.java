@@ -55,111 +55,111 @@ import static org.junit.Assert.assertTrue;
 @Transactional
 public class UserTest {
     
-	@Autowired
-	private teamService teamservice;
-	@Autowired
-	private userService userservice;
-	@Autowired
-	private playerService playerservice;
-	@Autowired
-	private ContractService contractservice;
-	@Autowired
-	private competitionService competitionservice;
-	@Autowired
-	private tradeService tradeservice;
-	@Autowired
-	private seasonService seasonservice;
-	@Autowired
-	private matchService matchservice;	
-
-	public void initializeBeans(){
-		try{
-			
-			String[] configlocations = {"classpath:/teammanagement-spring-config.xml","classpath:/teammanagement-spring-config-test.xml"};
-			ApplicationContext context = new ClassPathXmlApplicationContext(configlocations);
-			playerservice = (playerService) context.getBean("playerService");
-			teamservice = (teamService) context.getBean("teamService");
-			userservice=(userService) context.getBean("userService");
-			contractservice=(ContractService) context.getBean("contractService");
-			competitionservice=(competitionService) context.getBean("competitionService");
-			seasonservice=(seasonService) context.getBean("seasonService");
-			tradeservice=(tradeService) context.getBean("tradeService");
-			matchservice=(matchService) context.getBean("matchService");
-			
-
-		}catch (Exception e){
-			System.out.println("No instanciado");			
-		}
-	}
-	
-	@Test 
-	public void test(){
-		
-	}	
-	@Test
-	public void UserCreate() throws DuplicateInstanceException, InstanceNotFoundException, NoSuchAlgorithmException{
-		Usuario u1 = userservice.userRegister("usuario1", "123456", "u@gmail.com");
-		Usuario u2 =userservice.findByLogin("usuario1");
-		assertEquals(u1.getIdUsuario(),u2.getIdUsuario());	
-		
-		
-
-	}
-	
-	@Test
-	public void UserLogin() throws DuplicateInstanceException, InstanceNotFoundException, IncorrectPasswordException{
-		
-//		Usuario u1 = userservice.userRegister("usuario2", "123456", "u@gmail.com");
-//		ResultadoLogin rl = userservice.login(u1.getLogin(),u1.getPass(), true);
-//		assertEquals(u1.getLogin(),rl.getNombre());
-		
-	}
-//	@Test(expected = IncorrectPasswordException.class)
-//	public void UserBadLogin() throws DuplicateInstanceException, InstanceNotFoundException, IncorrectPasswordException{
-//		Usuario u1 = userservice.userRegister("usuario2", "123456", "u@gmail.com");
+//	@Autowired
+//	private teamService teamservice;
+//	@Autowired
+//	private userService userservice;
+//	@Autowired
+//	private playerService playerservice;
+//	@Autowired
+//	private ContractService contractservice;
+//	@Autowired
+//	private competitionService competitionservice;
+//	@Autowired
+//	private tradeService tradeservice;
+//	@Autowired
+//	private seasonService seasonservice;
+//	@Autowired
+//	private matchService matchservice;	
 //
-//		ResultadoLogin rl = userservice.login(u1.getLogin(),"123457", true);
-//		assertEquals(u1.getLogin(),rl.getNombre());
-//		
-//	}
-	
-//	@Test
-//	public void UserJoinCompetition() throws DuplicateInstanceException, Exception{		
-//		userservice.userRegister("sirgodnolimit", "pass1", "sirgod@gmail.com");
-//		
-//		Usuario u =userservice.findByLogin("sirgodnolimit");
-//		Competicion com1 = competitionservice.createEmptyCompetition("Liga 2", "www.2k.com", u.getIdUsuario());
-//		competitionservice.teamRegister(teams.cavaliers, com1.getIdCompeticion());
-//		
-//		Competicion c = competitionservice.findByName("Liga 2");
-//		
-//		Equipo e = teamservice.findByName(teams.cavaliers);			
-//		
-//		assert(!userservice.TeamIsAssigned(e.getIdEquipo()));
-//		assert(!userservice.userHasTeamInCompetition(u.getIdUsuario(), c.getIdCompeticion()));
-//		
-//		assert(userservice.joinUserCompetition(u.getIdUsuario(), e.getIdEquipo(), c.getIdCompeticion()));
-//		
-//		assert(userservice.getUsersOfCompetition(com1.getIdCompeticion(), 0, constants.cMaxTeamsInCompetition).getUsuarioes().size()==1);
-//		assert(userservice.TeamIsAssigned(e.getIdEquipo()));
-//		assert(userservice.userHasTeamInCompetition(u.getIdUsuario(), c.getIdCompeticion()));					
-//		assert(e.getUsuario().getIdUsuario()==u.getIdUsuario());
-//		assert(u.getListaEquipos().contains(e));
-//		
-//		assert(u.getListaCompeticiones().containsAll(
-//				competitionservice.getCompetitionsOfUser(u.getIdUsuario(),0,u.getListaCompeticiones().size()).getCompeticiones()));
-//		
-//		assert(c.getListaUsuarios().containsAll(userservice.getUsersOfCompetition(c.getIdCompeticion(), 0, c.getListaUsuarios().size()).getUsuarioes()));
-//		
-//		assert(u.getListaEquipos().containsAll(teamservice.getTeams(u.getIdUsuario(), 0, u.getListaEquipos().size()).getEquipos()));
+//	public void initializeBeans(){
+//		try{
 //			
-//		assert(u.getListaEquipos().contains(e));
+//			String[] configlocations = {"classpath:/teammanagement-spring-config.xml","classpath:/teammanagement-spring-config-test.xml"};
+//			ApplicationContext context = new ClassPathXmlApplicationContext(configlocations);
+//			playerservice = (playerService) context.getBean("playerService");
+//			teamservice = (teamService) context.getBean("teamService");
+//			userservice=(userService) context.getBean("userService");
+//			contractservice=(ContractService) context.getBean("contractService");
+//			competitionservice=(competitionService) context.getBean("competitionService");
+//			seasonservice=(seasonService) context.getBean("seasonService");
+//			tradeservice=(tradeService) context.getBean("tradeService");
+//			matchservice=(matchService) context.getBean("matchService");
+//			
+//
+//		}catch (Exception e){
+//			System.out.println("No instanciado");			
+//		}
+//	}
+//	
+//	@Test 
+//	public void test(){
 //		
-//		assert(teamservice.getTeams(u.getIdUsuario(), 0, u.getListaEquipos().size()).getEquipos().contains(e));
-//				
+//	}	
+//	@Test
+//	public void UserCreate() throws DuplicateInstanceException, InstanceNotFoundException, NoSuchAlgorithmException{
+//		Usuario u1 = userservice.userRegister("usuario1", "123456", "u@gmail.com");
+//		Usuario u2 =userservice.findByLogin("usuario1");
+//		assertEquals(u1.getIdUsuario(),u2.getIdUsuario());	
+//		
+//		
 //
 //	}
-	
-	
+//	
+//	@Test
+//	public void UserLogin() throws DuplicateInstanceException, InstanceNotFoundException, IncorrectPasswordException{
+//		
+////		Usuario u1 = userservice.userRegister("usuario2", "123456", "u@gmail.com");
+////		ResultadoLogin rl = userservice.login(u1.getLogin(),u1.getPass(), true);
+////		assertEquals(u1.getLogin(),rl.getNombre());
+//		
+//	}
+////	@Test(expected = IncorrectPasswordException.class)
+////	public void UserBadLogin() throws DuplicateInstanceException, InstanceNotFoundException, IncorrectPasswordException{
+////		Usuario u1 = userservice.userRegister("usuario2", "123456", "u@gmail.com");
+////
+////		ResultadoLogin rl = userservice.login(u1.getLogin(),"123457", true);
+////		assertEquals(u1.getLogin(),rl.getNombre());
+////		
+////	}
+//	
+////	@Test
+////	public void UserJoinCompetition() throws DuplicateInstanceException, Exception{		
+////		userservice.userRegister("sirgodnolimit", "pass1", "sirgod@gmail.com");
+////		
+////		Usuario u =userservice.findByLogin("sirgodnolimit");
+////		Competicion com1 = competitionservice.createEmptyCompetition("Liga 2", "www.2k.com", u.getIdUsuario());
+////		competitionservice.teamRegister(teams.cavaliers, com1.getIdCompeticion());
+////		
+////		Competicion c = competitionservice.findByName("Liga 2");
+////		
+////		Equipo e = teamservice.findByName(teams.cavaliers);			
+////		
+////		assert(!userservice.TeamIsAssigned(e.getIdEquipo()));
+////		assert(!userservice.userHasTeamInCompetition(u.getIdUsuario(), c.getIdCompeticion()));
+////		
+////		assert(userservice.joinUserCompetition(u.getIdUsuario(), e.getIdEquipo(), c.getIdCompeticion()));
+////		
+////		assert(userservice.getUsersOfCompetition(com1.getIdCompeticion(), 0, constants.cMaxTeamsInCompetition).getUsuarioes().size()==1);
+////		assert(userservice.TeamIsAssigned(e.getIdEquipo()));
+////		assert(userservice.userHasTeamInCompetition(u.getIdUsuario(), c.getIdCompeticion()));					
+////		assert(e.getUsuario().getIdUsuario()==u.getIdUsuario());
+////		assert(u.getListaEquipos().contains(e));
+////		
+////		assert(u.getListaCompeticiones().containsAll(
+////				competitionservice.getCompetitionsOfUser(u.getIdUsuario(),0,u.getListaCompeticiones().size()).getCompeticiones()));
+////		
+////		assert(c.getListaUsuarios().containsAll(userservice.getUsersOfCompetition(c.getIdCompeticion(), 0, c.getListaUsuarios().size()).getUsuarioes()));
+////		
+////		assert(u.getListaEquipos().containsAll(teamservice.getTeams(u.getIdUsuario(), 0, u.getListaEquipos().size()).getEquipos()));
+////			
+////		assert(u.getListaEquipos().contains(e));
+////		
+////		assert(teamservice.getTeams(u.getIdUsuario(), 0, u.getListaEquipos().size()).getEquipos().contains(e));
+////				
+////
+////	}
+//	
+//	
 
 }
