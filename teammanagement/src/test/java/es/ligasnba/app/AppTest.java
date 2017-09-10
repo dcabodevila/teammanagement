@@ -78,6 +78,11 @@ public class AppTest {
 //	@Autowired
 //	private actaPartidoService actapartidoservice;
 	
+	@Test
+	public void PopulateDB() throws NoSuchAlgorithmException{
+		
+	}	
+	
 	public void initializeBeans(){
 		try{
 			

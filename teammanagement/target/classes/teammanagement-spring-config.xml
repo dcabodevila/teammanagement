@@ -218,7 +218,6 @@ p:transactionManager-ref="transactionManager"
 
 <bean id="finanzasService"
 class = "es.ligasnba.app.model.finanzas.finanzasServiceImpl"
-p:asientoDao-ref="AsientoDao"
 p:transactionManager-ref="transactionManager"
 />
 
@@ -229,7 +228,6 @@ p:transactionManager-ref="transactionManager"
 />
 <bean id="ArquetipoEquipoService"
 class = "es.ligasnba.app.model.arquetipoEquipo.ArquetipoEquipoServiceImpl"
-p:noticiaDao-ref="NoticiaDao"
 p:transactionManager-ref="transactionManager"
 />
 
