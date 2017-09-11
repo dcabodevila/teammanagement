@@ -15,10 +15,10 @@
 			If you just need to invoke a method from an object, use this bean factory 
 			See: 25.6.2 Using the MethodInvokingJobDetailFactoryBean
 			@http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/scheduling.html -->
-	<bean id="methodJobDetailBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
-		    p:concurrent="false"
-		    p:targetObject-ref="task"
-		    p:targetMethod="work"/>
+<!-- 	<bean id="methodJobDetailBean" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean" -->
+<!-- 		    p:concurrent="false" -->
+<!-- 		    p:targetObject-ref="task" -->
+<!-- 		    p:targetMethod="work"/> -->
 
 	
 	<!--  A simple trigger: SimpleTriggerBean
@@ -26,10 +26,10 @@
 			@http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/scheduling.html-->
 	<!-- startDelay: Delay 10 seconds 
 		 	repeatInterval: Repeat every 5 minutes -->
-	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean"
-			p:jobDetail-ref="methodJobDetailBean" 
-			p:startDelay="10000"
-			p:repeatInterval="300000" />
+<!-- 	<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean" -->
+<!-- 			p:jobDetail-ref="methodJobDetailBean"  -->
+<!-- 			p:startDelay="10000" -->
+<!-- 			p:repeatInterval="300000" /> -->
 	
 	<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  -->
 	<!--  COMPLEX JOB -->
@@ -37,7 +37,7 @@
 	<!-- Quartz uses Trigger, Job and JobDetail objects to realize scheduling of all kinds of jobs. 
 			For the basic concepts behind Quartz, have a look at http://www.opensymphony.com/quartz.
 			See: http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/scheduling.html#scheduling-quartz -->
-	<bean name="jobDetailBean" class="org.springframework.scheduling.quartz.JobDetailBean"
+	<bean name="jobDetailBean" class="org.springframework.scheduling.quartz.JobDetailFactoryBean"
 	  		p:jobClass="es.ligasnba.app.util.Scheduler.CustomJob" >
 	  		<property name="jobDataAsMap">
 	  			<map>
@@ -54,10 +54,14 @@
 			Cron Expression: http://en.wikipedia.org/wiki/CRON_expression	-->
 	<!-- startDelay: Delay 10 seconds 
 			cronExpression:Repeat every morning at 10th of the second -->		
-	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean"
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"
 	    	p:jobDetail-ref="jobDetailBean" 
-	    	p:cronExpression="0 0 3 ? * * *"   	
+	    	p:cronExpression="0 0/1 * 1/1 * ? *"   	
 	    	/>
+	    	
+	    		
+<!-- A LAS 3 AM	    		 -->
+<!-- p:cronExpression="0 0 3 ? * * *"	    		 -->
 <!-- CADA 5 MIN	    	 -->
 <!-- 	    	p:cronExpression="0 0/5 * 1/1 * ? *" -->	
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->

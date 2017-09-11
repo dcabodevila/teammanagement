@@ -39,13 +39,13 @@
 
 	</bean>
 
-    <mvc:interceptors>
-    <bean id="maintenanceInterceptor" class="es.ligasnba.app.model.util.TeamManagementInterceptor">
+<!--     <mvc:interceptors> -->
+<!--     <bean id="maintenanceInterceptor" class="es.ligasnba.app.model.util.TeamManagementInterceptor"> -->
 <!--	<property name="maintenanceStartTime" value="22" />
 	<property name="maintenanceEndTime" value="23" />
 -->
-    </bean>
-    </mvc:interceptors> 
+<!--     </bean> -->
+<!--     </mvc:interceptors>  -->
 <!--
 <bean id="propertyPlaceholderConfigurer"   
 class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
