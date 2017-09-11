@@ -52,7 +52,7 @@
         
      	  <maven.compiler.target>1.8</maven.compiler.target>
 		  <maven.compiler.source>1.8</maven.compiler.source>        
-  	<spring.version>3.2.3.RELEASE</spring.version>
+  	<spring.version>3.2.18.RELEASE</spring.version>
         <servletApi.version>2.3</servletApi.version>
         
         
@@ -75,7 +75,7 @@
                 <!-- JDBC driver properties -->
                 <jdbcDriver.groupId>mysql</jdbcDriver.groupId>
                 <jdbcDriver.artifactId>mysql-connector-java</jdbcDriver.artifactId>
-                <jdbcDriver.version>5.1.43</jdbcDriver.version>
+                <jdbcDriver.version>5.1.6</jdbcDriver.version>
                 <jdbcDriver.className>com.mysql.jdbc.Driver</jdbcDriver.className>
 
                 <!--  Data source properties -->
@@ -426,7 +426,24 @@
                     </descriptors>
                 </configuration>
             </plugin>
-
+			<plugin>
+			  <groupId>org.eclipse.jetty</groupId>
+			  <artifactId>jetty-maven-plugin</artifactId>
+			  <version>9.4.2.v20170220</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>${jdbcDriver.groupId}</groupId>
+                        <artifactId>${jdbcDriver.artifactId}</artifactId>
+                        <version>${jdbcDriver.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-jdbc</artifactId>
+                        <version>${spring.version}</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>			  
+			</plugin>
             <!-- ========================================================== -->
             <!-- Jetty configuration -->
             <plugin>
