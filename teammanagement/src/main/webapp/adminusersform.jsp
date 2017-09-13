@@ -43,7 +43,7 @@ function getUsersList(idCompeticion){
 	$.ajax({
 	
 		type:"get",
-		url: "/teammanagement/admin/userslist",	
+		url: "/admin/userslist",	
 		data: ({idCompeticion:idCompeticion }),
 		dataType: "json",
 		success: function(data){
@@ -103,7 +103,7 @@ function removeUser(){
 		$.ajax({
 	
 			type:"post",
-			url: "/teammanagement/admin/removeUser",	
+			url: "/admin/removeUser",	
 			data: ({idCompeticion:idComp, idUsuario:userId }),
 			dataType: "json",
 			success: function(response){
@@ -153,7 +153,7 @@ function addTeam(){
 			$.ajax({
 	
 				type:"post",
-				url: "/teammanagement/admin/addTeam",	
+				url: "/admin/addTeam",	
 				data: ({idCompeticion:idComp, nombreEquipo:idTeam }),
 				dataType: "json",
 				success: function(response){
@@ -196,7 +196,7 @@ function removeTeam(){
 		$.ajax({
 	
 			type:"post",
-			url: "/teammanagement/admin/removeTeam",	
+			url: "/admin/removeTeam",	
 			data: ({idCompeticion:idComp, idEquipo:teamId }),
 			dataType: "json",
 			success: function(response){

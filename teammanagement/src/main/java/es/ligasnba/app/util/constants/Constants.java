@@ -115,7 +115,7 @@ public interface Constants {
 	
 	//URL
 	
-	public static final String cMaintenanceURL = "/teammanagement/maintenance";
+	public static final String cMaintenanceURL = "/maintenance";
 	
 	public static final String BEAN_NAME_CORE_DYNAMIC_PROPERTIES_BEAN = "CoreDynamicPropertiesBean";
 	

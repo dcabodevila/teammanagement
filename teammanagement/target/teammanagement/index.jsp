@@ -62,7 +62,7 @@ function resendActivationMail(){
 	$.ajax({
 
 		type:"post",
-		url: "/teammanagement/activate/resend",	
+		url: "/activate/resend",	
 		dataType: "json",
 		success: function(response){
 			

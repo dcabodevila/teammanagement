@@ -59,7 +59,7 @@ function JoinCompetition(){
 			$.ajax({
 	
 				type:"post",
-				url: "/teammanagement/joincompetitionform/join",	
+				url: "/joincompetitionform/join",	
 				data: ({nombreCompeticion:compName,password:pass}),
 				dataType: "json",
 				success: function(response){
@@ -118,11 +118,11 @@ function SelectTeam(){
 	$.ajax({
 
 		type:"post",
-		url: "/teammanagement/joincompetitionform/selectteamid",	
+		url: "/joincompetitionform/selectteamid",	
 		data: ({idEquipo:teamId, idCompeticion:idCompeticionJoin}),
 		dataType: "json",
 		success: function(response){
-			window.location.href = "/teammanagement/index";
+			window.location.href = "/index";
 		},
 		error: function(){
 			$('#joinButton').prop('false',false);

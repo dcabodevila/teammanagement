@@ -38,7 +38,7 @@
       	Atrás
       </button>
  
-	  <a class="navbar-brand no-break-out"  title="TeamManager" href="/teammanagement/competition/${menuNavigationForm.idCompeticion}">TeamManager</a>
+	  <a class="navbar-brand no-break-out"  title="TeamManager" href="/competition/${menuNavigationForm.idCompeticion}">TeamManager</a>
     </div>
   </div>
 </nav>
@@ -222,7 +222,7 @@
 		
     	$.ajax({
     		type:"get",
-    		url: "/teammanagement/games/getValoracion",	
+    		url: "/games/getValoracion",	
     		data: ({ idEquipo:idEquipo, idPartido: idPartido }),
     		dataType: "json",
     		success: function(response){
@@ -348,7 +348,7 @@
 		$("#botonEnviarValoracion").button('loading');
     	$.ajax({
     		type:"get",
-    		url: "/teammanagement/games/sendValoracion/",	
+    		url: "/games/sendValoracion/",	
     		data: ({ idEquipo : idEquipoValorador, idPartido: idPartido, valoracion: valoracion, comentario: comentario, victoria: victoria }),
     		dataType: "json",
     		success: function(response){
@@ -381,7 +381,7 @@
 		$("#listDetails").addClass("hidden");
     	$.ajax({
     		type:"get",
-    		url: "/teammanagement/games/list",	
+    		url: "/games/list",	
     		data: ({ idEquipo: idEquipo, texto: nombrePartido }),
     		dataType: "json",
     		success: function(response){

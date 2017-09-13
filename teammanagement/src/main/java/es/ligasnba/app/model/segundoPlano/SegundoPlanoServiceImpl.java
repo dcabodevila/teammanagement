@@ -137,8 +137,8 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 				}
 				
 				this.playerservice.updateJugadoresCompeticionFromDefault(competicion.getIdCompeticion());
-			} catch (Exception e) {				
-				Log.LogFile(e.getMessage());
+			} catch (Exception e) {
+				logger.info(e.getMessage());
 				return false;
 			}
 			

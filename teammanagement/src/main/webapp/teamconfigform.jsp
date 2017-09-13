@@ -32,12 +32,12 @@ function quitCompetition(){
 		$.ajax({
 	
 			type:"post",
-			url: "/teammanagement/admin/removeUser",	
+			url: "/admin/removeUser",	
 			data: ({idCompeticion:idComp, idUsuario:userId }),
 			dataType: "json",
 			success: function(response){
 				if (response.success){
-					window.location.href = "/teammanagement/index";
+					window.location.href = "/index";
 				}
 				else
 					$('#errorMsg').empty().append("<font color='red'>"+response.message+"</font>");	
@@ -62,7 +62,7 @@ function changeTeamName(){
 				required: true,
 				minlength: 2,
 				remote: {
-					url: "/teammanagement/competition/checkTeamName",
+					url: "/competition/checkTeamName",
 					type: "get",
 					data: {
 						idCompeticion: idComp
@@ -88,7 +88,7 @@ function changeTeamName(){
 			$.ajax({
 	
 				type:"post",
-				url: "/teammanagement/competition/changeTeamName",	
+				url: "/competition/changeTeamName",	
 				data: ({teamName:newTeamName, idEquipo: idTeam}),
 				dataType: "json",
 				success: function(response){

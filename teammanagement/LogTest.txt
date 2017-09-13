@@ -15550,3 +15550,5 @@ Log de Mon Sep 11 19:51:45 CEST 2017:12:13 Instance not found (key = 'ligasnbate
 Log de Mon Sep 11 19:51:48 CEST 2017:12:13 Instance not found (key = 'ligasnbatest' - className = 'es.ligasnba.app.model.usuario.Usuario')
 Log de Mon Sep 11 19:52:06 CEST 2017:12:13 Instance not found (key = 'ligasnbatest' - className = 'es.ligasnba.app.model.usuario.Usuario')
 Log de Mon Sep 11 19:52:42 CEST 2017:12:13 Instance not found (key = 'ligasnbatest' - className = 'es.ligasnba.app.model.usuario.Usuario')
+Log de Mon Sep 11 23:02:43 CEST 2017:12:13 Instance not found (key = 'ligasnbatest' - className = 'es.ligasnba.app.model.usuario.Usuario')
+Log de Tue Sep 12 19:35:13 CEST 2017:12:13 fe266d73-13ca-459e-a30b-5e0a45c1a352

@@ -62,9 +62,7 @@ public class ActivateKeyController {
 			//Enviamos email de activación
 			SendMailSSL mail = new SendMailSSL();
 			boolean success = mail.SendActivationMail(userSession.getUsuario());
-			
-			Log.LogFile("Mail enviado: "+ success);
-			
+					
 			if (success)
 				response.setMessage("Correo de activación reenviado correctamente");
 			else

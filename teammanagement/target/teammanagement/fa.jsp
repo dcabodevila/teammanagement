@@ -35,7 +35,7 @@
       <button type="button" id="botonAtras" onClick="transitionDetailToList()" class="hidden" style="margin-top:10;margin-left:5;">
         Atrás
       </button> 
-	  <a class="navbar-brand no-break-out"  title="TeamManager" href="/teammanagement/competition/${menuNavigationForm.idCompeticion}">TeamManager</a>
+	  <a class="navbar-brand no-break-out"  title="TeamManager" href="/competition/${menuNavigationForm.idCompeticion}">TeamManager</a>
     </div>	
   </div>
 </nav>
@@ -182,7 +182,7 @@
     	var idEquipo = ${teamForm.idEquipo};
     	$.ajax({
     		type:"get",
-    		url: "/teammanagement/team/player",	
+    		url: "/team/player",	
     		data: ({ idJugador: idJugador }),
     		dataType: "json",
     		success: function(response){
@@ -197,7 +197,7 @@
     			var salaryFormatted = '$' + response.currentSalary.toFixed().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
     			$("#salary").text(salaryFormatted);
     			
-    			$("#botonOfrecerContratoModal").attr("href", '/teammanagement/team/'+idEquipo+'/offerContractForm/'+response.idJugador);
+    			$("#botonOfrecerContratoModal").attr("href", '/team/'+idEquipo+'/offerContractForm/'+response.idJugador);
     			
     		},
     		error: function(){
@@ -233,7 +233,7 @@
     	var idCompeticion = ${teamForm.idCompeticion};
     	$.ajax({
     		type:"get",
-    		url: "/teammanagement/team/getFANextSeason",	
+    		url: "/team/getFANextSeason",	
     		data: ({ idCompeticion: idCompeticion }),
     		dataType: "json",
     		success: function(response){

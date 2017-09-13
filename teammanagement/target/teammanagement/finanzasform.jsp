@@ -38,7 +38,7 @@
       	Atrás
       </button>
  
-	  <a class="navbar-brand no-break-out"  title="TeamManager" href="/teammanagement/competition/${menuNavigationForm.idCompeticion}">TeamManager</a>
+	  <a class="navbar-brand no-break-out"  title="TeamManager" href="/competition/${menuNavigationForm.idCompeticion}">TeamManager</a>
     </div>
   </div>
 </nav>
@@ -148,7 +148,7 @@
     	 
     	$.ajax({
     		type:"get",
-    		url: "/teammanagement/finanzas/findAsientosEquipoTemporada",	
+    		url: "/finanzas/findAsientosEquipoTemporada",	
     		data: ({ idEquipo: idEquipo, idTemporada: idTemporada}),
     		dataType: "json",
     		success: function(response){

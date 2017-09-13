@@ -24,7 +24,7 @@
 
 
 <!-- Loads Quartz Job related configurations -->
-<import resource="quartz-job.xml" />
+<!-- <import resource="quartz-job.xml" /> -->
 
 <!-- Declare a view resolver -->
 <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"

@@ -12,10 +12,12 @@ import es.ligasnba.app.model.competitionrol.CompetitionRol;
 import es.ligasnba.app.model.competitionrol.competitionRolService;
 import es.ligasnba.app.model.equipo.teamService;
 import es.ligasnba.app.model.equipodefault.EquipoDefault;
+import es.ligasnba.app.model.segundoPlano.SegundoPlanoService;
 import es.ligasnba.app.model.usuario.userService;
 import es.ligasnba.app.util.Log;
 import es.ligasnba.app.util.constants.Constants;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -42,6 +44,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 	private teamService teamservice;
 	@Autowired
 	private competitionRolService competitionrolservice;
+	
+	private static final Logger logger = Logger.getLogger(CustomUserDetailsService.class);
 	
 	public void setTeamservice(teamService teamservice) {
 		this.teamservice = teamservice;
@@ -99,7 +103,7 @@ public UserDetails loadUserByUsername(String username) throws UsernameNotFoundEx
 			
 			
 		} catch (Exception e) {
-			Log.LogFile(e.getMessage());
+			logger.error(e.getMessage());
 		throw new RuntimeException(e);
 		}
 	}

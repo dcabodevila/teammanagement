@@ -47,9 +47,9 @@
       <ul class="nav navbar-nav">      
 
 		<c:if test="${isAdmin}">
-			<li><a href="/teammanagement/admin/${menuNavigationForm.idCompeticion}/calendar">Calendario</a></li>
-			<li><a href="/teammanagement/admin/${menuNavigationForm.idCompeticion}/users">Usuarios</a></li>
-			<li><a href="/teammanagement/admin/${menuNavigationForm.idCompeticion}/games">Partidos</a></li>
+			<li><a href="/admin/${menuNavigationForm.idCompeticion}/calendar">Calendario</a></li>
+			<li><a href="/admin/${menuNavigationForm.idCompeticion}/users">Usuarios</a></li>
+			<li><a href="/admin/${menuNavigationForm.idCompeticion}/games">Partidos</a></li>
 		</c:if>				       
       </ul>
     </div>

@@ -11,11 +11,12 @@
 <%@ page import="es.ligasnba.app.util.constants.Constants" %>
 <head>
 <jsp:include page="menu.jsp" />
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/styles.css" context="/teammanagement"/>">
-<script type='text/javascript' src='<c:url value="/resources/js/jquery-1.10.2.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/jquery-ui.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/validation/dist/jquery.validate.min.js"/>'></script>
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/pure-min.css" context="/teammanagement"/>">
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/styles.css"/>
+<script type='text/javascript' src='${pageContext.request.contextPath}/resources/js/jquery-1.10.2.js'></script>
+<script type='text/javascript' src='${pageContext.request.contextPath}/resources/js/jquery-ui.js'></script>
+<script type='text/javascript' src='${pageContext.request.contextPath}/resources/validation/dist/jquery.validate.min.js'></script>
+
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/pure-min.css"/>
 
 
 
@@ -31,7 +32,7 @@ function submitRegistration(){
 				maxlength: <%= Constants.cUserNameMaxLength %>,
 				minlength: <%= Constants.cUserNameMinLength %>,
 				remote: {
-					url: "/teammanagement/register/usernamecheck",
+					url: "/register/usernamecheck",
 					type: "get",
 					data: {
 						userName: function() {
@@ -91,7 +92,7 @@ function submitRegistration(){
 			$.ajax({
 
 				type:"post",
-				url: "/teammanagement/register/userregister",	
+				url: "/register/userregister",	
 				data: ({userName:uname,password:pass,email:mail}),
 				dataType: "json",
 				success: function(response){
@@ -100,7 +101,7 @@ function submitRegistration(){
 						
 						$('#errorMessages').append("<font color='green'>· "+response.message+"</font><br> Redirigiendo a la página de login...");
 						window.setTimeout(function() {
-							window.location.href = '/teammanagement/login';
+							window.location.href = '/login';
 						}, 3000);	
 					}
 

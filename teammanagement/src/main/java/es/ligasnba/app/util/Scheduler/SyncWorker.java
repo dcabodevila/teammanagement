@@ -25,14 +25,14 @@ import es.ligasnba.app.util.Log;
 import es.ligasnba.app.util.constants.Constants;
 import es.ligasnba.app.util.exceptions.InstanceNotFoundException;
 
-@Component("SchedulerImpl")
+//@Component("SchedulerImpl")
 public class SyncWorker implements Worker{
 	
 	@Autowired
 	private competitionService competitionservice;
 
-	@Autowired
-	private DynamicPropertiesFileReader properties;
+//	@Autowired
+//	private DynamicPropertiesFileReader properties;
 	@Autowired
 	private SegundoPlanoService segundoPlanoService;
 	

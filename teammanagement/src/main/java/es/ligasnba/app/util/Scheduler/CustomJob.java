@@ -3,12 +3,14 @@ package es.ligasnba.app.util.Scheduler;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.StatefulJob;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import es.ligasnba.app.model.usuario.CustomUserDetailsService;
 import es.ligasnba.app.util.Log;
 
 /**
@@ -29,7 +31,7 @@ import es.ligasnba.app.util.Log;
 public class CustomJob extends QuartzJobBean implements StatefulJob {
  
  private static final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
- 
+ private static final Logger logger = Logger.getLogger(CustomJob.class);
  private Worker worker;
  
   
@@ -48,22 +50,23 @@ JobDataMap jobDataMap = ctx.getJobDetail().getJobDataMap();
     
    // Job was run previously
    if (lastDateRun != null) {
-    Log.LogScheduler("Last date run: " + sdf.format(lastDateRun));
+	   
+	   logger.info("Last date run: " + sdf.format(lastDateRun));
      
     // Retrieve the number of times this job has been attempted
     int refireCount = ctx.getRefireCount();
      
     if (refireCount > 0) {
-    	Log.LogScheduler("Total attempts: " + refireCount);
+    	logger.info("Total attempts: " + refireCount);
     }
    }
    else {
     // Job is run for the first time
-	   Log.LogScheduler("Job is run for the first time");
+	   logger.info("Job is run for the first time");
    }
     
    // Do the actual work
-   Log.LogScheduler("Delegating work to worker");
+   logger.info("Delegating work to worker");
    worker.work();
 
    
@@ -71,11 +74,11 @@ JobDataMap jobDataMap = ctx.getJobDetail().getJobDataMap();
    // Retrieve the next date when the job will be run
    String nextDateRun = sdf.format(ctx.getNextFireTime());
     
-   Log.LogScheduler("Next date run: " + nextDateRun);
+   logger.info("Next date run: " + nextDateRun);
  
   }
   catch (Exception e) {
-    Log.LogScheduler("Unexpected exception " + e.getMessage());
+	  logger.info("Unexpected exception " + e.getMessage());
 
   	JobExecutionException e2 =
   		new JobExecutionException(e);

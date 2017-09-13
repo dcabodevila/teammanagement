@@ -43,7 +43,7 @@ function getReceivedTrades(){
 	$.ajax({
 
 		type:"get",
-		url: "/teammanagement/market/getreceivedtrades",	
+		url: "/market/getreceivedtrades",	
 		data: ({idEquipo:teamId}),
 		dataType: "json",
 		success: function(response){
@@ -112,7 +112,7 @@ function acceptTrade(idTrade){
 	$.ajax({
 
 		type:"post",
-		url: "/teammanagement/market/accepttrade",	
+		url: "/market/accepttrade",	
 		data: ({idTraspaso:idTrade}),
 		dataType: "json",
 		success: function(response){
@@ -142,7 +142,7 @@ function rejectTrade(idTrade){
 	$.ajax({
 
 		type:"post",
-		url: "/teammanagement/market/rejecttrade",	
+		url: "/market/rejecttrade",	
 		data: ({idTraspaso:idTrade}),
 		dataType: "json",
 		success: function(response){

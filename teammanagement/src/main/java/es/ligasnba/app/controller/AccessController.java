@@ -13,7 +13,7 @@ public class AccessController {
 	@RequestMapping("/login")
 	public String login(Model model, @RequestParam(required=false) String message) {
 	model.addAttribute("message", message);	
-	return "/login";
+	return "loginuser";
 	}
 	@RequestMapping(value = "/denied")
 	public String denied() {

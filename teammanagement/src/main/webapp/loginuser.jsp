@@ -65,7 +65,7 @@ function submitLogin(){
  
 <body>
 <div class="loginForm">
-	<form class="pure-form pure-form-stacked" id="login-form" action="/teammanagement/j_spring_security_check" method="post" >
+	<form class="pure-form pure-form-stacked" id="login-form" action="/j_spring_security_check" method="post" >
 
 	<fieldset>
 	<legend>Login</legend>
@@ -79,7 +79,7 @@ function submitLogin(){
 	<p class="messageOK">${message}</p>
 	<input class="pure-button pure-button-primary" type="button" onclick="submitLogin();" value="Login"/>
 	</fieldset>
-	<p><a href="/teammanagement/remember"><font size=2> No recuerdo la contraseña </font></a></p>
+	<p><a href="/remember"><font size=2> No recuerdo la contraseña </font></a></p>
 	</form>
 </div>
 </body>

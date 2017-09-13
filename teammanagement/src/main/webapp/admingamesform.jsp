@@ -69,7 +69,7 @@ function getDateFromJSonDate(jsondate){
 
    },
 
-   url:'/teammanagement/admin/'+idCompeticion+'/gameslist',
+   url:'/admin/'+idCompeticion+'/gameslist',
    datatype: 'json',
    mtype: 'GET',
       colNames:['Id', 'idActaPartido', 'idEquipoLocal', 'Local', '' , '' , 'idEquipoVisitante', 'Visitante' ,'Fecha','Temporada','revisado'],
@@ -155,7 +155,7 @@ function simulateGame() {
 	var row = jq("#grid").jqGrid('getGridParam','selrow');
 	if( row != null )
   		jq("#grid").jqGrid('editGridRow',row,
-		{ url: '/teammanagement/admin/simulate', editData: {},
+		{ url: '/admin/simulate', editData: {},
 	          recreateForm: true,
 		  resize: false,
 		  width : 400,
@@ -176,7 +176,7 @@ function resetGame() {
 	var row = jq("#grid").jqGrid('getGridParam','selrow');
 	if( row != null )
   		jq("#grid").jqGrid('editGridRow',row,
-		{ url: '/teammanagement/admin/reset', editData: {},
+		{ url: '/admin/reset', editData: {},
 	          recreateForm: true,
 		  resize: false,
 		  width : 400,

@@ -8,7 +8,7 @@
         <Arg>
             <New class="org.springframework.jdbc.datasource.DriverManagerDataSource">
                 <Set name="driverClassName">com.mysql.jdbc.Driver</Set>
-                <Set name="url">jdbc:mysql://localhost/teammanagement</Set>
+                <Set name="url">jdbc:mysql://aazt4w28dc2nl2.craopvxk65tw.eu-west-2.rds.amazonaws.com/teammanagement</Set>
                 <Set name="username">sirnolimit</Set>
                 <Set name="password"></Set>
             </New>

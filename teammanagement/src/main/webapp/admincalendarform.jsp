@@ -86,7 +86,7 @@ function forwardCalendar(){
 	$.ajax({
 	
 		type:"post",
-		url: "/teammanagement/admin/forward",	
+		url: "/admin/forward",	
 		data: ({idCompeticion:idComp , numDays: nDays }),
 		dataType: "json",
 		success: function(response){
@@ -130,7 +130,7 @@ function pauseCompetition(idCompeticion){
 	$.ajax({
 	
 		type:"post",
-		url: "/teammanagement/admin/pause/",	
+		url: "/admin/pause/",	
 		data: ({id:idCompeticion}),
 		dataType: "json",
 		success: function(response){
@@ -150,7 +150,7 @@ function playCompetition(idCompeticion){
 	$.ajax({
 	
 		type:"post",
-		url: "/teammanagement/admin/play/",	
+		url: "/admin/play/",	
 		data: ({id:idCompeticion}),
 		dataType: "json",
 		success: function(response){
@@ -184,7 +184,7 @@ function Draft(){
 	$.ajax({
 	
 		type:"post",
-		url: "/teammanagement/admin/draft",	
+		url: "/admin/draft",	
 		data: ({idCompeticion:idComp}),
 		dataType: "json",
 		success: function(response){
@@ -216,7 +216,7 @@ function nextSeason(){
 	$.ajax({
 	
 		type:"post",
-		url: "/teammanagement/admin/nextSeason",	
+		url: "/admin/nextSeason",	
 		data: ({idCompeticion:idComp}),
 		dataType: "json",
 		success: function(response){
@@ -245,7 +245,7 @@ function test(){
 	$.ajax({
 	
 		type:"get",
-		url: "/teammanagement/admin/test",	
+		url: "/admin/test",	
 		data: ({idCompeticion:idComp}),
 		dataType: "json",
 		success: function(response){

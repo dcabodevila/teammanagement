@@ -700,12 +700,6 @@ public class AdminCompetitionController {
     public @ResponseBody CustomGenericResponse test( @RequestParam("idCompeticion") long idCompeticion) {
     	
     	CustomGenericResponse response = new CustomGenericResponse();
-    	
-		
-
-    	
-			
-		Log.LogFile("Años restantes: " +contractservice.getContractYearsRemaining(new Long("95")));
 		
 //		for (int i=0;i<listaContratos.size();i++)
 //			Log.LogFile( "Contrato: "+listaContratos.get(i).getIdContrato());

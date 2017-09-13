@@ -802,7 +802,6 @@ public class competitionServiceImpl implements competitionService{
 								
 							} catch (Exception e) {
 								
-								Log.LogFile(e.getMessage());
 								return false;
 							}
 							

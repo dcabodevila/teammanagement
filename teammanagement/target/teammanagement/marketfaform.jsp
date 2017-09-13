@@ -35,7 +35,7 @@
       <button type="button" id="botonAtras" onClick="transitionDetailToList()" class="hidden" style="margin-top:10;margin-left:5;">
         Atrás
       </button>
-	  <a class="navbar-brand no-break-out"  title="TeamManager" href="/teammanagement/competition/${menuNavigationForm.idCompeticion}">TeamManager</a>
+	  <a class="navbar-brand no-break-out"  title="TeamManager" href="/competition/${menuNavigationForm.idCompeticion}">TeamManager</a>
     </div>
   </div>
 </nav>
@@ -181,11 +181,11 @@
 		var idCompeticion = ${teamForm.idCompeticion};
 		var nombreJugador = $( "#playerNameSearch" ).val();
 		var idEquipo = ${teamForm.idEquipo};
-		var url = "/teammanagement/team/"+idCompeticion+"/"+nombreJugador;
+		var url = "/team/"+idCompeticion+"/"+nombreJugador;
 		
 		$.ajax({
 			type:"get",
-			url: "/teammanagement/team/filterFreeAgentsByName",	
+			url: "/team/filterFreeAgentsByName",	
 			data: ({ idCompeticion: idCompeticion, nombreJugador : nombreJugador }),
 			dataType: "json",
 			success: function(response){
@@ -242,7 +242,7 @@
     	var idEquipo = ${teamForm.idEquipo};
     	$.ajax({
     		type:"get",
-    		url: "/teammanagement/team/faplayer",	
+    		url: "/team/faplayer",	
     		data: ({ idJugador: idJugador }),
     		dataType: "json",
     		success: function(response){
@@ -259,7 +259,7 @@
     			$("#moneyInterest").text(response.moneyInterest);
     			$("#winningInterest").text(response.winningInterest);
     			$("#loyaltyInterest").text(response.loyaltyInterest);    			
-    			$("#botonOfrecerContratoModal").attr("href", '/teammanagement/team/'+idEquipo+'/offerContractForm/'+response.idJugador);
+    			$("#botonOfrecerContratoModal").attr("href", '/team/'+idEquipo+'/offerContractForm/'+response.idJugador);
     			if (response.contractYears<=1){
     				$("#botonOfrecerContratoModal").removeClass("hidden");
     				$("#botonOfrecerContratoModal").addClass("visible");
@@ -285,7 +285,7 @@
     	 
     	$.ajax({
     		type:"get",
-    		url: "/teammanagement/team/playerdata/signDefaultPlayer/",	
+    		url: "/team/playerdata/signDefaultPlayer/",	
     		data: ({ idEquipo : idEquipo, idJugador: idJugador }),
     		dataType: "json",
     		success: function(response){

@@ -7,9 +7,9 @@
 <%@ page import="es.ligasnba.app.util.constants.Constants" %>
 
 <%-- <link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-ios.min.css" context="/teammanagement"/>"> --%>
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootstrap.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-desktop.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-demo.css" context="/teammanagement"/>">
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" context="/teammanagement"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-desktop.min.css" context="/teammanagement"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-demo.css" context="/teammanagement"/>
  
 
 <c:url value="/" var="homeUrl"/>
@@ -55,9 +55,9 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-<script type='text/javascript' src='<c:url value="/resources/js/jquery-3.1.0.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/jquery-ui.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/bootstrap.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/bootcards.min.js"/>'></script>
+<script type='text/javascript' src='${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js'></script>
+<script type='text/javascript' src='${pageContext.request.contextPath}/resources/js/jquery-ui.js'></script>
+<script type='text/javascript' src='${pageContext.request.contextPath}/resources/js/bootstrap.min.js'></script>
+<script type='text/javascript' src='${pageContext.request.contextPath}/resources/js/bootcards.min.js'></script>
 
 

@@ -9,22 +9,26 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.log4j.Logger;
+
+import es.ligasnba.app.model.usuario.CustomUserDetailsService;
 import es.ligasnba.app.model.usuario.Usuario;
-import es.ligasnba.app.util.Log;
 import es.ligasnba.app.util.constants.Constants;
 
 
 public class SendMailSSL {
-
+	
+	private static final Logger logger = Logger.getLogger(CustomUserDetailsService.class);
+	
 	public boolean SendActivationMail(Usuario u){
 		
-		return SendMail(u.getMail(), Constants.cMailWelcomeSubject, "Hola "+u.getLogin()+", bienvenido a LigasNBA.es.\r\n\r\n Para activar la cuenta pulsa en el siguiente enlace: \r\n "+ Constants.cDomainName +"/teammanagement/activate/"+u.getActivateKey());
+		return SendMail(u.getMail(), Constants.cMailWelcomeSubject, "Hola "+u.getLogin()+", bienvenido a LigasNBA.es.\r\n\r\n Para activar la cuenta pulsa en el siguiente enlace: \r\n "+ Constants.cDomainName +"/activate/"+u.getActivateKey());
 				
 	}
 	
 	public boolean SendRememberPasswordMail(Usuario u){
 		
-		return SendMail(u.getMail(), Constants.cMailRememberSubject, "Hola "+u.getLogin()+", \r\n\r\n Para cambiar la contraseña de tu cuenta pulsa en el siguiente enlace: \r\n "+ Constants.cDomainName +"/teammanagement/remember/"+u.getActivateKey());
+		return SendMail(u.getMail(), Constants.cMailRememberSubject, "Hola "+u.getLogin()+", \r\n\r\n Para cambiar la contraseña de tu cuenta pulsa en el siguiente enlace: \r\n "+ Constants.cDomainName +"/remember/"+u.getActivateKey());
 		
 	}	
 	
@@ -59,7 +63,7 @@ public class SendMailSSL {
 			
  
 		} catch (MessagingException e) {
-			Log.LogFile(e.getMessage());
+			logger.error(e.getMessage());
 			return false;
 		}
 			

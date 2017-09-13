@@ -42,7 +42,7 @@ jq(function() {
 	
 	    },
 	  
-	   url:'/teammanagement/market/players/'+${teamMarketForm.equipo.idEquipo},
+	   url:'/market/players/'+${teamMarketForm.equipo.idEquipo},
 	   datatype: 'json',
 	   mtype: 'GET',
 	      colNames:['id', 'Nombre',  'Pos','Pos2','Media','Años','Salario'],
@@ -157,7 +157,7 @@ jq( document ).ready(function() {
 	jq.ajax({
 
 		type:"get",
-		url: "/teammanagement/market/teamslist",	
+		url: "/market/teamslist",	
 		data: ({idCompeticion:compId}),
 		dataType: "json",
 		success: function(response){
@@ -179,7 +179,7 @@ function getTeamData(teamId){
 	jq.ajax({
 
 		type:"get",
-		url: "/teammanagement/market/getteamdata",	
+		url: "/market/getteamdata",	
 		data: ({idEquipo: teamId}),
 		dataType: "json",
 		success: function(response){
@@ -257,7 +257,7 @@ function selectTradeTeamChange(){
 	var selected = jq( "#selectTradeTeam").val();
 
 	if (selected!=0){
-		jq("#otherPlayers").jqGrid('setGridParam',{url:'/teammanagement/market/players/'+selected}).trigger('reloadGrid');				
+		jq("#otherPlayers").jqGrid('setGridParam',{url:'/market/players/'+selected}).trigger('reloadGrid');				
 
 		getTeamData(selected);
 
@@ -279,7 +279,7 @@ function proposeTrade(){
 	jq.ajax({
 
 		type:"get",
-		url: "/teammanagement/market/validateTrade",	
+		url: "/market/validateTrade",	
 		data: ({teamFrom:localIdTeam, teamTo:visitorIdTeam,localPlayers: localPlayersIds, visitorPlayers:visitorPlayersIds}),
 		dataType: "json",
 		traditional: true,
@@ -312,7 +312,7 @@ function checkTrade(){
 	jq.ajax({
 
 		type:"get",
-		url: "/teammanagement/market/checkTrade",	
+		url: "/market/checkTrade",	
 		data: ({teamFrom:localIdTeam, teamTo:visitorIdTeam,localPlayers: localPlayersIds, visitorPlayers:visitorPlayersIds}),
 		dataType: "json",
 		traditional: true,

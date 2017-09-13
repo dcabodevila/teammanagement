@@ -46,7 +46,7 @@ function getOfferedTrades(){
 	$.ajax({
 
 		type:"get",
-		url: "/teammanagement/market/getofferedtrades",	
+		url: "/market/getofferedtrades",	
 		data: ({idEquipo:teamId}),
 		dataType: "json",
 		success: function(response){
@@ -117,7 +117,7 @@ function cancelTrade(idTrade){
 	$.ajax({
 
 		type:"post",
-		url: "/teammanagement/market/rejecttrade",	
+		url: "/market/rejecttrade",	
 		data: ({idTraspaso:idTrade}),
 		dataType: "json",
 		success: function(response){

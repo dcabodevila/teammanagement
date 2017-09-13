@@ -80,8 +80,8 @@
 
                 <!--  Data source properties -->
                 <dataSource.url>jdbc:mysql://aazt4w28dc2nl2.craopvxk65tw.eu-west-2.rds.amazonaws.com/teammanagement</dataSource.url>
-<!--                 <dataSource.url>jdbc:mysql://35.187.84.38/teammanagement</dataSource.url> -->
-                <testDataSource.url>jdbc:mysql://aazt4w28dc2nl2.craopvxk65tw.eu-west-2.rds.amazonaws.com/teammanagementtest</testDataSource.url>
+<!--                 <dataSource.url>jdbc:mysql://35.195.70.255/teammanagement</dataSource.url> -->
+<!--                 <testDataSource.url>jdbc:mysql://aazt4w28dc2nl2.craopvxk65tw.eu-west-2.rds.amazonaws.com/teammanagementtest</testDataSource.url> -->
                 <dataSource.createTablesScript>MySQLCreateTables.sql</dataSource.createTablesScript>
 
                 <!-- Hibernate properties -->
@@ -269,7 +269,11 @@
 		  <artifactId>mysql-socket-factory</artifactId>
 		  <version>1.0.3</version>
 		</dependency>
-
+		<dependency>
+		  <groupId>com.google.cloud.sql</groupId>
+		  <artifactId>mysql-socket-factory</artifactId>
+		  <version>1.0.3</version>
+		</dependency>
         </dependencies>
     </dependencyManagement>
 

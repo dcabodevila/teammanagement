@@ -18,10 +18,10 @@
     </head>
     <body>
     <article>
-	<div align=center><img src=<c:url value="/resources/images/maintenance.png"/>  </div>
+	<div align=center></div>
         <div><h1>Team Management está actualizándose</h1>
         <p> Podrás entrar en unos instantes.</p></div>
- 	<p><a class="pure-button" href="/teammanagement/index">Reintentar</a></p>
+ 	<p><a class="pure-button" href="/index">Reintentar</a></p>
     </article>
     </body>
 </html>

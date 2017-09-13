@@ -41,7 +41,7 @@ function submitremember(){
 		$.ajax({
 
 			type:"post",
-			url: "/teammanagement/remember/send",	
+			url: "/remember/send",	
 			data: ({registerEmail:mail}),
 			dataType: "json",
 			success: function(response){
@@ -50,7 +50,7 @@ function submitremember(){
 					$('#sendButton').prop('disabled',false);
 					generateNoty(""+response.message+"",'success');
 					window.setTimeout(function() {
-						window.location.href = '/teammanagement/login';
+						window.location.href = '/login';
 					}, 3000);
 				}
 

@@ -41,25 +41,25 @@
     <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">      
 		<c:if test="${menuNavigationForm.estadoCompeticion eq 5}">
-			<li><a href="/teammanagement/team/teamcreator/${menuNavigationForm.idEquipo}">Creador de plantilla</a></li>
+			<li><a href="/team/teamcreator/${menuNavigationForm.idEquipo}">Creador de plantilla</a></li>
 		</c:if>
 		<c:if test="${menuNavigationForm.estadoCompeticion eq 1}">
-			<li><a href="/teammanagement/team/seleccionPaquete/${menuNavigationForm.idEquipo}">Paquetes de ingresos</a></li>
+			<li><a href="/team/seleccionPaquete/${menuNavigationForm.idEquipo}">Paquetes de ingresos</a></li>
 		</c:if>
 		<c:if test="${menuNavigationForm.estadoCompeticion eq 4}">
-			<li><a href="/teammanagement/team/fa/${menuNavigationForm.idEquipo}">Próximos FA</a></li>
+			<li><a href="/team/fa/${menuNavigationForm.idEquipo}">Próximos FA</a></li>
 		</c:if>		
-		<li><a href="/teammanagement/team/${menuNavigationForm.idEquipo}">Plantilla</a></li>
-		<li><a href="/teammanagement/games/${menuNavigationForm.idEquipo}">Partidos</a></li>
+		<li><a href="/team/${menuNavigationForm.idEquipo}">Plantilla</a></li>
+		<li><a href="/games/${menuNavigationForm.idEquipo}">Partidos</a></li>
 	    <li>	    	   
-	      <a href="/teammanagement/market/${menuNavigationForm.idEquipo}/trades">Traspasos</a>
+	      <a href="/market/${menuNavigationForm.idEquipo}/trades">Traspasos</a>
 	    </li>
-		<li><a href="/teammanagement/market/freeagents/${menuNavigationForm.idCompeticion}">Agentes Libres</a></li>	    
-		<li><a href="/teammanagement/contracts/${menuNavigationForm.idEquipo}">Contratos</a></li>
-		<li><a href="/teammanagement/finanzas/${menuNavigationForm.idEquipo}">Finanzas</a></li>
-<%-- 		<li><a href="/teammanagement/competition/${menuNavigationForm.idEquipo}/configuration">Ajustes</a></li> --%>
+		<li><a href="/market/freeagents/${menuNavigationForm.idCompeticion}">Agentes Libres</a></li>	    
+		<li><a href="/contracts/${menuNavigationForm.idEquipo}">Contratos</a></li>
+		<li><a href="/finanzas/${menuNavigationForm.idEquipo}">Finanzas</a></li>
+<%-- 		<li><a href="/competition/${menuNavigationForm.idEquipo}/configuration">Ajustes</a></li> --%>
 		<c:if test="${isAdmin}">
-			<li><a href="/teammanagement/admin/${menuNavigationForm.idCompeticion}/calendar">Comisionado</a></li>
+			<li><a href="/admin/${menuNavigationForm.idCompeticion}/calendar">Comisionado</a></li>
 		</c:if>				       
       </ul>
     </div>

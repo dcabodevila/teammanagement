@@ -1,6 +1,7 @@
 package es.ligasnba.app.model.util;
 
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import es.ligasnba.app.model.competicion.Competicion;
 import es.ligasnba.app.model.competitionrol.CompetitionRol;
 import es.ligasnba.app.model.competitionrol.competitionRolService;
+import es.ligasnba.app.model.usuario.CustomUserDetailsService;
 import es.ligasnba.app.model.usuario.Usuario;
 import es.ligasnba.app.model.usuario.userService;
 import es.ligasnba.app.util.Log;
@@ -27,6 +29,8 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
 	private userService userservice;
 	@Autowired
 	public competitionRolService competitionrolservice;
+	
+	private static final Logger logger = Logger.getLogger(CustomPermissionEvaluator.class);
 	
 	public userService getuserService() {
 		return userservice;
@@ -48,8 +52,7 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
 				
 				List<CompetitionRol> cr = competitionrolservice.getCompetitionRol(u.getIdUsuario(), com.getIdCompeticion());
 				
-				Log.LogFile("permission.toString: "+ permission.toString());
-				
+				logger.info("permission.toString: "+ permission.toString());
 				 
 				for (int i=0;i<cr.size();i++){
 					CompetitionRol newrol = cr.get(i);

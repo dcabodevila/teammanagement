@@ -59,7 +59,7 @@ function ajaxCall(idTeam){
 	$.ajax({
 	
 		type:"post",
-		url: "/teammanagement/team/list",	
+		url: "/team/list",	
 		data: ({ team: idTeam}),
 		dataType: "json",
 		success: function(data){
@@ -224,7 +224,7 @@ function LoadPlayers(data){
 	
 	<c:set var="idEquipo" value="${teamForm.equipo.idEquipo}" />
 
-	<form:form class="setRotation-form"  action="/teammanagement/team/${teamForm.equipo.idEquipo}/editteamrotation" modelAttribute="teamForm" method="post">
+	<form:form class="setRotation-form"  action="/team/${teamForm.equipo.idEquipo}/editteamrotation" modelAttribute="teamForm" method="post">
 
 		<table class="datatable" class="playerminutes">
 		<caption>Rotación</caption>

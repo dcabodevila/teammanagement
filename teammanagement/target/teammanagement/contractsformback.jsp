@@ -39,7 +39,7 @@ var h = 550;
 var left = (screen.width/2)-(w/2);
 var top = (screen.height/2)-(h/2);
 
-  window.open('/teammanagement/contracts/'+idJugador+'/resign/'+${teamForm.idEquipo}, 'Ofrecer nuevo contrato', 'toolbar=no, location=no,directories=no, status=no, menubar=no, scrollbars=no, resizable=no,copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left );
+  window.open('/contracts/'+idJugador+'/resign/'+${teamForm.idEquipo}, 'Ofrecer nuevo contrato', 'toolbar=no, location=no,directories=no, status=no, menubar=no, scrollbars=no, resizable=no,copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left );
   return false;
 
 }
@@ -60,7 +60,7 @@ var top = (screen.height/2)-(h/2);
       	Atrás
       </button>
  
-	  <a class="navbar-brand no-break-out"  title="TeamManager" href="/teammanagement/competition/${menuNavigationForm.idCompeticion}">TeamManager</a>
+	  <a class="navbar-brand no-break-out"  title="TeamManager" href="/competition/${menuNavigationForm.idCompeticion}">TeamManager</a>
     </div>
   </div>
 </nav>

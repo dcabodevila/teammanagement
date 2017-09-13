@@ -14,7 +14,7 @@
 <script>
 $( document ).ready(function() {
 	window.setTimeout(function() {
-		window.location.href = '/teammanagement/login';
+		window.location.href = '/login';
 	}, 3000);
 });	
 </script>

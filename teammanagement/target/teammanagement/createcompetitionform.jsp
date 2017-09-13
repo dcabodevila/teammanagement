@@ -33,7 +33,7 @@ function CreateCompetition(){
 			required: true,
 			minlength: 2,
 			remote: {
-				url: "/teammanagement/createcompetitionform/competitionnamecheck",
+				url: "/createcompetitionform/competitionnamecheck",
 				type: "get",
 				data: {
 					nombreCompeticion: function() {
@@ -109,7 +109,7 @@ function CreateCompetition(){
 			$.ajax({
 	
 				type:"post",
-				url: "/teammanagement/createcompetitionform/create",	
+				url: "/createcompetitionform/create",	
 				data: ({nombreCompeticion:compName,password:pass,numTeams:num,startDate:sDate,finishDate:fDate, salaryCap:salCap, salaryTop:salTop}),
 				dataType: "json",
 				success: function(response){
@@ -171,11 +171,11 @@ function SelectTeam(){
 	$.ajax({
 
 		type:"post",
-		url: "/teammanagement/joincompetitionform/selectteamid",	
+		url: "/joincompetitionform/selectteamid",	
 		data: ({idEquipo:teamId, idCompeticion:idCompetition}),
 		dataType: "json",
 		success: function(response){
-			window.location.href = "/teammanagement/index";
+			window.location.href = "/index";
 		},
 		error: function(){
 			alert("error");

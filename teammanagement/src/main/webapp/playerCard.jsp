@@ -22,7 +22,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading clearfix">
 				<h3 class="panel-title pull-left"><b>Ficha jugador</b></h3>
-			      <a class="btn btn-success pull-right" href="/teammanagement/team/${idEquipo}/playerdata/sign/${playerData.idJugador}">
+			      <a class="btn btn-success pull-right" href="/team/${idEquipo}/playerdata/sign/${playerData.idJugador}">
 			        <i class="fa fa-pencil"></i>
 			        Contratar
 			      </a>
@@ -81,7 +81,7 @@
 				<div class="list-group">
 				   <c:forEach items="${plantillaData}" var="jugadorPlantilla" varStatus="status">
 						<div class="list-group-item pjax" 
-				 			href="/teammanagement/team/${idEquipo}/playerdata/${jugadorPlantilla.idJugador}">
+				 			href="/team/${idEquipo}/playerdata/${jugadorPlantilla.idJugador}">
 							<img class="img-rounded pull-left" src="<c:url value='/resources/images/players/${jugadorPlantilla.imagen}'/>" onError="this.onerror=null;this.src='<c:url value='/resources/images/unknown.jpg'/>';"/>					 			
 							<h4 class="list-group-item-heading">${jugadorPlantilla.nombre}</h4>
 							<p class="list-group-item-text">${jugadorPlantilla.media}</p>

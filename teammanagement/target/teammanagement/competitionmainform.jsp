@@ -32,7 +32,7 @@ function seasonsSelectChange(){
 	$.ajax({
 
 		type:"get",
-		url: "/teammanagement/competition/getClassification/",	
+		url: "/competition/getClassification/",	
 		data: ({idTemporada:selectedIdSeason}),
 		dataType: "json",
 		success: function(response){

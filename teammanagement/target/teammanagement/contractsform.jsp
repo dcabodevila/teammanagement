@@ -129,7 +129,7 @@
 		
 		$.ajax({
 			type:"get",
-			url: "/teammanagement/contracts/getTeamContractsData",	
+			url: "/contracts/getTeamContractsData",	
 			data: ({idEquipo: idEquipo}),
 			dataType: "json",
 			success: function(response){

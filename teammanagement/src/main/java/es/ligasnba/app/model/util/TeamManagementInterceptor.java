@@ -34,7 +34,7 @@ public class TeamManagementInterceptor extends HandlerInterceptorAdapter{
 			
 				//maintenance time, send to maintenance page
 				
-				response.sendRedirect("/teammanagement/maintenance");
+				response.sendRedirect("/maintenance");
 				return false;
 		}
 		else {

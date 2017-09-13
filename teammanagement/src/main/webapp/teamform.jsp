@@ -36,7 +36,7 @@
       	Atrás
       </button>
  
-	  <a class="navbar-brand no-break-out"  title="TeamManager" href="/teammanagement/competition/${menuNavigationForm.idCompeticion}">TeamManager</a>
+	  <a class="navbar-brand no-break-out"  title="TeamManager" href="/competition/${menuNavigationForm.idCompeticion}">TeamManager</a>
     </div>
   </div>
 </nav>
@@ -247,7 +247,7 @@
     	var idEquipo = ${teamForm.idEquipo};
     	$.ajax({
     		type:"get",
-    		url: "/teammanagement/team/player",	
+    		url: "/team/player",	
     		data: ({ idJugador: idJugador }),
     		dataType: "json",
     		success: function(response){
@@ -279,7 +279,7 @@
     			}
     			
     			
-    			$("#botonOfrecerContratoModal").attr("href", '/teammanagement/team/'+idEquipo+'/offerContractForm/'+response.idJugador);
+    			$("#botonOfrecerContratoModal").attr("href", '/team/'+idEquipo+'/offerContractForm/'+response.idJugador);
      			$("#btnDespedirJugadorConfirmado").attr("onClick", 'despedirJugador('+response.idJugador+','+idEquipo+');');
     			if (response.contractYears<=1){
     				$("#botonOfrecerContratoModal").removeClass("hidden");
@@ -305,7 +305,7 @@
 
     	$.ajax({
     		type:"get",
-    		url: "/teammanagement/team/waive",	
+    		url: "/team/waive",	
     		data: ({ idEquipo: idEquipo, idJugador: idJugador }),
     		dataType: "json",
     		success: function(response){
@@ -348,7 +348,7 @@
     	var idEquipo = ${teamForm.idEquipo};
     	$.ajax({
     		type:"get",
-    		url: "/teammanagement/team/getPlantilla",	
+    		url: "/team/getPlantilla",	
     		data: ({ idEquipo: idEquipo }),
     		dataType: "json",
     		success: function(response){

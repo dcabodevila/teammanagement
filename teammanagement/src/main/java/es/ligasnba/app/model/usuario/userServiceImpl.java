@@ -155,9 +155,7 @@ private MailService mailService;
 					
 		
 		u.setActivateKey(UUID.randomUUID().toString());
-		
-		Log.LogFile(u.getActivateKey());
-		
+			
 		usuariodao.create(u);
 		u.setRol(new Rol(u,2));
 		return u;

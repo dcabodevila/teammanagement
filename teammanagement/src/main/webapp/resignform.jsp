@@ -67,7 +67,7 @@ function offerResign(){
 	$.ajax({
 
 		type:"post",
-		url: "/teammanagement/contracts/resignoffer",	
+		url: "/contracts/resignoffer",	
 		data: ({ idJugador: playerId, idEquipo:teamId, baseSalary:bSalary, years : yrs, increase:inc, useMidLevel : useMidLevel, listaJugadoresST : listaJugadoresST }),
 		dataType: "json",
 		traditional: true,
@@ -300,7 +300,7 @@ $( document ).ready(function() {
 	 var idEquipo = ${offerTeam};
  	$.ajax({
  		type:"get",
- 		url: "/teammanagement/team/getPlantillaNextSeason",	
+ 		url: "/team/getPlantillaNextSeason",	
  		data: ({ idEquipo: idEquipo }),
  		dataType: "json",
  		success: function(response){
