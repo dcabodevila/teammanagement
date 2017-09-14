@@ -24,10 +24,16 @@
         p:suppressClose="true" />
 -->        
 
-	<bean id="dataSource"
-	class="org.springframework.jndi.JndiObjectFactoryBean"
-	p:jndiName="jdbc/teammanagement-ds"
-	p:resourceRef="true" />
+<bean class="java.net.URI" id="dbUrl">
+    <constructor-arg value="#{systemEnvironment['mysql://bba022391196d3:b1e15623@us-cdbr-iron-east-05.cleardb.net/heroku_99aa714383db6c7?reconnect=true']}"/>
+</bean>
+
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+    <property name="url" value="#{ 'jdbc:mysql://' + @dbUrl.getHost() + @dbUrl.getPath() }"/>
+    <property name="username" value="#{ @dbUrl.getUserInfo().split(':')[0] }"/>
+    <property name="password" value="#{ @dbUrl.getUserInfo().split(':')[1] }"/>
+</bean>
+
 
 <!-- <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
 <!-- 	<property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->

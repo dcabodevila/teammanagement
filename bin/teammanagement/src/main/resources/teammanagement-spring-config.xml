@@ -20,11 +20,18 @@
 	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 	
 	<!--  Data source. -->
-	<bean id="dataSource"
-		class="org.springframework.jndi.JndiObjectFactoryBean"
-		p:jndiName="${dataSource.jndiName}"
-		p:resourceRef="true" />
-
+<!-- 	<bean id="dataSource" -->
+<!-- 		class="org.springframework.jndi.JndiObjectFactoryBean" -->
+<!-- 		p:jndiName="${dataSource.jndiName}" -->
+<!-- 		p:resourceRef="true" /> -->
+<bean class="java.net.URI" id="dbUrl">
+    <constructor-arg value="#{systemEnvironment['mysql://bba022391196d3:b1e15623@us-cdbr-iron-east-05.cleardb.net/heroku_99aa714383db6c7?reconnect=true']}"/>
+</bean>
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+    <property name="url" value="#{ 'jdbc:mysql://' + @dbUrl.getHost() + @dbUrl.getPath() }"/>
+    <property name="username" value="#{ @dbUrl.getUserInfo().split(':')[0] }"/>
+    <property name="password" value="#{ @dbUrl.getUserInfo().split(':')[1] }"/>
+</bean>
 	<!-- ***********************************************************************
 	     To avoid requesting unnecessary connections (not necessary for
 	     MiniBank) with the Open Session in View filter, uncomment this and
