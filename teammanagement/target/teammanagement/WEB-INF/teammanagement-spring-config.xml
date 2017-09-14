@@ -16,12 +16,22 @@
 <context:annotation-config/>
 
 <!-- Comentar para arrancar contra BD local   -->
-<bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-<!-- 	<property name="driverClassName" value="com.mysql.jdbc.Driver" /> -->
+<!-- <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
+<!-- 	<property name="driverClassName" value="com.mysql.jdbc.Driver" /> --> 
 <!-- 	<property name="url" value="jdbc:mysql://35.195.70.255/teammanagement" /> -->
-    <property name="url" value="jdbc:mysql://aazt4w28dc2nl2.craopvxk65tw.eu-west-2.rds.amazonaws.com/teammanagement" />
-    <property name="username" value="sirnolimit" />
-    <property name="password" value="2kligas33" />
+<!--     <property name="url" value="jdbc:mysql://aazt4w28dc2nl2.craopvxk65tw.eu-west-2.rds.amazonaws.com/teammanagement" /> -->
+<!--     <property name="username" value="sirnolimit" /> -->
+<!--     <property name="password" value="2kligas33" /> -->
+<!-- </bean> -->
+
+<bean class="java.net.URI" id="dbUrl">
+    <constructor-arg value="#{systemEnvironment['mysql://bba022391196d3:b1e15623@us-cdbr-iron-east-05.cleardb.net/heroku_99aa714383db6c7?reconnect=true']}"/>
+</bean>
+
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+    <property name="url" value="#{ 'jdbc:mysql://' + @dbUrl.getHost() + @dbUrl.getPath() }"/>
+    <property name="username" value="#{ @dbUrl.getUserInfo().split(':')[0] }"/>
+    <property name="password" value="#{ @dbUrl.getUserInfo().split(':')[1] }"/>
 </bean>
 
 <!-- Descomentar para arrancar contra BD local   -->
