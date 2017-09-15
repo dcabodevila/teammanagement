@@ -56,10 +56,10 @@
         <servletApi.version>2.3</servletApi.version>
         
         
-	    <INSTANCE_CONNECTION_NAME>teammanagement-179310:europe-west1:teammanagement</INSTANCE_CONNECTION_NAME>
-	    <user>sirnolimit</user>
-	    <password>2kligas33</password>
-	    <database>teammanagement</database>        
+<!-- 	    <INSTANCE_CONNECTION_NAME>teammanagement-179310:europe-west1:teammanagement</INSTANCE_CONNECTION_NAME> -->
+<!-- 	    <user>sirnolimit</user> -->
+<!-- 	    <password>2kligas33</password> -->
+<!-- 	    <database>teammanagement</database>         -->
         
     </properties>
 
