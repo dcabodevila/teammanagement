@@ -5,10 +5,10 @@
 <html>
 
 <head>
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/styles.css" context="/teammanagement"/>">
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/styles.css"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<script type='text/javascript' src='<c:url value="/resources/js/jquery-1.6.4.min.js"/>'></script>
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/pure-min.css" context="/teammanagement"/>">
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery-1.6.4.min.js"/></script>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/pure-min.css" />
 
 <title>Activación completada</title>
 <script>

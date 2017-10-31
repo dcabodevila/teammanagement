@@ -199,8 +199,8 @@ public class JugadorDaoHibernate extends GenericDaoHibernate<Jugador,Long> imple
 	@Override
 	public JugadorDefault findDefaultPlayerByIdNotSigned(long idJugador, long idCompeticion) throws InstanceNotFoundException{		 
 
-		JugadorDefault j = (JugadorDefault) getSession().createQuery("SELECT jd FROM JugadorDefault jd, EquipoDefault e "
-				+ "WHERE jd.equipoDefault=e AND jd.idJugadorDefault=:idJugador "
+		JugadorDefault j = (JugadorDefault) getSession().createQuery("SELECT jd FROM JugadorDefault jd "
+				+ "WHERE jd.idJugadorDefault=:idJugador "
 				+ "AND jd.idJugadorDefault NOT IN ("
 				+ "SELECT j.jugadorDefault.idJugadorDefault FROM Jugador j inner join j.competicion c "
 				+ "WHERE c.idCompeticion=:idCompeticion) ")
@@ -320,6 +320,15 @@ public class JugadorDaoHibernate extends GenericDaoHibernate<Jugador,Long> imple
 			throw new InstanceNotFoundException(idJugador, JugadorDefault.class.getName());
 		}
 		return j;
+
+	}
+	
+	@Override
+	public void updateCacheAgentesLibres(long idCompeticion){
+		
+
+		((SQLQuery) getSession().getNamedQuery("UPDATE_CACHE_AGENTES_LIBRES_COMPETITION")
+				.setParameter("idCompeticion",idCompeticion)).executeUpdate();	
 
 	}
 	

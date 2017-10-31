@@ -71,6 +71,7 @@ es\ligasnba\app\model\util\ViewMapper.class
 es\ligasnba\app\model\partido\matchService.class
 es\ligasnba\app\model\traspaso\tradeServiceImpl.class
 es\ligasnba\app\model\util\CustomPermissionEvaluator.class
+es\ligasnba\app\model\finanzas\PaquetesIngresosForm.class
 es\ligasnba\app\model\usuario\CustomUserDetailsService.class
 es\ligasnba\app\model\competicion\CompeticionDaoHibernate.class
 es\ligasnba\app\model\temporada\TemporadaDaoHibernate.class
@@ -152,6 +153,7 @@ es\ligasnba\app\model\dto\EquipoSeleccionDto.class
 es\ligasnba\app\util\Scheduler\SyncWorker.class
 es\ligasnba\app\util\exceptions\IncorrectPasswordException.class
 es\ligasnba\app\model\competicion\CompeticionDao.class
+es\ligasnba\app\model\contrato\ValoracionOfertaContratoDto.class
 es\ligasnba\app\model\estadistica\statsService.class
 es\ligasnba\app\model\traspaso\TraspasoDaoHibernate.class
 es\ligasnba\app\util\constants\Constants.class

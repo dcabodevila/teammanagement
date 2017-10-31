@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import es.ligasnba.app.model.actapartido.ActaPartido;
 import es.ligasnba.app.model.actapartido.actaPartidoService;
 import es.ligasnba.app.model.arquetipoEquipo.ArquetipoEquipo;
+import es.ligasnba.app.model.arquetipoEquipo.ArquetipoEquipoDao;
 import es.ligasnba.app.model.competicion.Competicion;
 import es.ligasnba.app.model.contrato.ContractService;
 import es.ligasnba.app.model.contrato.contractServiceImpl;
@@ -22,6 +23,7 @@ import es.ligasnba.app.model.partido.ResumenBalance;
 import es.ligasnba.app.model.temporada.Temporada;
 import es.ligasnba.app.model.temporada.seasonService;
 import es.ligasnba.app.util.constants.Constants;
+import es.ligasnba.app.util.exceptions.InstanceNotFoundException;
 
 @Service("finanzasService")
 @Transactional(rollbackFor = Exception.class)
@@ -40,6 +42,8 @@ public class finanzasServiceImpl implements finanzasService{
 	private ContractService contractservice;
 	@Autowired
 	private EquipoDao equipodao;
+	@Autowired
+	private ArquetipoEquipoDao arquetipodao;
 	
 	
 	public void setTransactionManager(PlatformTransactionManager t) {
@@ -56,6 +60,9 @@ public class finanzasServiceImpl implements finanzasService{
 	}
 	public void setEquipoDao(EquipoDao equipodao) {
 		this.equipodao = equipodao;
+	}
+	public void setArquetipoDao(ArquetipoEquipoDao arquetipodao) {
+		this.arquetipodao = arquetipodao;
 	}
 
 	public AsientoDao getAsientodao() {
@@ -91,28 +98,27 @@ public class finanzasServiceImpl implements finanzasService{
 			
 			
 			if (actaPartido.getVictoria()){
-				nuevoAsiento(actaPartido.getEquipoValorador(), temporadaSiguiente, "Ingresos partido jugado vs "+ actaPartido.getEquipoValorado().getnombre(), 
+				nuevoAsiento(actaPartido.getEquipoValorador(), temporadaSiguiente, "Ingresos victoria vs "+ actaPartido.getEquipoValorado().getnombre(), 
 						actaPartido.getEquipoValorador().getCompeticion().getActualDate(), actaPartido.getPartido().isPlayoff() ? actaPartido.getEquipoValorador().getArquetipoElegido().getIngresoPartidoGanadoPO() : actaPartido.getEquipoValorador().getArquetipoElegido().getIngresoPartidoGanadoRS());
 
 			}
 			else {
-				nuevoAsiento(actaPartido.getEquipoValorado(), temporadaSiguiente, "Ingresos partido jugado vs"+ actaPartido.getEquipoValorador().getnombre(), 
+				nuevoAsiento(actaPartido.getEquipoValorado(), temporadaSiguiente, "Ingresos victoria vs"+ actaPartido.getEquipoValorador().getnombre(), 
 						actaPartido.getEquipoValorado().getCompeticion().getActualDate(), actaPartido.getPartido().isPlayoff() ? actaPartido.getEquipoValorado().getArquetipoElegido().getIngresoPartidoGanadoPO() : actaPartido.getEquipoValorado().getArquetipoElegido().getIngresoPartidoGanadoRS());				
 			}
 			
-			if (!actaPartido.getPartido().isPlayoff()){
-				ingresarObjetivosTemporadaRegular(actaPartido.getEquipoValorador());
-				ingresarObjetivosTemporadaRegular(actaPartido.getEquipoValorado());
-			}
+//			if (!actaPartido.getPartido().isPlayoff()){
+//				ingresarObjetivosTemporadaRegular(actaPartido.getEquipoValorador());
+//				ingresarObjetivosTemporadaRegular(actaPartido.getEquipoValorado());
+//			}
 			
 			
 		}
 		
-
-		
 	}
 	
 	@Async
+	@Override
 	public void ingresarObjetivosTemporadaRegular(final Equipo equipo){
 		
 		final Temporada temporadaSiguiente = this.seasonservice.getTemporadaSiguienteCompeticion(equipo.getCompeticion());
@@ -124,12 +130,12 @@ public class finanzasServiceImpl implements finanzasService{
 		
 		final ArquetipoEquipo arquetipo = equipo.getArquetipoElegido();
 		
-		if (balance.getNumeroVictorias().shortValue()==arquetipo.getNumPartidosGanadosObjetivo1()){
+		if (balance.getNumeroVictorias().shortValue()>=arquetipo.getNumPartidosGanadosObjetivo1()){
 			if (arquetipo.getIngresoObjetivo1().compareTo(BigDecimal.ZERO)>0){
 				nuevoAsiento(equipo, temporadaSiguiente, "Ingresos Objetivo 1", equipo.getCompeticion().getActualDate(), arquetipo.getIngresoObjetivo1());								
 			}
 		}
-		if (balance.getNumeroVictorias().shortValue()==arquetipo.getNumPartidosGanadosObjetivo2()){
+		if (balance.getNumeroVictorias().shortValue()>=arquetipo.getNumPartidosGanadosObjetivo2()){
 			if (arquetipo.getIngresoObjetivo2().compareTo(BigDecimal.ZERO)>0){
 				nuevoAsiento(equipo, temporadaSiguiente, "Ingresos Objetivo 2", equipo.getCompeticion().getActualDate(), arquetipo.getIngresoObjetivo2());								
 			}
@@ -140,50 +146,52 @@ public class finanzasServiceImpl implements finanzasService{
 	@Override
 	public void ingresarObjetivosPlayOffs(final Equipo equipo){
 		
-		final Temporada temporadaSiguiente = this.seasonservice.getTemporadaSiguienteCompeticion(equipo.getCompeticion());
-		if (temporadaSiguiente==null){
-			return;
-		}	
+		//TODO: Hacer manualmente
 		
-		final ResumenBalance balance = this.actapartidoservice.findBalanceEquipo(equipo.getIdEquipo(), equipo.getCompeticion().getIdTemporadaActual(), true);
-		final ArquetipoEquipo arquetipo = equipo.getArquetipoElegido();
-		//Si se clasificó
-		if ((balance.getNumeroVictorias().shortValue()>0) || (balance.getNumeroDerrotas().shortValue()>0)){
-			if (arquetipo.getIngresoClasificacionPO().compareTo(BigDecimal.ZERO)>0){
-				nuevoAsiento(equipo, temporadaSiguiente, "Ingresos Clasificación PlayOffs", equipo.getCompeticion().getActualDate(), arquetipo.getIngresoClasificacionPO());
-			}
-			
-			if (arquetipo.getIngresoRondasPOGanadas().compareTo(BigDecimal.ZERO)>0){
-								
-				
-				if (balance.getNumeroVictorias().shortValue()>=2){
-					nuevoAsiento(equipo, temporadaSiguiente, "Ingresos ganar ronda de PlayOff", equipo.getCompeticion().getActualDate(), arquetipo.getIngresoRondasPOGanadas());
-					if (arquetipo.getIdArquetipo()==4){
-						nuevoAsiento(equipo, temporadaSiguiente, "Ingresos Objetivo pasar 1ª ronda", equipo.getCompeticion().getActualDate(), arquetipo.getIngresoObjetivo3());
-					}
-
-				}
-				if (balance.getNumeroVictorias().shortValue()>=5){
-					nuevoAsiento(equipo, temporadaSiguiente, "Ingresos ganar ronda de PlayOff", equipo.getCompeticion().getActualDate(), arquetipo.getIngresoRondasPOGanadas());
-					if (arquetipo.getIdArquetipo()==4){
-						nuevoAsiento(equipo, temporadaSiguiente, "Ingresos Objetivo pasar a final de conferencia", equipo.getCompeticion().getActualDate(), new BigDecimal(18000000));
-					}
-					
-				}
-				if (balance.getNumeroVictorias().shortValue()>=8){
-					nuevoAsiento(equipo, temporadaSiguiente, "Ingresos ganar ronda de PlayOff", equipo.getCompeticion().getActualDate(), arquetipo.getIngresoRondasPOGanadas());
-				}
-				if (balance.getNumeroVictorias().shortValue()>=11){
-					nuevoAsiento(equipo, temporadaSiguiente, "Ingresos ganar ronda de PlayOff", equipo.getCompeticion().getActualDate(), arquetipo.getIngresoRondasPOGanadas());
-					if (arquetipo.getIdArquetipo()==4){
-						nuevoAsiento(equipo, temporadaSiguiente, "Ingresos campeón", equipo.getCompeticion().getActualDate(), arquetipo.getIngresoCampeon());
-					}
-
-				}
-				
-			}
-			
-		}
+//		final Temporada temporadaSiguiente = this.seasonservice.getTemporadaSiguienteCompeticion(equipo.getCompeticion());
+//		if (temporadaSiguiente==null){
+//			return;
+//		}	
+//		
+//		final ResumenBalance balance = this.actapartidoservice.findBalanceEquipo(equipo.getIdEquipo(), equipo.getCompeticion().getIdTemporadaActual(), true);
+//		final ArquetipoEquipo arquetipo = equipo.getArquetipoElegido();
+//		//Si se clasificó
+//		if ((balance.getNumeroVictorias().shortValue()>0) || (balance.getNumeroDerrotas().shortValue()>0)){
+//			if (arquetipo.getIngresoClasificacionPO().compareTo(BigDecimal.ZERO)>0){
+//				nuevoAsiento(equipo, temporadaSiguiente, "Ingresos Clasificación PlayOffs", equipo.getCompeticion().getActualDate(), arquetipo.getIngresoClasificacionPO());
+//			}
+//			
+//			if (arquetipo.getIngresoRondasPOGanadas().compareTo(BigDecimal.ZERO)>0){
+//								
+//				
+//				if (balance.getNumeroVictorias().shortValue()>=2){
+//					nuevoAsiento(equipo, temporadaSiguiente, "Ingresos ganar ronda de PlayOff", equipo.getCompeticion().getActualDate(), arquetipo.getIngresoRondasPOGanadas());
+//					if (arquetipo.getIdArquetipo()==4){
+//						nuevoAsiento(equipo, temporadaSiguiente, "Ingresos Objetivo pasar 1ª ronda", equipo.getCompeticion().getActualDate(), arquetipo.getIngresoObjetivo3());
+//					}
+//
+//				}
+//				if (balance.getNumeroVictorias().shortValue()>=5){
+//					nuevoAsiento(equipo, temporadaSiguiente, "Ingresos ganar ronda de PlayOff", equipo.getCompeticion().getActualDate(), arquetipo.getIngresoRondasPOGanadas());
+//					if (arquetipo.getIdArquetipo()==4){
+//						nuevoAsiento(equipo, temporadaSiguiente, "Ingresos Objetivo pasar a final de conferencia", equipo.getCompeticion().getActualDate(), new BigDecimal(18000000));
+//					}
+//					
+//				}
+//				if (balance.getNumeroVictorias().shortValue()>=8){
+//					nuevoAsiento(equipo, temporadaSiguiente, "Ingresos ganar ronda de PlayOff", equipo.getCompeticion().getActualDate(), arquetipo.getIngresoRondasPOGanadas());
+//				}
+//				if (balance.getNumeroVictorias().shortValue()>=11){
+//					nuevoAsiento(equipo, temporadaSiguiente, "Ingresos ganar ronda de PlayOff", equipo.getCompeticion().getActualDate(), arquetipo.getIngresoRondasPOGanadas());
+//					if (arquetipo.getIdArquetipo()==4){
+//						nuevoAsiento(equipo, temporadaSiguiente, "Ingresos campeón", equipo.getCompeticion().getActualDate(), arquetipo.getIngresoCampeon());
+//					}
+//
+//				}
+//				
+//			}
+//			
+//		}
 		
 		
 	}
@@ -209,6 +217,7 @@ public class finanzasServiceImpl implements finanzasService{
 		actualizarPresupuestoEquipo(equipo, isTemporadaActual);
 	}
 	
+	@Override
 	public void actualizarPresupuestoEquipo(Equipo e, final boolean isTemporadaActual){
 		
 		Temporada t = isTemporadaActual ? this.seasonservice.getTemporadaActualCompeticion(e.getCompeticion()) : this.seasonservice.getTemporadaSiguienteCompeticion(e.getCompeticion());			
@@ -220,9 +229,7 @@ public class finanzasServiceImpl implements finanzasService{
 		}
 		else {
 			e.setPresupuestoProximaTemporada(balance);
-		}
-
-		
+		}		
 	}
 	
 	@Override
@@ -232,7 +239,7 @@ public class finanzasServiceImpl implements finanzasService{
 	
 	@Override
 	public void hacerBalanceTemporadaCompeticion(Competicion c){
-		for (Equipo equipo : c.getListaEquipos()){
+		for (Equipo equipo : c.getListaEquipos()){		
 			hacerBalanceEquipo(equipo);
 		}
 	}
@@ -255,6 +262,11 @@ public class finanzasServiceImpl implements finanzasService{
 		BigDecimal resultado = balance.subtract(sumaSalarial);
 		
 		e.setPresupuestoActual(BigDecimal.ZERO);
+		
+		if (resultado.compareTo(BigDecimal.ZERO)>0){
+			resultado = resultado.divide(new BigDecimal(2));
+		}
+		
 		e.setPresupuestoProximaTemporada( e.getPresupuestoProximaTemporada().add(resultado));
 		this.equipodao.update(e);
 		
@@ -272,6 +284,15 @@ public class finanzasServiceImpl implements finanzasService{
 	@Override
 	public List<AsientoDto> getListaAsientosEquipoTemporada(long idEquipo, long idTemporada){
 		return this.asientodao.findAsientosByEquipoTemporada(idEquipo, idTemporada);
+	}
+	
+	@Override
+	public void setPaqueteIngresos(Equipo e, long idPaqueteIngresos) throws InstanceNotFoundException{
+		final ArquetipoEquipo arquetipo = this.arquetipodao.find(idPaqueteIngresos);
+		e.setArquetipoElegido(arquetipo);
+		
+		this.equipodao.update(e);
+		
 	}
 	
 	

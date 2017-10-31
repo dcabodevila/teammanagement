@@ -10,15 +10,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
-<script type='text/javascript' src='<c:url value="/resources/js/jquery-3.1.0.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/bootstrap.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/bootcards.min.js"/>'></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/bootcards.min.js"/></script>
 
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootstrap.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-desktop.min.css" context="/teammanagement"/>">
-<%-- <link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-ios.min.css" context="/teammanagement"/>"> --%>
-<%-- <link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-demo.css" context="/teammanagement"/>"> --%>
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/font-awesome.min.css" context="/teammanagement"/>">
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-desktop.min.css"/>
+<%-- <link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-ios.min.css"/> --%>
+<%-- <link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-demo.css"/> --%>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css"/>
 
 <c:url value="/" var="homeUrl"/>
   
@@ -40,7 +40,7 @@
       <button type="button" class="btn btn-default btn-menu navbar-left pull-left offCanvasToggle" data-toggle="offcanvas">
         <i class="fa fa-lg fa-bars"></i><span>Menu</span>
       </button>       
-	  <a class="navbar-brand no-break-out"  title="TeamManager" href="${homeUrl}">TeamManager</a>
+	  <a class="navbar-brand no-break-out"  title="TeamManagement" href="${homeUrl}">TeamManagement</a>
     </div>
 	
     <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
@@ -55,8 +55,8 @@
     </div>
   </div>
 </nav>
-<script type='text/javascript' src='<c:url value="/resources/js/fastclick.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/raphael-min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/morris.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/bootstrap.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/bootcards.min.js"/>'></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/fastclick.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/raphael-min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/morris.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/bootcards.min.js"/></script>

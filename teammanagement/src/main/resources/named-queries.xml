@@ -47,7 +47,7 @@
 	            jugadordef0_.cache as 'cache'  
 	         from  
 	            jugadordefault jugadordef0_   
-	         inner join  
+	         left join  
 	            equipodefault equipodefa1_   
 	               on jugadordef0_.idEquipoDefault=equipodefa1_.idEquipo  
 			 left join  
@@ -119,7 +119,7 @@
 	            jugadordef0_.cache as 'cache'   
 	         from  
 	            jugadordefault jugadordef0_   
-	         inner join  
+	         left join  
 	            equipodefault equipodefa1_   
 	               on jugadordef0_.idEquipoDefault=equipodefa1_.idEquipo  
 			 left join  
@@ -138,12 +138,14 @@
 	    <return-scalar column="nombreCompeticion" type="string"/>
 	    <return-scalar column="estadoCompeticion" type="short"/>
 	    <return-scalar column="idEquipo" type="long"/>
+	    <return-scalar column="mercadoAbierto" type="boolean"/>
 		<![CDATA[
 			SELECT 
 				c.idCompeticion as "idCompeticion",  
 			    c.nombre as "nombreCompeticion",
 			    c.idTipoEstado as "estadoCompeticion",
-			    e.idEquipo as "idEquipo"
+			    e.idEquipo as "idEquipo",
+			    c.mercadoAbierto as "mercadoAbierto"
 			FROM 	
 				 competicion c
 			    inner join equipo e     
@@ -236,8 +238,6 @@
 	            jugador jugador0_   
 			inner join jugadordefault jd
 				on jugador0_.idJugadorOriginal = jd.idJugadorDefault
-			inner join equipodefault ed
-				on jd.idEquipoDefault = ed.idEquipo
 			inner join contrato c
 				on (jugador0_.idContrato = c.idContrato AND (c.firmado or c.pendiente))
 			inner join competicion com
@@ -247,7 +247,9 @@
 			inner join lineacontrato lcSalario 
 				on (lcSalario.idContrato = c.idContrato AND lcSalario.idTemporada = com.idTemporadaActual)
 			inner join equipo e
-				on jugador0_.idEquipo = e.idEquipo   
+				on jugador0_.idEquipo = e.idEquipo
+			left join equipodefault ed
+				on jd.idEquipoDefault = ed.idEquipo				   
 			 left join  
 				posicion p1  
 					on p1.idPosicion=jugador0_.pos1  
@@ -283,6 +285,7 @@
 	    <return-scalar column="idJugador" type="long"/>
 	    <return-scalar column="equipoOriginal" type="string"/>
 	    <return-scalar column="nombre" type="string"/>
+	    <return-scalar column="idEquipo" type="long"/>
 	    <return-scalar column="logoEquipoOriginal" type="string"/>
 	    <return-scalar column="edad" type="integer"/>
 	    <return-scalar column="imagen" type="string"/>
@@ -300,7 +303,8 @@
 	    <return-scalar column="pendiente" type="boolean"/>
 		<![CDATA[
 				 SELECT 
-	             jugador0_.idJugador as 'idJugador', 
+	             jugador0_.idJugador as 'idJugador',
+	             e.idEquipo as 'idEquipo', 
 	             ed.nombreEquipo as 'equipoOriginal', 
 	             ed.logo as 'logoEquipoOriginal',
 	             YEAR(CURRENT_TIMESTAMP) - YEAR(jugador0_.fechaNacimiento) - (RIGHT(CURRENT_TIMESTAMP, 5) < RIGHT(jugador0_.fechaNacimiento, 5)) as 'edad',  
@@ -322,8 +326,6 @@
 	            jugador jugador0_   
 			inner join jugadordefault jd
 				on jugador0_.idJugadorOriginal = jd.idJugadorDefault
-			inner join equipodefault ed
-				on jd.idEquipoDefault = ed.idEquipo
 			inner join contrato c
 				on (jugador0_.idContrato = c.idContrato AND (c.firmado OR c.pendiente))
 			inner join competicion com
@@ -333,7 +335,9 @@
 			inner join lineacontrato lcSalario 
 				on (lcSalario.idContrato = c.idContrato AND lcSalario.idTemporada = com.idTemporadaActual)
 			inner join equipo e
-				on jugador0_.idEquipo = e.idEquipo   
+				on jugador0_.idEquipo = e.idEquipo
+			left join equipodefault ed
+				on jd.idEquipoDefault = ed.idEquipo				   
 			 left join  
 				posicion p1  
 					on p1.idPosicion=jugador0_.pos1  
@@ -358,7 +362,8 @@
 	            jugador0_.yearsPro,
 	            jugador0_.cache,
 	            c.idContrato,
-	            c.pendiente 		 
+	            c.pendiente,
+	            e.idEquipo 		 
 		]]>
 
 	</sql-query>
@@ -636,7 +641,16 @@
 
 	</sql-query>	
 	
+	<sql-query name="UPDATE_CACHE_AGENTES_LIBRES_COMPETITION">
+		<![CDATA[		
+			UPDATE teammanagement.jugador j 
+				inner join competicion c 
+					on j.idCompeticion = c.idCompeticion 
+			SET cache =(cache*0.98) 
+			where j.idEquipo is null and c.idCompeticion=:idCompeticion and c.mercadoAbierto;		
+		]]>
 
+	</sql-query>	
 	<sql-query name="FIND_FREE_AGENTS_BY_COMPETITION">
 	    <return-scalar column="idJugador" type="long"/>
 	    <return-scalar column="equipoOriginal" type="string"/>
@@ -677,10 +691,10 @@
 	            jugador jugador0_   
 			inner join jugadordefault jd
 				on jugador0_.idJugadorOriginal = jd.idJugadorDefault
-			inner join equipodefault ed
-				on jd.idEquipoDefault = ed.idEquipo
 			inner join competicion com
-				on jugador0_.idCompeticion = com.idCompeticion                
+				on jugador0_.idCompeticion = com.idCompeticion
+			left join equipodefault ed
+				on jd.idEquipoDefault = ed.idEquipo				                
 			 left join  
 				posicion p1  
 					on p1.idPosicion=jugador0_.pos1  
@@ -708,6 +722,7 @@
 	    <return-scalar column="loyaltyInterest" type="integer"/>
 	    <return-scalar column="media" type="integer"/>
 	    <return-scalar column="moneyInterest" type="integer"/>
+	    <return-scalar column="winningInterest" type="integer"/>
 	    <return-scalar column="posicion1" type="string"/>
 	    <return-scalar column="posicion2" type="string"/>
 	    <return-scalar column="contractYears" type="integer"/>
@@ -738,10 +753,10 @@
 	            jugador jugador0_   
 			inner join jugadordefault jd
 				on jugador0_.idJugadorOriginal = jd.idJugadorDefault
-			inner join equipodefault ed
-				on jd.idEquipoDefault = ed.idEquipo
 			inner join competicion com
-				on jugador0_.idCompeticion = com.idCompeticion                
+				on jugador0_.idCompeticion = com.idCompeticion
+			left join equipodefault ed
+				on jd.idEquipoDefault = ed.idEquipo				                
 			 left join  
 				posicion p1  
 					on p1.idPosicion=jugador0_.pos1  
@@ -834,6 +849,53 @@
 			    ar.ingresoCampeon as "ingresoCampeon"
 			FROM arquetipoEquipo ar
 			WHERE ar.idCompeticion = :idCompeticion
+			ORDER BY idArquetipo	
+		]]>
+
+	</sql-query>
+	
+		<sql-query name="FIND_ARQUETIPOS_BY_ID">
+		<return-scalar column="idArquetipo" type="long"/>
+		<return-scalar column="nombre" type="string"/>
+		<return-scalar column="descripcion" type="string"/>
+		<return-scalar column="idCompeticion" type="long"/>
+		<return-scalar column="activo" type="boolean"/>		
+	    <return-scalar column="ingresoFijo" type="big_decimal"/>
+	    <return-scalar column="ingresoPartidoJugadoRS" type="big_decimal"/>
+	    <return-scalar column="ingresoPartidoGanadoRS" type="big_decimal"/>
+	    <return-scalar column="ingresoClasificacionPO" type="big_decimal"/>
+	    <return-scalar column="ingresoPartidoJugadoPO" type="big_decimal"/>
+	    <return-scalar column="ingresoPartidoGanadoPO" type="big_decimal"/>
+	    <return-scalar column="ingresoRondasPOGanadas" type="big_decimal"/>
+	    <return-scalar column="numPartidosGanadosObjetivo1" type="short"/>
+	    <return-scalar column="numPartidosGanadosObjetivo2" type="short"/>
+	    <return-scalar column="numRondasGanadasObjetivo3" type="short"/>
+	    <return-scalar column="ingresoObjetivo1" type="big_decimal"/>
+	    <return-scalar column="ingresoObjetivo2" type="big_decimal"/>
+	    <return-scalar column="ingresoObjetivo3" type="big_decimal"/>
+	    <return-scalar column="ingresoCampeon" type="big_decimal"/>
+		<![CDATA[		
+			SELECT ar.idArquetipo as "idArquetipo",
+				ar.nombre as "nombre",
+			    ar.descripcion as "descripcion",
+			    ar.idCompeticion as "idCompeticion",
+			    ar.activo as "activo",
+			    ar.ingresoFijo as "ingresoFijo",
+			    ar.ingresoPartidoJugadoRS as "ingresoPartidoJugadoRS",
+			    ar.ingresoPartidoGanadoRS as "ingresoPartidoGanadoRS",
+			    ar.ingresoClasificacionPO as "ingresoClasificacionPO",
+			    ar.ingresoPartidoJugadoPO as "ingresoPartidoJugadoPO",
+			    ar.ingresoPartidoGanadoPO as "ingresoPartidoGanadoPO",
+			    ar.ingresoRondasPOGanadas as "ingresoRondasPOGanadas",
+			    ar.numPartidosGanadosObjetivo1 as "numPartidosGanadosObjetivo1",
+			    ar.numPartidosGanadosObjetivo2 as "numPartidosGanadosObjetivo2",
+			    ar.numRondasGanadasObjetivo3 as "numRondasGanadasObjetivo3",
+			    ar.ingresoObjetivo1 as "ingresoObjetivo1",
+			    ar.ingresoObjetivo2 as "ingresoObjetivo2",
+			    ar.ingresoObjetivo3 as "ingresoObjetivo3",
+			    ar.ingresoCampeon as "ingresoCampeon"
+			FROM arquetipoEquipo ar
+			WHERE ar.idArquetipo = :idArquetipo
 			ORDER BY idArquetipo	
 		]]>
 

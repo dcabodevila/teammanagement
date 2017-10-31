@@ -56,11 +56,11 @@ public interface competitionService {
 	public Competicion createCompetitionWithoutTeams(String nombre, String web, long idAdmin, Date startDate, Date finishDate, BigDecimal salaryCap, BigDecimal salaryTop) throws DuplicateInstanceException, InstanceNotFoundException;	
 	Equipo teamDefaultRegister(EquipoDefault equipoDefault, long idCompeticion) throws InstanceNotFoundException;
 	List<EquipoDefault> getDefaultRemainingTeams(long idCompeticion) throws InstanceNotFoundException;
-	boolean actualizarEstadoCompeticionSegunCalendario(Competicion c);
 	MenuNavigationForm findMenuNavigationInfo(long idCompeticion, long idEquipo);
 	CompetitionForm findCompetitionInfo(long idCompeticion, long idEquipo);
 	Competicion createCompetition(String nombre, String web, long idAdmin, Date startDate, Date finishDate,
 			BigDecimal salaryCap, BigDecimal salaryTop) throws DuplicateInstanceException, InstanceNotFoundException;
+	boolean actualizarEstadoCompeticionSegunCalendario(long idCompeticion) throws InstanceNotFoundException;
 	
 
 }

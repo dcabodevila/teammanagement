@@ -12,11 +12,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<script type='text/javascript' src='<c:url value="/resources/js/jquery-3.1.0.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/jquery_news_ticker/includes/jquery.ticker.js"/>'></script>
-<link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/resources/jquery_news_ticker/styles/ticker-style.css" context="/teammanagement"/>">  
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/jquery_news_ticker/includes/jquery.ticker.js"/></script>
+<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/resources/jquery_news_ticker/styles/ticker-style.css"/>  
 
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/styles.css" context="/teammanagement"/>">  
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/styles.css"/>  
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
 
@@ -59,7 +59,7 @@ function loadClassification(response){
 		var clasificacion=response[i];
 
 		
-		$("#classification").append('<tr><td>'+count+'</td><td><div align=left class="teamLogoName"><ul><li><img src=<c:url value="/resources/images/'+clasificacion.image+'"/> height= "32" width="40"/></li><li>'+ clasificacion.nombreEquipo+'</li></ul></div></td><td width=120>'+clasificacion.nombreUsuario+'</td><td>'+clasificacion.victorias+'</td><td>'+clasificacion.derrotas+'</td></tr>');
+		$("#classification").append('<tr><td>'+count+'</td><td><div align=left class="teamLogoName"><ul><li><img src="${pageContext.request.contextPath}/images/'+clasificacion.image+'"/> height= "32" width="40"/></li><li>'+ clasificacion.nombreEquipo+'</li></ul></div></td><td width=120>'+clasificacion.nombreUsuario+'</td><td>'+clasificacion.victorias+'</td><td>'+clasificacion.derrotas+'</td></tr>');
 
 		count = count+1;
 	}

@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+import es.ligasnba.app.model.competicion.Competicion;
 import es.ligasnba.app.model.equipo.Equipo;
 
 @Entity
@@ -23,8 +24,12 @@ public class Noticia {
 
 	private long idNoticia;
 	private Equipo equipo;
+	private Competicion competicion;
 	private String texto;
 	private Date fecha;
+	private boolean mensajeNuevo;
+	private boolean notificar;
+	
 	
 	public Noticia() {
 	
@@ -75,6 +80,28 @@ public class Noticia {
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+    @ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="idCompeticion")
+	public Competicion getCompeticion() {
+		return competicion;
+	}
+	public void setCompeticion(Competicion competicion) {
+		this.competicion = competicion;
+	}
+	@Column(name="mensajeNuevo")
+	public boolean isMensajeNuevo() {
+		return mensajeNuevo;
+	}
+	public void setMensajeNuevo(boolean mensajeNuevo) {
+		this.mensajeNuevo = mensajeNuevo;
+	}
+	@Column(name="notificar")
+	public boolean isNotificar() {
+		return notificar;
+	}
+	public void setNotificar(boolean notificar) {
+		this.notificar = notificar;
 	}
 	
 }

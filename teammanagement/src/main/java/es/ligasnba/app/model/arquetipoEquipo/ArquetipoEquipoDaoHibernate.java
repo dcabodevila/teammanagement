@@ -26,4 +26,19 @@ public class ArquetipoEquipoDaoHibernate extends GenericDaoHibernate<ArquetipoEq
 
 	}
 	
+	@Override
+	public ArquetipoEquipoDto findArquetiposActivosById(long idArquetipo){		 
+
+		@SuppressWarnings("unchecked")
+		ArquetipoEquipoDto arquetipo = (ArquetipoEquipoDto) ((SQLQuery) getSession().getNamedQuery("FIND_ARQUETIPOS_BY_ID").setParameter("idArquetipo", idArquetipo))
+				.setResultTransformer( Transformers.aliasToBean(ArquetipoEquipoDto.class)).uniqueResult();
+		if (arquetipo==null) {
+			return new ArquetipoEquipoDto();
+		}
+		return arquetipo;
+
+	}
+	
+	
+	
 }

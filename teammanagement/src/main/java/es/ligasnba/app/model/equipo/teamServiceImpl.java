@@ -29,6 +29,7 @@ import es.ligasnba.app.model.traspaso.Traspaso;
 import es.ligasnba.app.model.traspaso.TraspasoDao;
 import es.ligasnba.app.model.usuario.Usuario;
 import es.ligasnba.app.model.usuario.UsuarioDao;
+import es.ligasnba.app.model.util.CommonFunctions;
 
 
 
@@ -348,5 +349,24 @@ public class teamServiceImpl implements teamService{
 	public List<EquipoSeleccionDto> findAllEquiposFromCompetition(long idCompeticion){
 		return this.equipodao.findAllEquiposFromCompetition(idCompeticion);
 	}
+	
+	@Override
+	public boolean isPermitidoRenovarJugadores(Competicion com){
+		int numDiasToPostSeason = CommonFunctions.daysBetween(com.getActualDate(), com.getOffSeasonStartDate());
+		
+		if ((numDiasToPostSeason>0) && (numDiasToPostSeason<=7)){
+			return true;
+		}
+		
+		return false;
+		
+	}
+	@Override
+	public boolean isMercadoAbierto(Competicion com){
+		
+		return (!com.getActualDate().after(com.getFechaCierreMercado()));
+		
+	}
+	
 
 }

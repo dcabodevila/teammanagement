@@ -36,4 +36,5 @@ public interface matchService {
 	BigDecimal getValoracionesRealizadasManager(Long idUsuario);
 	BigDecimal getValoracionEquipo(long idEquipo, int valoracionWinning);
 	BigDecimal getValoracionLoyaltyUsuario(Long idUsuario, int loyaltyInterest);
+	List<Partido> getPartidosPendientesEquipo(long idEquipo);
 }

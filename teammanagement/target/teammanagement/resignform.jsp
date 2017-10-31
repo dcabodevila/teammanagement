@@ -8,15 +8,15 @@
 
 <head>
 
-	<link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/resources/css/cupertino/jquery-ui-1.10.3.custom.css" context="/teammanagement"/>">
-	<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/Animate.css" context="/teammanagement"/>">
-	<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootstrap.min.css" context="/teammanagement"/>">  
-	<script type='text/javascript' src='<c:url value="/resources/js/jquery-3.1.0.min.js"/>'></script>
-	<script type='text/javascript' src='<c:url value="/resources/js/jquery-ui.js"/>'></script>
-	<script type='text/javascript' src='<c:url value="/resources/js/jquery.ui.touch-punch.min.js"/>'></script>
-	<script type='text/javascript' src='<c:url value="/resources/js/jquery.number.min.js"/>'></script>
-	<script type='text/javascript' src='<c:url value="/resources/bootstrap-notify-master/bootstrap-notify.min.js"/>'></script>
-	<script type='text/javascript' src='<c:url value="/resources/js/bootstrap.min.js"/>'></script>
+	<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/resources/css/cupertino/jquery-ui-1.10.3.custom.css"/>
+	<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/Animate.css"/>
+	<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"/>  
+	<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"/></script>
+	<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery-ui.js"/></script>
+	<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery.ui.touch-punch.min.js"/></script>
+	<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery.number.min.js"/></script>
+	<script type='text/javascript' src="${pageContext.request.contextPath}/resources/bootstrap-notify-master/bootstrap-notify.min.js"/></script>
+	<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"/></script>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
@@ -189,7 +189,7 @@ $( document ).ready(function() {
  }
  
  function showTipoOfertaInfoEconomica(idTipoOferta){
-	 if ((idTipoOferta==1) || (idTipoOferta==4)){
+	 if ((idTipoOferta==1)){
 		$('#espacioSalarialDiv').removeClass("visible");
 		$('#espacioSalarialDiv').addClass("hidden");
 		$('#buttonSignAndTrade').addClass("hidden");
@@ -203,7 +203,8 @@ $( document ).ready(function() {
 			
 			$('#presupuestoRestanteDiv').removeClass("visible");
 			$('#presupuestoRestanteDiv').addClass("hidden");
-			$('#buttonSignAndTrade').addClass("hidden");
+			$('#buttonSignAndTrade').removeClass("hidden");
+			$('#buttonSignAndTrade').addClass("visible");
 			
 	 }	 
 	 if (idTipoOferta==3){
@@ -227,6 +228,18 @@ $( document ).ready(function() {
 			$('#tablaPlantillaDiv').removeClass("hidden");
 			$('#tablaPlantillaDiv').addClass("visible");
 			
+	 }
+	 if (idTipoOferta==4) {
+			$('#espacioSalarialDiv').removeClass("hidden");
+			$('#espacioSalarialDiv').addClass("visible");
+		 
+			$('#presupuestoTotalDiv').removeClass("visible");
+			$('#presupuestoTotalDiv').addClass("hidden");
+			
+			$('#presupuestoRestanteDiv').removeClass("visible");
+			$('#presupuestoRestanteDiv').addClass("hidden");
+			$('#buttonSignAndTrade').removeClass("visible");
+			$('#buttonSignAndTrade').addClass("hidden");
 	 }
 	 
  }
@@ -351,7 +364,7 @@ $( document ).ready(function() {
 			
 		
 				<div class="form-group">
-					<img id="fotoJugador" class="img-responsive center-block" src="<c:url value='/resources/images/players/${contractData.imagen}'/>" height= "150" width="200"/>
+					<img id="fotoJugador" class="img-responsive center-block" src="${pageContext.request.contextPath}/resources/images/players/${contractData.imagen}" height= "150" width="200"/>
 				</div>
 				<div class="form-group">
 					<label class="col-xs-4 control-label">Nombre</label>

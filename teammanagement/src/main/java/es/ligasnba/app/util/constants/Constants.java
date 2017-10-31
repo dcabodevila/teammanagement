@@ -9,8 +9,8 @@ public interface Constants {
 	public static final int cMinTeamsInCompetition = 0;
 	public static final int cMaxTeamsInCompetition = 30;	
 	
-	public static final int cMinPlayersByTeam = 0;
-	public static final int cMaxPlayersByTeam = 13;
+	public static final int cMinPlayersByTeam = 14;
+	public static final int cMaxPlayersByTeam = 16;
 	public static final int cMinCompetitionsByUser = 0;
 	public static final int cMaxCompetitionsByUser = cMaxTeamsByUser;
 	public static final int cMaxSeasonsPerCompetition = 3;
@@ -128,14 +128,17 @@ public interface Constants {
 	
 	
 	//Dominio
-	public static final String cDomainName = "http://localhost:9090";
+	public static final String cDomainName = "http://77.27.51.210:8080";
 	
 	
 	//Contratos
 		
-	public static final BigDecimal cDefaultDificultadContratoSeason = new BigDecimal(7);
+	public static final BigDecimal cDefaultDificultadContratoSeason = new BigDecimal(6.5);
 	public static final BigDecimal cDefaultDificultadContratoPostSeason = new BigDecimal(6);
-	public static final BigDecimal cDefaultDificultadContratoFA = new BigDecimal(4);
+	public static final BigDecimal cDefaultDificultadContratoFA = new BigDecimal(5);
+	
+	//Valoraciones
+	public static final BigDecimal cNotaSueloValoraciones = new BigDecimal(2.5); 
 	
 		
 }

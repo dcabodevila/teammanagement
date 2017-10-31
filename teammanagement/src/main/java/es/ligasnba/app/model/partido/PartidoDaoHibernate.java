@@ -161,6 +161,19 @@ public class PartidoDaoHibernate extends GenericDaoHibernate<Partido,Long> imple
 				.setResultTransformer( Transformers.aliasToBean(MatchData.class))).uniqueResult();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Partido> getPartidosPendientesEquipo(long idEquipo){
+		
+		//TODO: Revisar
+		List<Partido> lc =(List<Partido>) (getSession().createQuery("SELECT p FROM Partido p, Equipo e WHERE (p.equipoVisitante = e OR p.equipoLocal = e) AND e.idEquipo=:idEquipo AND (p.validado is null or p.validado=false) ").setParameter("idEquipo", idEquipo)).list();
+		
+		if (lc==null) 
+			return new ArrayList<Partido>();
+		else 
+			return lc;
+	}
+	
 //	@SuppressWarnings("unchecked")
 //	public List<Partido> findByTeamId(long teamId, int startindex, int count) throws InstanceNotFoundException {
 //		

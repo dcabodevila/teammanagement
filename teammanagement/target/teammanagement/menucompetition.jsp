@@ -9,11 +9,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
-<script type='text/javascript' src='<c:url value="/resources/js/jquery-3.1.0.min.js"/>'></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"/></script>
 
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootstrap.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-desktop.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/font-awesome.min.css" context="/teammanagement"/>">
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-desktop.min.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css"/>
 
 <c:url value="/" var="homeUrl"/>
   
@@ -27,7 +27,6 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-<!-- 	  <button type="button" class="btn btn-primary visible-xs-block visible-sm-block" onclick="history.back()">Atras</button>       -->
       <button type="button" id="botonAtras" onClick="mostarLista()" class="hidden" style="margin-top:10;margin-left:5;">
         Atrás
       </button>
@@ -35,7 +34,7 @@
       <button type="button" class="btn btn-default btn-menu navbar-left pull-left offCanvasToggle" data-toggle="offcanvas">
         <i class="fa fa-lg fa-bars"></i><span>Menu</span>
       </button>       
-	  <a class="navbar-brand no-break-out"  title="TeamManager" href="${homeUrl}">TeamManager</a>
+	  <a class="navbar-brand no-break-out"  title="TeamManagement" href="${homeUrl}">TeamManagement</a>
     </div>
 	
     <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
@@ -43,18 +42,19 @@
 		<c:if test="${menuNavigationForm.estadoCompeticion eq 5}">
 			<li><a href="/team/teamcreator/${menuNavigationForm.idEquipo}">Creador de plantilla</a></li>
 		</c:if>
-		<c:if test="${menuNavigationForm.estadoCompeticion eq 1}">
-			<li><a href="/team/seleccionPaquete/${menuNavigationForm.idEquipo}">Paquetes de ingresos</a></li>
+		<c:if test="${menuNavigationForm.estadoCompeticion eq 5}">
+			<li><a href="/finanzas/seleccionPaquete/${menuNavigationForm.idEquipo}">Paquetes de ingresos</a></li>
 		</c:if>
 		<c:if test="${menuNavigationForm.estadoCompeticion eq 4}">
 			<li><a href="/team/fa/${menuNavigationForm.idEquipo}">Próximos FA</a></li>
 		</c:if>		
 		<li><a href="/team/${menuNavigationForm.idEquipo}">Plantilla</a></li>
 		<li><a href="/games/${menuNavigationForm.idEquipo}">Partidos</a></li>
+		<c:if test="${menuNavigationForm.mercadoAbierto}">
 	    <li>	    	   
 	      <a href="/market/${menuNavigationForm.idEquipo}/trades">Traspasos</a>
 	    </li>
-		<li><a href="/market/freeagents/${menuNavigationForm.idCompeticion}">Agentes Libres</a></li>	    
+	    </c:if>	  
 		<li><a href="/contracts/${menuNavigationForm.idEquipo}">Contratos</a></li>
 		<li><a href="/finanzas/${menuNavigationForm.idEquipo}">Finanzas</a></li>
 <%-- 		<li><a href="/competition/${menuNavigationForm.idEquipo}/configuration">Ajustes</a></li> --%>
@@ -65,8 +65,8 @@
     </div>
   </div>
 </nav>
-<script type='text/javascript' src='<c:url value="/resources/js/bootstrap.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/bootcards.min.js"/>'></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/bootcards.min.js"/></script>
   <script type="text/javascript">
     //highlight first list group option (if non active yet)
     if ( $('.list-group a.active').length === 0 ) {

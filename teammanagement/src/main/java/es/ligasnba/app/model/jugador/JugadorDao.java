@@ -31,6 +31,7 @@ public interface JugadorDao extends GenericDao<Jugador,Long> {
 	List<PlayerData> findFreeAgentsByCompetition(long idCompeticion, String nombre);
 	PlayerData findFreeAgentDataById(long idJugador) throws InstanceNotFoundException;
 	List<Jugador> findJugadoresConContratosPospuestos(long idCompeticion);
+	void updateCacheAgentesLibres(long idCompeticion);
 
 
 }

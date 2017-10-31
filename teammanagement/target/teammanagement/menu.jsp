@@ -6,10 +6,10 @@
 <%@ taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions' %>
 <%@ page import="es.ligasnba.app.util.constants.Constants" %>
 
-<%-- <link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-ios.min.css" context="/teammanagement"/>"> --%>
-<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" context="/teammanagement"/>
-<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-desktop.min.css" context="/teammanagement"/>
-<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-demo.css" context="/teammanagement"/>
+<%-- <link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-ios.min.css" />"> --%>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-desktop.min.css" />
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-demo.css" />
  
 
 <c:url value="/" var="homeUrl"/>
@@ -30,7 +30,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand no-break-out"  title="TeamManager" href="${homeUrl}">TeamManager</a>
+      <a class="navbar-brand no-break-out"  title="TeamManagement" href="${homeUrl}">TeamManagement</a>
     </div>
 	
     <div class="navbar-collapse collapse">

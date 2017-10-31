@@ -22,6 +22,7 @@ public interface PartidoDao extends GenericDao<Partido,Long>{
 	public List<Partido> getRemainingMatchesByTeam(long idEquipo, int startindex,int count) throws InstanceNotFoundException;
 	List<MatchData> findGamesList(String busqueda, long idEquipo, boolean isValidado);
 	MatchData findGamesDataByIdPartido(long idEquipo,long idPartido);
+	List<Partido> getPartidosPendientesEquipo(long idEquipo);
 	
 	
 

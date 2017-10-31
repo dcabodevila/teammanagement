@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import es.ligasnba.app.model.equipo.Equipo;
@@ -79,7 +80,6 @@ public class competitionServiceImpl implements competitionService{
 	private ContractService contractservice;
 	@Autowired
 	private finanzasService finanzasservice;
-
 	
 	public void setCompeticionDao(CompeticionDao c) {
 		competiciondao = c;
@@ -248,10 +248,6 @@ public class competitionServiceImpl implements competitionService{
 		Iterator<Temporada> temporadas = c.getListaTemporadas().iterator();
 		Temporada tsiguiente = (Temporada) temporadas.next();
 							
-
-			
-		
-		
 		
 		List<Contrato> listaContratos = contractservice.findExpiringContracts(idCompeticion);
 		
@@ -276,7 +272,7 @@ public class competitionServiceImpl implements competitionService{
 		c.setIdTemporadaActual( temporadas.next().getIdTemporada());
 		
 		setNewDates(c);
-					
+		resetVariablesEquipos(c);
 		//Generamos el calendario de la temporada siguiente:
 		
 		matchservice.generateCalendar(idCompeticion, c.getIdTemporadaActual());
@@ -285,21 +281,39 @@ public class competitionServiceImpl implements competitionService{
 		
 	}
 	
+	private void resetVariablesEquipos(Competicion c){
+		
+		for (Equipo equipo : c.getListaEquipos()){
+			equipo.setMidLevelExceptionUsed(false);
+			equipo.setPresupuestoActual(equipo.getPresupuestoProximaTemporada());
+			equipo.setPresupuestoProximaTemporada(BigDecimal.ZERO);
+		
+			this.equipodao.update(equipo);
+		}
+		
+	}
+	
 	private void setNewDates( Competicion c){
 		
-		Calendar newStartDate = Calendar.getInstance();
-		Calendar newFinishDate = Calendar.getInstance();
-		
-		newStartDate.setTime(c.getStartDate());
-		newFinishDate.setTime(c.getFinishDate());
-		
-		newStartDate.add(Calendar.YEAR, 1);
-		newFinishDate.add(Calendar.YEAR, 1);
-		
-		c.setActualDate(newStartDate.getTime());
-		c.setStartDate(newStartDate.getTime());
-		c.setFinishDate(newFinishDate.getTime());
-		
+		c.setActualDate(new Date());
+		c.setStartDate(new Date());
+
+		c.setEstado(Constants.cStateNotStarted);
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.DAY_OF_MONTH, 7);
+		c.setFechaComienzoRS(cal.getTime());
+		cal.add(Calendar.MONTH, 1);
+		c.setFechaCierreMercado(cal.getTime());		
+		cal.add(Calendar.MONTH, 1);
+		c.setFechaComienzoPO(cal.getTime());
+		cal.add(Calendar.MONTH, 1);
+		c.setOffSeasonStartDate(cal.getTime());
+		cal.add(Calendar.DAY_OF_MONTH, 7);
+		c.setOffSeasonFinishDate(cal.getTime());
+		cal.add(Calendar.DAY_OF_MONTH, 1);
+		c.setFinishDate(cal.getTime());
 		
 	}
 	
@@ -727,7 +741,6 @@ public class competitionServiceImpl implements competitionService{
 	}
 	@Override
 	public Equipo teamDefaultRegister(EquipoDefault equipoDefault, long idCompeticion) throws InstanceNotFoundException{		
-			
 		
 		Equipo e = new Equipo(equipoDefault.getnombre());
 						
@@ -736,10 +749,10 @@ public class competitionServiceImpl implements competitionService{
 		e.setDivision(equipoDefault.getDivision());
 		e.setIdEquipoOriginal(equipoDefault.getIdEquipo());
 		e.setPresupuestoProximaTemporada(Constants.cDefaultPresupuestoProximaTemporada);
-		equipodao.create(e);
 
+		equipodao.create(e);
 		addTeamToCompetition(e,idCompeticion);
-		
+		this.finanzasservice.setPaqueteIngresos(e, 1);		
 									
 		return e;
 		
@@ -885,8 +898,9 @@ public class competitionServiceImpl implements competitionService{
 	}
 	@Override
 	@Transactional
-	public boolean actualizarEstadoCompeticionSegunCalendario(Competicion c){
+	public boolean actualizarEstadoCompeticionSegunCalendario(long idCompeticion) throws InstanceNotFoundException{
 		boolean result = false;
+		Competicion c = this.competiciondao.find(idCompeticion);
 		final Date actualDate = CommonFunctions.getStartOfDay(c.getActualDate());
 		final Date startDate = CommonFunctions.getStartOfDay(c.getStartDate());
 		final Date finishDate = CommonFunctions.getStartOfDay(c.getFinishDate());
@@ -923,6 +937,12 @@ public class competitionServiceImpl implements competitionService{
 				c.setTipoEstadoCompeticion(estadoCompeticion);			
 			}
 			if ((c.getFechaComienzoPO()!=null) && (actualDate.compareTo(c.getFechaComienzoPO())>=0)){
+				
+				if (actualDate.compareTo(c.getFechaComienzoPO())==0){
+					simularPartidosPendientes(c);
+					
+				}
+				
 				final TipoEstadoCompeticion estadoCompeticion = new TipoEstadoCompeticion();
 				estadoCompeticion.setIdTipoEstadoCompeticion(Constants.cTipoEstadoCompeticionPlayOffs);
 				c.setTipoEstadoCompeticion(estadoCompeticion);
@@ -957,7 +977,29 @@ public class competitionServiceImpl implements competitionService{
 		return result;
 	}
 	
-
+	private void simularPartidosPendientes(Competicion c){
+		
+		for (Equipo e : c.getListaEquipos()){
+			List<Partido> listaPartidos = this.matchservice.getPartidosPendientesEquipo(e.getIdEquipo());
+			
+			for(Partido p : listaPartidos){
+				if ( CollectionUtils.isNotEmpty(p.getActasPartido())){
+					if (p.getActasPartido().size()==0){
+						//Se deja sin jugar
+					}
+					else if (p.getActasPartido().size()==1){
+						p.setValidado(true);
+						this.partidodao.update(p);
+						this.finanzasservice.ingresarPartido(p.getActasPartido().get(0));						
+					}
+				}
+			}
+			this.finanzasservice.ingresarObjetivosTemporadaRegular(e);	
+			
+		} 
+		
+		
+	}
 
 	
 	

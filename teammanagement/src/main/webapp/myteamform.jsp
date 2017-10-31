@@ -12,15 +12,15 @@
 <head>
 
 
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/styles-responsive.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootstrap.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-desktop.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-demo.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/font-awesome.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/Animate.css" context="/teammanagement"/>">
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/styles-responsive.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-desktop.min.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-demo.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/Animate.css"/>
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<script type='text/javascript' src='<c:url value="/resources/js/jquery-3.1.0.min.js"/>'></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"/></script>
 <title>${teamForm.nombreEquipo}</title>
 <script>var isDesktop = true;</script>
 <c:url value="/" var="homeUrl"/>
@@ -35,7 +35,7 @@
       <button type="button" id="botonAtras" onClick="transitionDetailToList()" class="hidden" style="margin-top:10;margin-left:5;">
         Atrás
       </button>
-	  <a class="navbar-brand no-break-out"  title="TeamManager" href="/competition/${menuNavigationForm.idCompeticion}">TeamManager</a>
+	  <a class="navbar-brand no-break-out"  title="TeamManagement" href="/competition/${menuNavigationForm.idCompeticion}">TeamManagement</a>
     </div>
   </div>
 </nav>
@@ -179,10 +179,10 @@
     </div>
   </div>
 
-<script type='text/javascript' src='<c:url value="/resources/bootstrap-notify-master/bootstrap-notify.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/bootstrap.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/bootcards.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/jquery.number.min.js"/>'></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/bootstrap-notify-master/bootstrap-notify.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/bootcards.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery.number.min.js"/></script>
 <script type="text/javascript">
     
 //     if ( $('.list-group a.active').length === 0 ) {
@@ -227,7 +227,7 @@
 				for (var i in response){
 					$( "#listaJugadores" ).append('<a class="list-group-item pjax" href="#" id="playerItem'+response[i].idJugador+'" onClick="showPlayerDetails('+response[i].idJugador+')">'+
 							'<div class="hidden" id="idJugador">'+response[i].idJugador+'</div>'+
-							'<img class="img-rounded pull-left" src="<c:url value="/resources/images/players/'+response[i].imagen+'"/>"/>'+
+							'<img class="img-rounded pull-left" src="${pageContext.request.contextPath}/resources/images/players/'+response[i].imagen+'"/>'+
 							'<h4 class="list-group-item-heading">'+response[i].nombre+'</h4><p class="list-group-item-text">'+response[i].media+'</p></a>');
 				}
 // 			    if ( $('.list-group a.active').length === 0 ) {
@@ -285,8 +285,8 @@
     		success: function(response){
     			$("#idJugador").text(response.idJugador);    			
     			$("#nombre").text(response.nombre);
-    			$("#imagen").attr("src",'<c:url value="/resources/images/players/'+response.imagen+'"/>');
-    			$("#logoEquipoOriginal").attr("src", '<c:url value="/resources/images/'+response.logoEquipoOriginal+'"/>');
+    			$("#imagen").attr("src",'${pageContext.request.contextPath}/resources/images/players/'+response.imagen);
+    			$("#logoEquipoOriginal").attr("src", '${pageContext.request.contextPath}/resources/images/'+response.logoEquipoOriginal);
     			$("#equipoOriginal").text(response.equipoOriginal);
     			$("#media").text(response.media);
     			$("#edad").text(response.edad);
@@ -368,7 +368,7 @@
     			$( "#plantillaActual" ).empty();
     			for (var i in response){
     				$( "#plantillaActual" ).append('<div class="list-group-item pjax" href="#" id="playerItem'+response[i].idJugador+'" >'+
-							'<img class="img-rounded pull-left" src="<c:url value="/resources/images/players/'+response[i].imagen+'"/>"/>'+
+							'<img class="img-rounded pull-left" src="${pageContext.request.contextPath}/resources/images/players/'+response[i].imagen+'"/>'+
 							'<h4 class="list-group-item-heading">'+response[i].nombre+'</h4><p class="list-group-item-text">'+response[i].media+'</p></div>');
     			}
     			   			

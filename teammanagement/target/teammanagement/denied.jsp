@@ -8,7 +8,7 @@
 
 <html>
 <head>
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/styles.css" context="/teammanagement"/>">
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/styles.css"/>
 <title>Inicio</title>
 </head>
 

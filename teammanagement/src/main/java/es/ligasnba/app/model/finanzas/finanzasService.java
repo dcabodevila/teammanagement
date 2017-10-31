@@ -8,6 +8,7 @@ import es.ligasnba.app.model.actapartido.ActaPartido;
 import es.ligasnba.app.model.competicion.Competicion;
 import es.ligasnba.app.model.equipo.Equipo;
 import es.ligasnba.app.model.temporada.Temporada;
+import es.ligasnba.app.util.exceptions.InstanceNotFoundException;
 
 public interface finanzasService {
 
@@ -26,4 +27,10 @@ public interface finanzasService {
 	void ingresarPresupuestoInicial(Competicion c);
 
 	List<AsientoDto> getListaAsientosEquipoTemporada(long idEquipo, long idTemporada);
+
+	void setPaqueteIngresos(Equipo e, long idPaqueteIngresos) throws InstanceNotFoundException;
+
+	void actualizarPresupuestoEquipo(Equipo e, boolean isTemporadaActual);
+
+	void ingresarObjetivosTemporadaRegular(Equipo equipo);
 }

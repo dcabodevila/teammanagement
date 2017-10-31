@@ -6,14 +6,14 @@
 <html>
 <%@ page import="es.ligasnba.app.util.constants.Constants" %>
 <head>
-<script type='text/javascript' src='<c:url value="/resources/js/jquery-1.10.2.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/jquery-ui.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/validation/dist/jquery.validate.min.js"/>'></script>
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/styles.css" context="/teammanagement"/>">
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery-1.10.2.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery-ui.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/validation/dist/jquery.validate.min.js"/></script>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/styles.css"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<script type='text/javascript' src='<c:url value="/resources/js/noty/jquery.noty.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/noty/layouts/top.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/noty/themes/default.js"/>'></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/noty/jquery.noty.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/noty/layouts/top.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/noty/themes/default.js"/></script>
 <script>
 function submitremember(){
 

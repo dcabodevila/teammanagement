@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import es.ligasnba.app.model.actapartido.actaPartidoService;
 import es.ligasnba.app.model.clasificacion.ClasificacionData;
 import es.ligasnba.app.model.clasificacion.classificationService;
 import es.ligasnba.app.model.competicion.Competicion;
@@ -22,6 +23,7 @@ import es.ligasnba.app.model.competicion.MenuNavigationForm;
 import es.ligasnba.app.model.competicion.competitionService;
 import es.ligasnba.app.model.equipo.Equipo;
 import es.ligasnba.app.model.equipo.teamService;
+import es.ligasnba.app.model.partido.ResumenBalance;
 import es.ligasnba.app.util.constants.Constants;
 import es.ligasnba.app.util.exceptions.InstanceNotFoundException;
 import es.ligasnba.app.util.jqgrid.CustomGenericResponse;
@@ -39,7 +41,9 @@ public class CompetitionController {
 	@Autowired
 	private teamService teamservice;
 	@Autowired
-	private classificationService classificationservice;	
+	private classificationService classificationservice;
+	@Autowired
+	private actaPartidoService actapartidoservice;
 	
 	public void setCompetitionservice(competitionService competitionservice) {
 		this.competitionservice = competitionservice;
@@ -50,6 +54,9 @@ public class CompetitionController {
 	public void setClassificationservice(
 			classificationService classificationservice) {
 		this.classificationservice = classificationservice;
+	}
+	public void setActapartidoService(actaPartidoService actapartidoservice) {
+		this.actapartidoservice = actapartidoservice;
 	}
 	
 	@RequestMapping(value="/games")
@@ -84,10 +91,12 @@ public class CompetitionController {
 			
 			CompetitionForm competitionform = this.competitionservice.findCompetitionInfo(idCompeticion, equipo.getIdEquipo());
 			MenuNavigationForm menuNavigationForm = this.competitionservice.findMenuNavigationInfo(idCompeticion, equipo.getIdEquipo());
-			
+			menuNavigationForm.setMercadoAbierto(com.isMercadoAbierto());
 			if ((com.getAdmin()!=null) && (com.getAdmin().getIdUsuario()==userSession.getUserId()))
 				model.put("isAdmin", true);
 			
+			final ResumenBalance balance = this.actapartidoservice.findBalanceEquipo(equipo.getIdEquipo(), equipo.getCompeticion().getIdTemporadaActual(), false);
+			competitionform.setBalance(balance.getNumeroVictorias().toString()+"-"+balance.getNumeroDerrotas().toString());
 	        model.put("competitionForm", competitionform);
 	        model.put("menuNavigationForm", menuNavigationForm);
 

@@ -13,6 +13,7 @@ public class PlayerData extends CustomGenericResponse{
 	private Integer edad;
 	private Integer minutos;
 	private String imagen;
+	private Long idEquipo;
 	private String equipoOriginal;
 	private String logoEquipoOriginal;	
 	private Integer contractYears;	
@@ -147,6 +148,12 @@ public class PlayerData extends CustomGenericResponse{
 	}
 	public void setPendiente(Boolean pendiente) {
 		this.pendiente = pendiente;
+	}
+	public Long getIdEquipo() {
+		return idEquipo;
+	}
+	public void setIdEquipo(Long idEquipo) {
+		this.idEquipo = idEquipo;
 	}	
 	
 }

@@ -24,13 +24,17 @@ import es.ligasnba.app.model.contrato.ContractService;
 import es.ligasnba.app.model.contrato.Contrato;
 import es.ligasnba.app.model.contrato.ContratoDao;
 import es.ligasnba.app.model.contrato.ResultadoValidacionContratoOfrecidoDto;
+import es.ligasnba.app.model.contrato.ValoracionOfertaContratoDto;
 import es.ligasnba.app.model.equipo.Equipo;
 import es.ligasnba.app.model.equipo.EquipoDao;
+import es.ligasnba.app.model.finanzas.finanzasService;
 import es.ligasnba.app.model.jugador.Jugador;
 import es.ligasnba.app.model.jugador.playerService;
 import es.ligasnba.app.model.lineacontrato.LineaContrato;
 import es.ligasnba.app.model.noticia.newsService;
+import es.ligasnba.app.model.partido.MatchData;
 import es.ligasnba.app.model.partido.Partido;
+import es.ligasnba.app.model.partido.PartidoDao;
 import es.ligasnba.app.model.partido.matchService;
 import es.ligasnba.app.model.temporada.Temporada;
 import es.ligasnba.app.model.temporada.seasonService;
@@ -66,6 +70,10 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 	private EquipoDao equipoDao;
 	@Autowired
 	private ContratoDao contratoDao;
+	@Autowired
+	private finanzasService finanzasservice;
+	@Autowired
+	private PartidoDao partidodao;
 
 	private static final Logger logger = Logger.getLogger(SegundoPlanoService.class);
 	
@@ -103,12 +111,19 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 	public void setContratoDao(ContratoDao contratoDao) {
 		this.contratoDao = contratoDao;
 	}
-	
+	public void setFinanzasService(finanzasService finanzasservice) {
+		this.finanzasservice = finanzasservice;
+	}
+	public void setPartidoDao(PartidoDao partidodao) {
+		this.partidodao = partidodao;
+	}
 
 	@Override
 	@Transactional
-	public boolean ejecutarActualizacionCompeticion(Competicion competicion, final boolean forced) {
+	public boolean ejecutarActualizacionCompeticion(long idCompeticion, final boolean forced) throws InstanceNotFoundException {
 
+		Competicion competicion = this.competitionservice.findById(idCompeticion);
+		
 		logger.info("Ejecutando actualización competición "+ competicion.getIdCompeticion() + " Nombre: "+ competicion.getNombre()+ " Automática: "+ (!forced));
 		
 		if ((!competicion.isPaused()) || forced) {			
@@ -137,12 +152,16 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 				}
 				
 				this.playerservice.updateJugadoresCompeticionFromDefault(competicion.getIdCompeticion());
+				this.playerservice.updateCacheAgentesLibres(competicion.getIdCompeticion());
 			} catch (Exception e) {
 				logger.info(e.getMessage());
 				return false;
 			}
 			
 			forwardCalendar(competicion, Constants.cNumDaysForwardByRealDay);
+			
+			
+			
 			logger.info("Fecha siguiente: " +competicion.getActualDate());
 			logger.info("Estado competición: " +competicion.getTipoEstadoCompeticion().getNombre());
 		}
@@ -346,7 +365,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 					
 					final int daysLeft = CommonFunctions.daysBetween(competicion.getActualDate(), competicion.getOffSeasonFinishDate());
 					
-					if (daysLeft>=1){
+					if (daysLeft<=1){
 						return true;						
 					}
 
@@ -360,11 +379,11 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 	@Override
 	public boolean simulateDays(Competicion com, int numDays) throws Exception {
 
-		return ejecutarActualizacionCompeticion(com, true);
+		return ejecutarActualizacionCompeticion(com.getIdCompeticion(), true);
 
 	}
 
-	public Date forwardCalendar(Competicion com, int numDays) {
+	public Date forwardCalendar(Competicion com, int numDays) throws InstanceNotFoundException {
 
 		Calendar newDate = Calendar.getInstance();
 
@@ -374,7 +393,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 
 		this.competitionservice.SetActualDate(com, newDate.getTime());
 		
-		this.competitionservice.actualizarEstadoCompeticionSegunCalendario(com);
+		this.competitionservice.actualizarEstadoCompeticionSegunCalendario(com.getIdCompeticion());
 
 		return newDate.getTime();
 
@@ -384,24 +403,42 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 	private List<ResultadoValoracionContratoDto> valoracionOfertasContrato(List<Contrato> listaOfertasContrato) throws InstanceNotFoundException {
 
 		List<ResultadoValoracionContratoDto> listaResultado = new ArrayList<ResultadoValoracionContratoDto>();
-
+		
 		if (CollectionUtils.isNotEmpty(listaOfertasContrato)) {
-
+			
+			final Competicion competicion = listaOfertasContrato.get(0).getJugador().getCompeticion();
+			int maxSeasons = competitionservice.getSeasonsRemaining(competicion.getIdCompeticion()).size();
+			
+			if (competicion.getActualDate().compareTo(competicion.getFechaCierreMercado())>0){
+				maxSeasons = maxSeasons -1;
+			}
+			
 			for (Contrato ofertaContrato : listaOfertasContrato) {
 				
 				if (contractservice.isValidOfertaContrato(ofertaContrato.getEquipo().getIdEquipo(), ofertaContrato).isValido()){
 
 					ResultadoValoracionContratoDto resultado = new ResultadoValoracionContratoDto(ofertaContrato);
 	
-					resultado.setValoracionMoney(obtenerValoracionDinero(ofertaContrato));
+					resultado.setValoracionMoney(obtenerValoracionDinero(ofertaContrato, maxSeasons));
 					
 					resultado.setValoracionLoyalty(obtenerValoracionLoyalty(ofertaContrato));
 					
-					resultado.setValoracionWinning(obtenerValoracionEquipo(ofertaContrato));
+					resultado.setValoracionWinning(obtenerValoracionEquipo(ofertaContrato));										
 					
 					resultado = (calcularValoracionGlobal(resultado));
-					String nombreEquipoOferta = resultado.getContrato().getTraspaso()!=null ? resultado.getContrato().getTraspaso().getEquipoDestino().getnombre() : resultado.getContrato().getEquipo().getnombre();
-					this.newsservice.AddNewToUser(resultado.getContrato().getEquipo(), "Oferta de "+nombreEquipoOferta+" a " +ofertaContrato.getJugador().getNombre()+". Valoración global: "+ resultado.getValoracionGlobal()+ "/10. Valoración salario: "+ resultado.getValoracionMoney() + "/"+resultado.getMoneyInterest() ,
+					
+					resultado.setNotaExigida(getNotaExigida(resultado.getContrato()));
+					
+					final Equipo equipoOferta = resultado.getContrato().getTraspaso()!=null ? resultado.getContrato().getTraspaso().getEquipoDestino() : resultado.getContrato().getEquipo();				
+					
+					ValoracionOfertaContratoDto valoracion = obtenerValoracionOfertaDto(ofertaContrato, resultado,
+							equipoOferta);
+					
+					this.contractservice.registrarValoracionOferta(valoracion);
+					
+					this.newsservice.AddNewToUser(equipoOferta, "Oferta de "+equipoOferta.getnombre()+" a " +ofertaContrato.getJugador().getNombre()+". Valoración global: "+ resultado.getValoracionGlobal()+ "/10."
+							+ " Valoración salario: "+ resultado.getValoracionMoney() + "/"+resultado.getMoneyInterest() + " Valoración competitiva: "+resultado.getValoracionWinning()+"/"+resultado.getWinningInterest() + 
+							" Valoración lealtad: "+ resultado.getValoracionLoyalty()+"/"+resultado.getLoyaltyInterest() ,
 							ofertaContrato.getEquipo().getCompeticion().getActualDate());														
 					
 					listaResultado.add(resultado);
@@ -409,7 +446,9 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 			
 				else {
 					
-					this.newsservice.AddNewToUser(ofertaContrato.getEquipo(), "La oferta " +ofertaContrato.getIdContrato()+" sobre "+ofertaContrato.getJugador().getNombre()+" no es válida.",
+					final Equipo equipoOferta = ofertaContrato.getTraspaso()!=null ? ofertaContrato.getTraspaso().getEquipoDestino() : ofertaContrato.getEquipo();
+					
+					this.newsservice.AddNewToUser(equipoOferta, "La oferta de "+equipoOferta.getnombre()+" sobre "+ofertaContrato.getJugador().getNombre()+" no es válida.",
 							ofertaContrato.getEquipo().getCompeticion().getActualDate());				
 				}
 			}
@@ -418,29 +457,80 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 		return listaResultado;
 
 	}
+
+	private ValoracionOfertaContratoDto obtenerValoracionOfertaDto(Contrato ofertaContrato,
+			ResultadoValoracionContratoDto resultado, final Equipo equipoOferta) {
+		ValoracionOfertaContratoDto valoracion = new ValoracionOfertaContratoDto();
+		valoracion.setIdContrato(ofertaContrato.getIdContrato());
+		valoracion.setIdCompeticion(equipoOferta.getCompeticion().getIdCompeticion());
+		valoracion.setIdEquipo(equipoOferta.getIdEquipo());
+		valoracion.setNombreEquipo(equipoOferta.getnombre());
+		valoracion.setIdJugador(ofertaContrato.getJugador().getIdJugador());
+		valoracion.setNombreJugador(ofertaContrato.getJugador().getNombre());
+		
+		int i = 0;
+		for (LineaContrato linea : ofertaContrato.getListLineasContrato()){
+			if (i==0){
+				valoracion.setSalarioTemporada1(linea.getSalario());
+			}
+			else if (i==1){
+				valoracion.setSalarioTemporada2(linea.getSalario());
+			}
+			else if (i==2){
+				valoracion.setSalarioTemporada3(linea.getSalario());
+			}
+			i++;
+		}
+		valoracion.setValoracionMoney(resultado.getValoracionMoney());
+		valoracion.setValoracionWinning(resultado.getValoracionWinning());
+		valoracion.setValoracionLoyalty(resultado.getValoracionLoyalty());
+		valoracion.setMoneyInterest(resultado.getMoneyInterest());
+		valoracion.setWinningInterest(resultado.getWinningInterest());
+		valoracion.setLoyaltyInterest(resultado.getLoyaltyInterest());
+		valoracion.setValoracionGlobal(resultado.getValoracionGlobal());
+		valoracion.setValoracionGlobalExigida(resultado.getNotaExigida());
+		valoracion.setEsSignAndTrade(ofertaContrato.getTraspaso()!=null);
+		valoracion.setFecha(equipoOferta.getCompeticion().getActualDate());
+		return valoracion;
+	}
 	
 	private ResultadoValoracionContratoDto calcularValoracionGlobal(ResultadoValoracionContratoDto resultadoValoracion){
 		BigDecimal sumaValoracion = new BigDecimal(0);
 		BigDecimal sumaCriteriosInteres = new BigDecimal(0);
 		BigDecimal valoracionGlobal = new BigDecimal(0);
 		
-		sumaValoracion = sumaValoracion.add(resultadoValoracion.getValoracionMoney());
-		sumaValoracion = sumaValoracion.add(resultadoValoracion.getValoracionWinning());
-		sumaValoracion = sumaValoracion.add(resultadoValoracion.getValoracionLoyalty());
+		final BigDecimal valoracionMoney = resultadoValoracion.getValoracionMoney() != null ? resultadoValoracion.getValoracionMoney() : BigDecimal.ZERO;
+		final BigDecimal valoracionWinning = resultadoValoracion.getValoracionWinning() != null ? resultadoValoracion.getValoracionWinning() : BigDecimal.ZERO;
+		final BigDecimal valoracionLoyalty = resultadoValoracion.getValoracionLoyalty() != null ? resultadoValoracion.getValoracionLoyalty() : BigDecimal.ZERO;
 		
-		sumaCriteriosInteres = new BigDecimal(resultadoValoracion.getMoneyInterest()+ resultadoValoracion.getWinningInterest().intValue() + resultadoValoracion.getLoyaltyInterest().intValue());
 		
-		valoracionGlobal = sumaValoracion.multiply(new BigDecimal(10));
-		valoracionGlobal = valoracionGlobal.divide(sumaCriteriosInteres, RoundingMode.HALF_UP);
+		sumaValoracion = sumaValoracion.add(valoracionMoney);
+		sumaValoracion = sumaValoracion.add(valoracionWinning);
+		sumaValoracion = sumaValoracion.add(valoracionLoyalty);
 		
-		resultadoValoracion.setValoracionGlobal(valoracionGlobal);
+		final Integer moneyInterest = resultadoValoracion.getValoracionMoney()!=null ? resultadoValoracion.getMoneyInterest() : 0;
+		final Integer winningInterest = resultadoValoracion.getValoracionWinning()!=null ? resultadoValoracion.getWinningInterest() : 0;
+		final Integer loyaltyInterest = resultadoValoracion.getValoracionLoyalty()!=null ? resultadoValoracion.getLoyaltyInterest() : 0;
+		
+		sumaCriteriosInteres = new BigDecimal(moneyInterest + winningInterest + loyaltyInterest);
+		
+		if (sumaCriteriosInteres.compareTo(BigDecimal.ZERO)==0){
+			resultadoValoracion.setValoracionGlobal(new BigDecimal(-1));
+		}
+		else {
+		
+			valoracionGlobal = sumaValoracion.multiply(new BigDecimal(10));
+			valoracionGlobal = valoracionGlobal.divide(sumaCriteriosInteres, RoundingMode.HALF_UP);
+		}
+		
+		resultadoValoracion.setValoracionGlobal(valoracionGlobal.setScale(2, RoundingMode.CEILING));
 		
 		return resultadoValoracion;
 		
 	}
 
 	@Transactional(readOnly = true)
-	private BigDecimal obtenerValoracionDinero(Contrato c) {
+	private BigDecimal obtenerValoracionDinero(Contrato c, int maxSeasons) {
 
 		BigDecimal result = new BigDecimal(0);
 		
@@ -448,21 +538,29 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 
 		if (CollectionUtils.isNotEmpty(c.getListLineasContrato())){
 		
-			// En principio sólo se valorará la oferta del primer año, más adelante
-			// veremos		
-			LineaContrato lineaContratoOferta = c.getListLineasContrato().get(0);
-				
-	
-			final float moneyInterest = c.getJugador().getMoneyInterest();
+			BigDecimal salarioOfrecido = BigDecimal.ZERO;
+					
+			for (LineaContrato lineaContrato : c.getListLineasContrato()){
+				salarioOfrecido = salarioOfrecido.add(lineaContrato.getSalario());
+			}
+			float moneyInterest = c.getJugador().getMoneyInterest();
+			float importanciaAnhosSalario = maxSeasons * (1-(moneyInterest/100));
+			
+//			if ((c.getJugador().getMedia()!=null) && (c.getJugador().getMedia()<70)){
+//				importanciaAnhosSalario = 1;
+//			}
+			
+			salarioOfrecido = salarioOfrecido.divide(new BigDecimal(importanciaAnhosSalario), RoundingMode.HALF_UP);
+			
 			final float valorCache = moneyInterest / 2;
-			final BigDecimal salarioOfrecido = lineaContratoOferta.getSalario();
+			
 	
 			final BigDecimal operando= salarioOfrecido.multiply(new BigDecimal(valorCache));	
 			
 			result = operando.divide(c.getJugador().getCache(), RoundingMode.HALF_UP);
 		}
 		
-		return result;
+		return result.setScale(2, RoundingMode.CEILING);
 
 	}
 	
@@ -486,7 +584,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 			idUsuario = c.getEquipo().getUsuario().getIdUsuario();
 		}
 		else if (c.getTraspaso().getEquipoDestino().getUsuario()!=null){
-			idUsuario = c.getTraspaso().getEquipoDestino().getIdEquipo();
+			idUsuario = c.getTraspaso().getEquipoDestino().getUsuario().getIdUsuario();
 		}
 				
 		return this.matchservice.getValoracionLoyaltyUsuario(idUsuario, c.getJugador().getLoyaltyInterest());
@@ -506,7 +604,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 					
 					if (this.tradeService.isValidTradeTomarDecisionContrato(mejorValoracion.getContrato().getTraspaso().getIdTraspaso()).getSuccess()){
 				
-						mejorValoracion.setNotaExigida(getNotaExigida(mejorValoracion.getContrato()));
+						
 									
 						if (mejorValoracion.getValoracionGlobal().compareTo(mejorValoracion.getNotaExigida())>0){
 							
@@ -522,8 +620,6 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 					}
 				}
 				else {
-					//Si es un contrato para la actual temporada o estamos en post temporada, dificultad normal
-					mejorValoracion.setNotaExigida(getNotaExigida(mejorValoracion.getContrato()));
 								
 					if (mejorValoracion.getValoracionGlobal().compareTo(mejorValoracion.getNotaExigida())>0){
 						this.newsservice.AddNewToUser(mejorValoracion.getContrato().getEquipo(), "La oferta realizada a " +j.getNombre()+" ha sido aceptada. La valoración del jugador sobre la oferta es de "+ mejorValoracion.getValoracionGlobal()+ ". La valoración exigida es de "+mejorValoracion.getNotaExigida(),
@@ -544,6 +640,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 		// Si son FA no restringidos
 		if (this.contractservice.isContratoTemporadaActual(c)){	
 			notaExigida = Constants.cDefaultDificultadContratoFA;
+			notaExigida = notaExigida.multiply(new BigDecimal(CommonFunctions.getPorcentajeRandomMas(15)));
 		}			
 
 		// Si es temporada actual y estamos en post temporada 
@@ -558,11 +655,10 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 				}
 				if (diasRestantes<=3){
 					notaExigida = new BigDecimal(5);
-				}					
-				if (diasRestantes==1){
-					notaExigida = new BigDecimal(4.5);
-				}					 
+				}								 
 			}
+			
+			notaExigida = notaExigida.multiply(new BigDecimal(CommonFunctions.getPorcentajeRandomMas(15)));
 		}
 		
 		//Si no estamos en post temporada, dificultad alta 
@@ -571,15 +667,15 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 			final long diasRestantes = Math.max(daysBetween(c.getJugador().getCompeticion().getActualDate(), c.getJugador().getCompeticion().getOffSeasonStartDate()),1);
 			
 			if (diasRestantes<=4){
-				notaExigida = new BigDecimal(6.5);
+				notaExigida = new BigDecimal(6);
 			}
 			if (diasRestantes<=2){
 				notaExigida = new BigDecimal(6.0);
 			}
-			
+			notaExigida = notaExigida.multiply(new BigDecimal(CommonFunctions.getPorcentajeRandomMas(30)));
 		}
 		
-		return notaExigida;
+		return notaExigida.setScale(2, RoundingMode.CEILING);
 		
 	}
 	
@@ -603,6 +699,9 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
         return diffDays;
 		
 	}
+	
+
+	
 	
 
 }

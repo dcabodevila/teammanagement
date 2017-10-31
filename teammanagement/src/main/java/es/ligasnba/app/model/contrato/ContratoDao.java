@@ -17,5 +17,6 @@ public interface ContratoDao extends GenericDao<Contrato,Long>{
 	BigDecimal findSumaSalarialJugadoresTemporada(List<Long> idsJugadores, long idTemporada);
 	BigDecimal getSumSalaries(long idEquipo, long idTemporada, boolean pendiente);
 	List<ContractData> findContractDataByTeamID(long idEquipo);
+	void registrarValoracionOferta(ValoracionOfertaContratoDto valoracionOferta);
 
 }

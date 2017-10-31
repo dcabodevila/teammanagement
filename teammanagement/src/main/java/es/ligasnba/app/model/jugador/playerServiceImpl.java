@@ -497,5 +497,8 @@ public JugadorDefault findDefaultPlayerByIdNotSigned(long idJugador, long idComp
 		this.finanzasservice = finanzasservice;
 	}
 
-
+	@Override
+	public void updateCacheAgentesLibres(long idCompeticion){
+		this.jugadordao.updateCacheAgentesLibres(idCompeticion);
+	}
 }

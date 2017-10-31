@@ -12,17 +12,16 @@
 <head>
 
 
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/styles-responsive.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootstrap.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-desktop.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-demo.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/font-awesome.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/Animate.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/star-rating.min.css" context="/teammanagement"/>">
-<%-- <link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/theme.min.css" context="/teammanagement"/>"> --%>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/styles-responsive.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-desktop.min.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-demo.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/Animate.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/star-rating.min.css"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<script type='text/javascript' src='<c:url value="/resources/js/jquery-3.1.0.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/jquery.number.min.js"/>'></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery.number.min.js"/></script>
 <title>${teamForm.nombreEquipo}</title>
 <script>var isDesktop = true;</script>
 <c:url value="/" var="homeUrl"/>
@@ -38,7 +37,7 @@
       	Atrás
       </button>
  
-	  <a class="navbar-brand no-break-out"  title="TeamManager" href="/competition/${menuNavigationForm.idCompeticion}">TeamManager</a>
+	  <a class="navbar-brand no-break-out"  title="TeamManagement" href="/competition/${menuNavigationForm.idCompeticion}">TeamManagement</a>
     </div>
   </div>
 </nav>
@@ -77,16 +76,16 @@
   </div>
 
 
-<%-- <script type='text/javascript' src='<c:url value="/resources/js/fastclick.min.js"/>'></script> --%>
-<%-- <script type='text/javascript' src='<c:url value="/resources/js/raphael-min.js"/>'></script> --%>
-<script type='text/javascript' src='<c:url value="/resources/bootstrap-notify-master/bootstrap-notify.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/bootstrap.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/bootcards.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/star-rating.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/theme.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/es.js"/>'></script>
-<%-- <script type='text/javascript' src='<c:url value="/resources/js/jquery.pjax.js"/>'></script> --%>
-<%-- <script type='text/javascript' src='<c:url value="/resources/js/bootcards-demo-app.js"/>'></script> --%>
+<%-- <script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/fastclick.min.js"/></script> --%>
+<%-- <script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/raphael-min.js"/></script> --%>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/bootstrap-notify-master/bootstrap-notify.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/bootcards.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/star-rating.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/theme.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/es.js"/></script>
+<%-- <script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery.pjax.js"/>'></script> --%>
+<%-- <script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/bootcards-demo-app.js"/>'></script> --%>
 <script type="text/javascript">
     
 //     if ( $('.list-group a.active').length === 0 ) {

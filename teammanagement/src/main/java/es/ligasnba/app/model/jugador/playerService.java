@@ -58,5 +58,7 @@ public interface playerService {
 	void waivePlayer(long idEquipo, long idJugadorDefault) throws Exception;
 
 	List<Jugador> findJugadoresConContratosPospuestos(long idCompeticion);
+
+	void updateCacheAgentesLibres(long idCompeticion);
  	
 }

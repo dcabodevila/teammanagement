@@ -111,6 +111,7 @@ C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\util
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\contrato\ContractForm.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\jugador\JugadorBlock.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\competitionrol\competitionRolService.java
+C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\finanzas\PaquetesIngresosForm.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\partido\PartidoBlock.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\clasificacion\ClasificacionDaoHibernate.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\util\AllowRawInjectionDespiteWrappingXMLWebApplicationContext.java
@@ -191,6 +192,7 @@ C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\mode
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\competicion\CompeticionDaoHibernate.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\jugador\PlayerContractData.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\partido\matchServiceImpl.java
+C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\contrato\ValoracionOfertaContratoDto.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\actapartido\Simulator.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\controller\util\ControllerUtils.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\plantilla\PlantillaDao.java

@@ -317,9 +317,9 @@ public class contractServiceImpl implements ContractService{
 				
 				for(int x=i;x<remainingSeasons.size();x++){
 					if (years>0){
-						t = remainingSeasons.get(x);			
-						createLineContract(c.getIdContrato(), t.getIdTemporada() ,newSalary, teamOptionLine, playerOptionLine);					
-						newSalary = newSalary.add(newSalary.multiply((salaryIncrease.divide(new BigDecimal("100.00"), RoundingMode.HALF_UP))));
+						t = remainingSeasons.get(x);						
+						createLineContract(c.getIdContrato(), t.getIdTemporada() ,newSalary, teamOptionLine, playerOptionLine);
+						newSalary = newSalary.add(newSalary.multiply((salaryIncrease.divide(new BigDecimal("100")))));
 						years--;
 					}
 					
@@ -541,7 +541,7 @@ public class contractServiceImpl implements ContractService{
 		c.setFirmado(true);
 		contratodao.save(c);
 		
-		List<Jugador> plantilla = jugadordao.findPlayersByTeamId(c.getEquipo().getIdEquipo(), Constants.cMinPlayersByTeam,Constants.cMaxPlayersByTeam );
+		List<Jugador> plantilla = jugadordao.findPlayersByTeamId(c.getEquipo().getIdEquipo(), 0,Constants.cMaxPlayersByTeam );
 						
 		if (!plantilla.contains(j)){
 		
@@ -749,9 +749,10 @@ public class contractServiceImpl implements ContractService{
 		sumaSalarial = sumaSalarial.add(multaLuxury);
 		
 		contractdata.setPresupuestoTotal(e.getPresupuestoActual());
-		BigDecimal presupuestoRestante = getPresupuestoRestante(j.getCompeticion().getLimiteTope(), e.getPresupuestoProximaTemporada(), sumaSalarial);
+		BigDecimal presupuestoRestante = getPresupuestoRestante(j.getCompeticion().getLimiteTope(), e.getPresupuestoActual(), sumaSalarial);
+		BigDecimal capSpace = j.getCompeticion().getLimiteSalarial().subtract(sumaSalarial);
 		contractdata.setPresupuestoRestante(presupuestoRestante);
-		maxSalary = presupuestoRestante;
+		maxSalary = capSpace;
 		//Nº temporadas
 		int maxSeasons = competitionservice.getSeasonsRemaining(j.getCompeticion().getIdCompeticion()).size();
 		contractdata.setMaxSeasons( maxSeasons );						
@@ -761,7 +762,7 @@ public class contractServiceImpl implements ContractService{
 		}				
 		
 		contractdata.setMaxSalary(maxSalary.compareTo(salaryTop)> 0 ? salaryTop : maxSalary);		
-		contractdata.setCapSpace(j.getCompeticion().getLimiteSalarial().subtract(sumaSalarial));		
+		contractdata.setCapSpace(capSpace);		
 		contractdata.setSumaSalarial(sumaSalarial);		
 		contractdata.setSalaryCap(j.getCompeticion().getLimiteSalarial());
 		contractdata.setLuxuryTax(j.getCompeticion().getLimiteTope());
@@ -780,7 +781,7 @@ public class contractServiceImpl implements ContractService{
 		else {
 			midLevelException =  Constants.cSalaryExcepcionNivelMedioUTax;
 		}
-		contractdata.setVisibleMidLevelException(!e.isMidLevelExceptionUsed() && (maxSalary.compareTo(midLevelException)<0));
+		contractdata.setVisibleMidLevelException(!e.isMidLevelExceptionUsed() && (presupuestoRestante.compareTo(midLevelException)>0));
 		contractdata.setMidLevelException(midLevelException);
 		
 		
@@ -862,9 +863,38 @@ public class contractServiceImpl implements ContractService{
 	public BigDecimal getMinSalary(Jugador j){
 		BigDecimal minSalary = Constants.cMinSalaryPlayer;
 		
-		if (j.getYearsPro()>0){
-			int yearsPro = Integer.min(10, j.getYearsPro());
-			minSalary = minSalary.add(new BigDecimal(100000).multiply(new BigDecimal(yearsPro)));
+		if (j.getYearsPro()==0){			
+			minSalary = new BigDecimal(815615);
+		}
+		else if (j.getYearsPro()==1){			
+			minSalary = new BigDecimal(1312611);
+		}
+		else if (j.getYearsPro()==2){			
+			minSalary = new BigDecimal(1471382);
+		}
+		else if (j.getYearsPro()==3){			
+			minSalary = new BigDecimal(1524305);
+		}
+		else if (j.getYearsPro()==4){			
+			minSalary = new BigDecimal(1577230);
+		}
+		else if (j.getYearsPro()==5){			
+			minSalary = new BigDecimal(1709538);
+		}
+		else if (j.getYearsPro()==6){			
+			minSalary = new BigDecimal(1841849);
+		}
+		else if (j.getYearsPro()==7){			
+			minSalary = new BigDecimal(1974159);
+		}
+		else if (j.getYearsPro()==8){			
+			minSalary = new BigDecimal(2106470);
+		}
+		else if (j.getYearsPro()==9){			
+			minSalary = new BigDecimal(2116955);
+		}
+		else if (j.getYearsPro()>=10){			
+			minSalary = new BigDecimal(2328652);
 		}
 		
 		return minSalary;
@@ -954,19 +984,6 @@ public class contractServiceImpl implements ContractService{
 		return maxSalary;
 	}
 	
-	// Excepcion Larry Bird:
-	// Debe pertenecer al equipo original y haber jugado en ese equipo al menos 1 temporada completa.
-	public boolean tieneDerechosLarryBird(Jugador j, Equipo e){
-		if ((j.getEquipo()!=null) && (j.getEquipo().equals(e))){
-	
-			if (j.getIdEquipoOriginal() == j.getEquipo().getIdEquipoOriginal()){
-				return haJugadoUnaTemporadaCompleta(j);								
-			}
-		}
-		
-		return false;
-		
-	}
 	private boolean haJugadoUnaTemporadaCompleta(Jugador j) {
 		List<HistoricoEquipoJugador> listaHistorico = this.historicoEquipoJugadorDao.findSeasonTeamsByPlayer(j.getIdJugador(), j.getCompeticion().getIdTemporadaActual());
 		if (listaHistorico.size()==1){
@@ -981,28 +998,6 @@ public class contractServiceImpl implements ContractService{
 		
 		final double randomFactor = CommonFunctions.getPorcentajeRandomMasMenos(15);
 		final BigDecimal cache = j.getCache().multiply(new BigDecimal(randomFactor));
-//		BigDecimal salario = new BigDecimal(0);
-//		if (j.getContrato()!=null){					
-//		
-//			List<LineaContrato> lineas =j.getContrato().getListLineasContrato();
-//			
-//			for (LineaContrato linea : lineas ){
-//												
-//				if (linea.getTemporada().getIdTemporada() == j.getCompeticion().getIdTemporadaActual())
-//					salario = linea.getSalario();
-//								
-//			}
-//			
-//			if (salario==null){
-//				return Constants.cMinSalaryPlayer;
-//			}  
-//			
-//			if (salario.compareTo(Constants.cMinSalaryPlayer)<0){
-//				return Constants.cMinSalaryPlayer; 
-//			}
-//			
-//		}
-		
 		
 		return cache;		
 		
@@ -1102,7 +1097,7 @@ public class contractServiceImpl implements ContractService{
 					}
 				}
 				else {
-					if ((lc.getSalario().compareTo(contractData.getCapSpace())>0) && (!c.isUseMidLevelException())){
+					if ((lc.getTemporada().getIdTemporada()==c. getJugador().getCompeticion().getIdTemporadaActual()) && (lc.getSalario().compareTo(contractData.getPresupuestoRestante())>0) && (!c.isUseMidLevelException())){
 						resultado.setValido(false);
 						resultado.setMotivosNoValido("El salario ofrecido es superior al espacio salarial restante (espacio salarial restante: "+contractData.getCapSpace().toString()+" $)");
 					}					
@@ -1224,6 +1219,11 @@ public class contractServiceImpl implements ContractService{
 		
 	}
 	
+
+	@Override
+	public void registrarValoracionOferta(ValoracionOfertaContratoDto valoracionOferta){
+		this.contratodao.registrarValoracionOferta(valoracionOferta);
+	}
 	
 }
 

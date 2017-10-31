@@ -25,6 +25,7 @@ public class ControllerUtils {
 			}
 		}
 		menuNavigationForm.setEstadoCompeticion(com.getTipoEstadoCompeticion().getIdTipoEstadoCompeticion());
+		menuNavigationForm.setMercadoAbierto(com.isMercadoAbierto());
 		return menuNavigationForm;
 	}
 }

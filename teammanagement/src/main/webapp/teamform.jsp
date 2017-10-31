@@ -12,15 +12,15 @@
 <head>
 
 
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/styles-responsive.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootstrap.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-desktop.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-demo.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/font-awesome.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/Animate.css" context="/teammanagement"/>">
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/styles-responsive.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-desktop.min.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-demo.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/Animate.css"/>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<script type='text/javascript' src='<c:url value="/resources/js/jquery-3.1.0.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/jquery.number.min.js"/>'></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery.number.min.js"/></script>
 <title>${teamForm.nombreEquipo}</title>
 <script>var isDesktop = true;</script>
 <c:url value="/" var="homeUrl"/>
@@ -36,7 +36,7 @@
       	Atrás
       </button>
  
-	  <a class="navbar-brand no-break-out"  title="TeamManager" href="/competition/${menuNavigationForm.idCompeticion}">TeamManager</a>
+	  <a class="navbar-brand no-break-out"  title="TeamManagement" href="/competition/${menuNavigationForm.idCompeticion}">TeamManagement</a>
     </div>
   </div>
 </nav>
@@ -47,9 +47,17 @@
 		<div class="row">
 			
 			<div class="col-sm-5 bootcards-list" id="listaPlantilla" data-title="Contacts">
+	
 				<div class="panel panel-default">
 					<div class="panel-heading clearfix">
 						<h3 class="panel-title pull-left"><b>Plantilla</b></h3>
+				        <div class="col-xs-9 pull-right">
+			            <select class="form-control" name="teamSelect" id="teamSelect">	          
+							<c:forEach items="${teamForm.listaEquipos}" var="equipo" varStatus="status">					
+								<option value="${equipo.idEquipo}">${equipo.nombre}</option>				    
+							</c:forEach>	          
+				        </select>	
+				        </div>							
 					</div>								
 					<div class="list-group" id="listaJugadores" >
 					</div>
@@ -62,12 +70,16 @@
 					<div class="panel panel-default hidden" id ="playerDetails">
 						<div class="panel-heading clearfix">
 							<h3 class="panel-title pull-left"><b>Ficha jugador</b></h3>
+							
+							
 							  <c:if test="${teamForm.propietarioEquipo || teamForm.adminCompeticion}">
+<%-- 							  <c:if test="${teamForm.permitidoRenovarJugadores}"> --%>
 							      <a class="btn btn-primary pull-right hidden" id="botonOfrecerContratoModal" href="#" data-toggle="modal" data-target="#ofrecerContratoModal">
 							        <i class="fa fa-pencil"></i>
 							        Renovar
 							      </a>
-						      </c:if>
+<%-- 						      </c:if> --%>
+					        </c:if>
 						</div>
 						<div class="list-group">
 							<div class="list-group-item">
@@ -189,9 +201,9 @@
 	</div>
 	
 
-<script type='text/javascript' src='<c:url value="/resources/bootstrap-notify-master/bootstrap-notify.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/bootstrap.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/bootcards.min.js"/>'></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/bootstrap-notify-master/bootstrap-notify.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/bootcards.min.js"/></script>
 <script type="text/javascript">
     
     bootcards.init( {
@@ -215,10 +227,32 @@
 
 	function showPlayerDetails(idJugador){
 		var playerItemId = "#playerItem"+idJugador;
+		var isPermitidoRenovar = ${teamForm.permitidoRenovarJugadores};
+		var isPermitidoDespedir = ${teamForm.permitidoDespedirJugadores};
+		
 		$('.list-group a.active').removeClass('active');
 		$(playerItemId).addClass('active');
 		transitionListToDetail();
-		loadPlayerData(idJugador);		
+		loadPlayerData(idJugador);
+		
+		if (isPermitidoRenovar){
+			$('#botonOfrecerContratoModal').removeClass("disabled");
+			$('#botonOfrecerContratoModal').addClass("enabled");
+		}
+		else {			
+			$('#botonOfrecerContratoModal').removeClass("enabled");
+			$('#botonOfrecerContratoModal').addClass("disabled");			
+		}
+		if (isPermitidoDespedir){
+			$('#botonDespedirModal').removeClass("disabled");
+			$('#botonDespedirModal').addClass("enabled");
+		}
+		else {			
+			$('#botonDespedirModal').removeClass("enabled");
+			$('#botonDespedirModal').addClass("disabled");			
+		}
+		
+		
 	}
 	
 	function transitionListToDetail(){
@@ -253,8 +287,8 @@
     		success: function(response){
     			$("#idJugador").text(response.idJugador);    			
     			$("#nombre").text(response.nombre);
-    			$("#imagen").attr("src",'<c:url value="/resources/images/players/'+response.imagen+'"/>');
-    			$("#logoEquipoOriginal").attr("src", '<c:url value="/resources/images/'+response.logoEquipoOriginal+'"/>');
+    			$("#imagen").attr("src",'${pageContext.request.contextPath}/resources/images/players/'+response.imagen);
+    			$("#logoEquipoOriginal").attr("src", '${pageContext.request.contextPath}/resources/images/'+response.logoEquipoOriginal);
     			$("#equipoOriginal").text(response.equipoOriginal);
     			$("#media").text(response.media);
     			$("#edad").text(response.edad);
@@ -281,14 +315,27 @@
     			
     			$("#botonOfrecerContratoModal").attr("href", '/team/'+idEquipo+'/offerContractForm/'+response.idJugador);
      			$("#btnDespedirJugadorConfirmado").attr("onClick", 'despedirJugador('+response.idJugador+','+idEquipo+');');
-    			if (response.contractYears<=1){
-    				$("#botonOfrecerContratoModal").removeClass("hidden");
-    				$("#botonOfrecerContratoModal").addClass("visible");
-    			}
-    			else {
+     			
+     			if (idEquipo==response.idEquipo) {
+        			if (response.contractYears<=1){
+        				$("#botonOfrecerContratoModal").removeClass("hidden");
+        				$("#botonOfrecerContratoModal").addClass("visible");
+        			}
+        			else {
+        				$("#botonOfrecerContratoModal").removeClass("visible");
+        				$("#botonOfrecerContratoModal").addClass("hidden");    				
+        			}
+    				$('#botonDespedirModal').removeClass("hidden");
+    				$('#botonDespedirModal').addClass("visible");
+     			}
+     			else {
     				$("#botonOfrecerContratoModal").removeClass("visible");
-    				$("#botonOfrecerContratoModal").addClass("hidden");    				
-    			}
+    				$("#botonOfrecerContratoModal").addClass("hidden");
+    				$('#botonDespedirModal').removeClass("visible");
+    				$('#botonDespedirModal').addClass("hidden");	    				
+     			}
+
+     			
     			
     		},
     		error: function(){
@@ -297,12 +344,18 @@
     	});		
    	}
     
-    $( document ).ready(function() {  	   
-		loadPlantilla();	
+    $( document ).ready(function() {
+    	var idEquipo = ${teamForm.idEquipo};
+    	$('select[name=teamSelect]').val(idEquipo);
+		loadPlantilla(idEquipo);
      });
     
+    $( "#teamSelect" ).change(function() {
+    	loadPlantilla(($('select[name=teamSelect]').val()));
+    	});
+    
 	function despedirJugador(idJugador, idEquipo){
-
+		var idEquipo = ${teamForm.idEquipo};
     	$.ajax({
     		type:"get",
     		url: "/team/waive",	
@@ -312,7 +365,7 @@
     			
     			if (response.success){
     				notify("Jugador despedido correctamente", "success")
-    				loadPlantilla();
+    				loadPlantilla(idEquipo);
     				transitionDetailToList();
     			}
     			else {
@@ -344,8 +397,8 @@
     	});    	
     }
         
-    function loadPlantilla(){
-    	var idEquipo = ${teamForm.idEquipo};
+    function loadPlantilla(idEquipo){
+    	
     	$.ajax({
     		type:"get",
     		url: "/team/getPlantilla",	
@@ -356,7 +409,7 @@
     			for (var i in response){
 					$( "#listaJugadores" ).append('<a class="list-group-item pjax" href="#" id="playerItem'+response[i].idJugador+'" onClick="showPlayerDetails('+response[i].idJugador+')">'+
 							'<div class="hidden" id="idJugador">'+response[i].idJugador+'</div>'+
-							'<img class="img-rounded pull-left" src="<c:url value="/resources/images/players/'+response[i].imagen+'"/>"/>'+
+							'<img class="img-rounded pull-left" src="${pageContext.request.contextPath}/resources/images/players/'+response[i].imagen+'"/>'+
 							'<h4 class="list-group-item-heading">'+response[i].nombre+'</h4><p class="list-group-item-text">'+response[i].media+'</p></a>');
 					}
     			   			
@@ -367,7 +420,9 @@
     	});	    	
     }
     
+
     
+
 </script>    
 </body>
 

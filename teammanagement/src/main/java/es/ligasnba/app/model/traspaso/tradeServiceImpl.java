@@ -149,8 +149,8 @@ public class tradeServiceImpl implements tradeService{
 		
 		CustomGenericResponse response = new CustomGenericResponse();
 		
-		final List<Jugador> plantillaOrigen  = this.jugadordao.findPlayersByTeamId(idTeamFrom, Constants.cMinPlayersByTeam, Constants.cMaxPlayersByTeam);
-		final List<Jugador> plantillaDestino = this.jugadordao.findPlayersByTeamId(idTeamTo, Constants.cMinPlayersByTeam, Constants.cMaxPlayersByTeam);
+		final List<Jugador> plantillaOrigen  = this.jugadordao.findPlayersByTeamId(idTeamFrom, 0, Constants.cMaxPlayersByTeam);
+		final List<Jugador> plantillaDestino = this.jugadordao.findPlayersByTeamId(idTeamTo, 0, Constants.cMaxPlayersByTeam);
 
 		
 		if ( !plantillaOrigen.containsAll(listaJugadoresOfrecidos) || !plantillaDestino.containsAll(listaJugadoresRecibidos) ){
@@ -212,21 +212,21 @@ public class tradeServiceImpl implements tradeService{
 		final BigDecimal sumaSalarialJugadoresSalientes = this.contractService.getSumaSalarialByIdsJugadores(jugadoresOfrecidos, idTemporada);
 		final BigDecimal sumaSalarialJugadoresEntrantes = this.contractService.getSumaSalarialByIdsJugadores(jugadoresRecibidos, idTemporada);
 		
-		boolean isValidoPresupuestoEquipo1 = false;
-		if (sumaSalarialJugadoresEntrantes.compareTo(sumaSalarialJugadoresSalientes)>0){
-			isValidoPresupuestoEquipo1 = (sumaSalarialEquipo1.compareTo(presupuestoEquipo1)<=0);
-		}
-		else {
-			isValidoPresupuestoEquipo1 = true;
-		}
+		boolean isValidoPresupuestoEquipo1 = true;
+//		if (sumaSalarialJugadoresEntrantes.compareTo(sumaSalarialJugadoresSalientes)>0){
+//			isValidoPresupuestoEquipo1 = (sumaSalarialEquipo1.compareTo(presupuestoEquipo1)<=0);
+//		}
+//		else {
+//			isValidoPresupuestoEquipo1 = true;
+//		}
 		
-		boolean isValidoPresupuestoEquipo2 = false;
-		if (sumaSalarialJugadoresSalientes.compareTo(sumaSalarialJugadoresEntrantes)>0){
-			isValidoPresupuestoEquipo2 = (sumaSalarialEquipo2.compareTo(presupuestoEquipo2)<=0);
-		}
-		else {
-			isValidoPresupuestoEquipo2 = true;
-		}
+		boolean isValidoPresupuestoEquipo2 = true;
+//		if (sumaSalarialJugadoresSalientes.compareTo(sumaSalarialJugadoresEntrantes)>0){
+//			isValidoPresupuestoEquipo2 = (sumaSalarialEquipo2.compareTo(presupuestoEquipo2)<=0);
+//		}
+//		else {
+//			isValidoPresupuestoEquipo2 = true;
+//		}
 		
 		final boolean isValidoSalariosEquipo1 = isValidoSalarioEquipo(com.getLimiteTope(), sumaSalarialEquipo1, sumaSalarialJugadoresSalientes, sumaSalarialJugadoresEntrantes);
 		final boolean isValidoSalariosEquipo2 = isValidoSalarioEquipo(com.getLimiteTope(), sumaSalarialEquipo2, sumaSalarialJugadoresEntrantes, sumaSalarialJugadoresSalientes);

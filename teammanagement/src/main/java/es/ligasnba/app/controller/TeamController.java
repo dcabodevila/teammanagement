@@ -175,20 +175,11 @@ public class TeamController {
 						
 			teamForm.setPropietarioEquipo(isPropietarioEquipo);
 
-			if (isPropietarioEquipo && com.getTipoEstadoCompeticion().getIdTipoEstadoCompeticion().equals(Constants.cTipoEstadoCompeticionDraft)){
-				
-			}
-			else {
-				//Mostrar Roster
-				if (isPropietarioEquipo){
-					
-				}
-				else {
-					
-				}
-				
-			}		
-		
+			teamForm.setPermitidoRenovarJugadores(this.teamservice.isPermitidoRenovarJugadores(com));
+			
+			teamForm.setPermitidoDespedirJugadores(this.teamservice.isMercadoAbierto(com));
+			teamForm.setListaEquipos(this.teamservice.findAllEquiposFromCompetition(equipo.getCompeticion().getIdCompeticion()));
+			
 	        model.put("teamForm", teamForm);
 	        return "teamform";
 
@@ -319,7 +310,9 @@ public class TeamController {
 						
 			model.put("offerTeam", idEquipo);
 			model.put("contractData", contractdata);
-					
+
+
+			
 			
 		} catch (InstanceNotFoundException e) {
 			

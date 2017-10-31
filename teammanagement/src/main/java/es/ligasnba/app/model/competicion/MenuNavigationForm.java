@@ -8,6 +8,7 @@ public class MenuNavigationForm {
 	private Short estadoCompeticion;
 	private Long idEquipo;
 	private Long idTemporada;
+	private boolean mercadoAbierto;
 	
 	public MenuNavigationForm() {
 		// TODO Auto-generated constructor stub
@@ -49,6 +50,11 @@ public class MenuNavigationForm {
 	public void setIdTemporada(Long idTemporada) {
 		this.idTemporada = idTemporada;
 	}
-	
+	public boolean isMercadoAbierto() {
+		return mercadoAbierto;
+	}
+	public void setMercadoAbierto(boolean mercadoAbierto) {
+		this.mercadoAbierto = mercadoAbierto;
+	}
 	
 }

@@ -4,22 +4,22 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <html>
-<link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/resources/css/cupertino/jquery-ui-1.10.3.custom.css" context="/teammanagement"/>">  
-<link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/resources/css/ui.jqgrid.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootstrap.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-desktop.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/styles.css" context="/teammanagement"/>">
+<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/resources/css/cupertino/jquery-ui-1.10.3.custom.css"/>  
+<link rel="stylesheet" type="text/css" media="screen" href="${pageContext.request.contextPath}/resources/css/ui.jqgrid.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-desktop.min.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/styles.css"/>
 
 <%@ page import="es.ligasnba.app.util.constants.Constants" %>
 
 
-<script type='text/javascript' src='<c:url value="/resources/js/jquery-3.1.0.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/jquery-ui-1.10.3.custom.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/grid.locale-es.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/jquery.jqGrid.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/noty/jquery.noty.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/noty/layouts/top.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/noty/themes/default.js"/>'></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery-ui-1.10.3.custom.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/grid.locale-es.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery.jqGrid.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/noty/jquery.noty.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/noty/layouts/top.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/noty/themes/default.js"/></script>
 
 <head>
 <title>Mercado de ${teamMarketForm.equipo.competicion.nombre}</title>
@@ -45,12 +45,10 @@ jq(function() {
 	   url:'/market/players/'+${teamMarketForm.equipo.idEquipo},
 	   datatype: 'json',
 	   mtype: 'GET',
-	      colNames:['id', 'Nombre',  'Pos','Pos2','Media','Años','Salario'],
+	      colNames:['id', 'Nombre','Media','Años','Salario'],
 	      colModel:[
 		{name:'idJugador',index:'idJugador', width:6,hidden:true},
 		{name:'nombre',index:'nombre', width:30,align:'center'},
-		{name:'posicion1',index:'posicion1', width:9, align:'center', sorttype:'int'},
-		{name:'posicion2',index:'posicion2', width:9, align:'center', sorttype:'int'},
 		{name:'media',index:'media', width:10,align:'right', sorttype:'int'},
 		{name:'contractYears',index:'contractYears', width:10, align:'right', sorttype:'int'},
 		{name:'currentSalary',index:'currentSalary', width:24, align:'right', sorttype:'int', formatter:'currency', formatoptions:{decimalSeparator:",", thousandsSeparator: ",", decimalPlaces: 0, prefix: "$ "}}		
@@ -102,12 +100,10 @@ jq(function() {
 	   url:'',
 	   datatype: 'json',
 	   mtype: 'GET',
-	      colNames:['id', 'Nombre',  'Pos','Pos2','Media','Años','Salario'],
+	      colNames:['id', 'Nombre','Media','Años','Salario'],
 	      colModel:[
 		{name:'idJugador',index:'idJugador', width:6,editable:false,editoptions:{readonly:true,size:10},hidden:true},
 		{name:'nombre',index:'nombre', width:30,editable:true, editrules:{required:true}, editoptions:{size:10}, align:'center'},
-		{name:'posicion1',index:'posicion1', width:9,editable:true, editrules:{required:true}, editoptions:{size:10}, align:'center', sorttype:'int'},
-		{name:'posicion2',index:'posicion2', width:9,editable:true, editrules:{required:true}, editoptions:{size:10}, align:'center', sorttype:'int'},
 		{name:'media',index:'media', width:10,editable:true, editrules:{required:true}, editoptions:{size:10}, align:'right', sorttype:'int'},
 		{name:'contractYears',index:'contractYears', width:10,editable:true, editrules:{required:true}, editoptions:{size:10}, align:'right', sorttype:'int'},
 		{name:'currentSalary',index:'currentSalary', width:24,editable:true, editrules:{required:true}, editoptions:{size:10}, align:'right', sorttype:'int', formatter:'currency', formatoptions:{decimalSeparator:",", thousandsSeparator: ",", decimalPlaces: 0, prefix: "$ "}}		
@@ -463,8 +459,10 @@ function evaluateTrade(){
 	if ( (localIdTeam!=0) && (visitorIdTeam!=0) && (localPlayersIds.length>0) && (visitorPlayersIds.length>0) && validLocalNumPlayers && validVisitorNumPlayers){
 		jq('#proposeTradeButton').prop('disabled',false);
 	}
-// 	else
-// 		jq('#proposeTradeButton').prop('disabled',true);
+ 	else {
+ 		jq('#proposeTradeButton').prop('disabled',true);
+ 	}
+ 		
 
 
 
@@ -502,9 +500,9 @@ function generateNoty(msg,type){
 				<tr>
 					<th>Salario jugadores ofrecidos</th><td>$<label id="localSumPlayerSalaries"> </label></td>
 				</tr>
-				<tr>
-					<th>Espacio salarial</th><td>$<label class="starthidden" id="defaultLocalSumSalaries"></label><label id="localSumSalaries"></label></td>
-				</tr>
+<!-- 				<tr> -->
+<!-- 					<th>Espacio salarial</th><td>$<label class="starthidden" id="defaultLocalSumSalaries"></label><label id="localSumSalaries"></label></td> -->
+<!-- 				</tr> -->
 				<tr>
 					<label class="starthidden" id="defaultLocalNumPlayers"></label> <th>Número de jugadores</th><td><label id="localNumPlayers"></label></td>
 				</tr>
@@ -519,9 +517,9 @@ function generateNoty(msg,type){
 				<tr>
 					<th>Salario jugadores recibidos</th><td>$<label id="visitorSumPlayerSalaries"></label></td>
 				</tr>
-				<tr>
-					<th>Espacio salarial</th><td>$<label class="starthidden" id="defaultVisitorSumSalaries"></label><label id="visitorSumSalaries"></label></td>
-				</tr>
+<!-- 				<tr> -->
+<!-- 					<th>Espacio salarial</th><td>$<label class="starthidden" id="defaultVisitorSumSalaries"></label><label id="visitorSumSalaries"></label></td> -->
+<!-- 				</tr> -->
 				<tr>
 					<th>Número de jugadores</th><td><label id="defaultVisitorNumPlayers" class="starthidden"></label><label id="visitorNumPlayers"></label></td>
 				</tr>

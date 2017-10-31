@@ -1,6 +1,7 @@
 package es.ligasnba.app.model.finanzas;
 
 
+import es.ligasnba.app.model.arquetipoEquipo.ArquetipoEquipo;
 import es.ligasnba.app.model.generic.GenericDaoHibernate;
 import es.ligasnba.app.model.jugador.PlayerData;
 import es.ligasnba.app.model.jugadordefault.JugadorDefault;
@@ -36,5 +37,6 @@ public class AsientoDaoHibernate extends GenericDaoHibernate<Asiento,Long> imple
 		return (BigDecimal) ((SQLQuery) getSession().getNamedQuery("FIND_BALANCE_BY_EQUIPO_TEMPORADA").setParameter("idEquipo", idEquipo).setParameter("idTemporada", idTemporada)).uniqueResult();
 
 	}
+
 	
 }

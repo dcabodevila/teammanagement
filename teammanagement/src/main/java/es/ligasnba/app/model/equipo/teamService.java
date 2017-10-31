@@ -3,6 +3,7 @@ package es.ligasnba.app.model.equipo;
 
 import java.util.List;
 
+import es.ligasnba.app.model.competicion.Competicion;
 import es.ligasnba.app.model.dto.EquipoSeleccionDto;
 import es.ligasnba.app.model.equipodefault.EquipoDefault;
 import es.ligasnba.app.model.historicoEquipoJugador.HistoricoEquipoJugador;
@@ -31,5 +32,7 @@ public interface teamService {
 	List<HistoricoEquipoJugador> findSeasonTeamsByPlayer(long idJugador, long idTemporada);
 	List<EquipoSeleccionDto> findAllTeamsNotSelectedInCompetition(long idCompeticion);
 	List<EquipoSeleccionDto> findAllEquiposFromCompetition(long idCompeticion);
+	boolean isPermitidoRenovarJugadores(Competicion com);
+	boolean isMercadoAbierto(Competicion com);
 
 }

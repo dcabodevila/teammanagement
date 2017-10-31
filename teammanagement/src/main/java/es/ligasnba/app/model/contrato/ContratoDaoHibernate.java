@@ -114,4 +114,34 @@ public class ContratoDaoHibernate extends GenericDaoHibernate<Contrato,Long> imp
 
 	}
 	
+
+	@Override
+	public void registrarValoracionOferta(ValoracionOfertaContratoDto valoracionOferta){		 
+
+		getSession().createSQLQuery("INSERT INTO valoracion_ofertas (ID_CONTRATO, ID_COMPETICION, ID_EQUIPO, NOMBRE_EQUIPO, ID_JUGADOR, NOMBRE_JUGADOR, SALARIO_T1, SALARIO_T2, "+
+         " SALARIO_T3, VALORACION_MONEY, MONEY_INTEREST, VALORACION_WINNING, WINNING_INTEREST, VALORACION_LOYALTY, LOYALTY_INTEREST, VALORACION_GLOBAL, VALORACION_GLOBAL_EXIGIDA, ES_SIGN_AND_TRADE, FECHA) "+
+         " VALUES (:idContrato, :idCompeticion, :idEquipo, :nombreEquipo, :idJugador, :nombreJugador, :salary1, :salary2, :salary3, :valoracionMoney, :moneyInterest, :valoracionWinning, :winningInterest, :valoracionLoyalty, :loyaltyInterest, :valoracionGlobal, :valoracionGlobalExigida, :esSignAndTrade, :fecha);")
+		.setParameter("idContrato",valoracionOferta.getIdContrato())
+		.setParameter("idCompeticion",valoracionOferta.getIdCompeticion())
+		.setParameter("idEquipo",valoracionOferta.getIdEquipo())
+		.setParameter("nombreEquipo",valoracionOferta.getNombreEquipo())
+		.setParameter("idJugador",valoracionOferta.getIdJugador())
+		.setParameter("nombreJugador",valoracionOferta.getNombreJugador())
+		.setParameter("salary1",valoracionOferta.getSalarioTemporada1())
+		.setParameter("salary2",valoracionOferta.getSalarioTemporada2())
+		.setParameter("salary3",valoracionOferta.getSalarioTemporada3())
+		.setParameter("valoracionMoney",valoracionOferta.getValoracionMoney())
+		.setParameter("moneyInterest",valoracionOferta.getMoneyInterest())
+		.setParameter("valoracionWinning",valoracionOferta.getValoracionWinning())
+		.setParameter("winningInterest",valoracionOferta.getWinningInterest())
+		.setParameter("valoracionLoyalty",valoracionOferta.getValoracionLoyalty())
+		.setParameter("loyaltyInterest",valoracionOferta.getLoyaltyInterest())
+		.setParameter("valoracionGlobal",valoracionOferta.getValoracionGlobal())
+		.setParameter("valoracionGlobalExigida",valoracionOferta.getValoracionGlobalExigida())		
+		.setParameter("esSignAndTrade",valoracionOferta.isEsSignAndTrade())		
+		.setParameter("fecha",valoracionOferta.getFecha())
+		.executeUpdate();
+
+	}
+	
 }

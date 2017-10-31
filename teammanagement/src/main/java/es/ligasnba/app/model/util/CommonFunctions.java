@@ -38,6 +38,16 @@ public class CommonFunctions {
 		return min + r.nextFloat() * (max - min);
 	}
 	
+	
+	public static float getPorcentajeRandomMas(int porcentaje){
+		
+		final float porcentajeMasMenos = (float)porcentaje/100;
+		final float min = (1F);
+		final float max = (1F + porcentajeMasMenos);
+		final Random r = new Random();
+		return min + r.nextFloat() * (max - min);
+	}
+	
 	public static Date getStartOfDay(Date d) {
 		Calendar calActual = Calendar.getInstance();
 		calActual.setTime(d);

@@ -6,6 +6,7 @@ import java.util.List;
 
 
 import es.ligasnba.app.model.jugador.PlayerData;
+import es.ligasnba.app.model.dto.EquipoSeleccionDto;
 import es.ligasnba.app.model.equipodefault.EquipoDefault;
 import es.ligasnba.app.model.jugador.Jugador;
 
@@ -17,9 +18,12 @@ public class TeamForm {
 	private List<Jugador> listaJugadores = new ArrayList<Jugador>();
 	private List<PlayerData> listaInfoJugadores = new ArrayList<PlayerData>();
 	private List<EquipoDefault> listaEquiposDefault = new ArrayList<EquipoDefault>();
+	private List<EquipoSeleccionDto> listaEquipos = new ArrayList<EquipoSeleccionDto>();
 	private Long selectedIdEquipoDefault;
 	private boolean propietarioEquipo;
-	private boolean adminCompeticion;	
+	private boolean adminCompeticion;
+	private boolean permitidoRenovarJugadores;
+	private boolean permitidoDespedirJugadores;
 	
 	public TeamForm(List<Jugador> lista) {
 		this.listaJugadores = lista;
@@ -122,6 +126,40 @@ public class TeamForm {
 		this.adminCompeticion = adminCompeticion;
 	}
 
-	
+
+
+	public boolean isPermitidoRenovarJugadores() {
+		return permitidoRenovarJugadores;
+	}
+
+
+
+	public void setPermitidoRenovarJugadores(boolean permitidoRenovarJugadores) {
+		this.permitidoRenovarJugadores = permitidoRenovarJugadores;
+	}
+
+
+
+	public boolean isPermitidoDespedirJugadores() {
+		return permitidoDespedirJugadores;
+	}
+
+
+
+	public void setPermitidoDespedirJugadores(boolean permitidoDespedirJugadores) {
+		this.permitidoDespedirJugadores = permitidoDespedirJugadores;
+	}
+
+
+
+	public List<EquipoSeleccionDto> getListaEquipos() {
+		return listaEquipos;
+	}
+
+
+
+	public void setListaEquipos(List<EquipoSeleccionDto> listaEquipos) {
+		this.listaEquipos = listaEquipos;
+	}
 	
 }

@@ -15,33 +15,36 @@
 	<!-- Quartz uses Trigger, Job and JobDetail objects to realize scheduling of all kinds of jobs. 
 			For the basic concepts behind Quartz, have a look at http://www.opensymphony.com/quartz.
 			See: http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/scheduling.html#scheduling-quartz -->
-<!-- 	<bean name="jobDetailBean" class="org.springframework.scheduling.quartz.JobDetailFactoryBean" -->
-<!-- 	  		p:jobClass="es.ligasnba.app.util.Scheduler.CustomJob" > -->
-<!-- 	  		<property name="jobDataAsMap"> -->
-<!-- 	  			<map> -->
-<!-- 	  				<entry key="worker" > -->
-<!-- 	  					<ref bean="task" /> -->
-<!-- 	  				</entry> -->
+	<bean name="jobDetailBean" class="org.springframework.scheduling.quartz.JobDetailFactoryBean"
+	  		p:jobClass="es.ligasnba.app.util.Scheduler.CustomJob" >
+	  		<property name="jobDataAsMap">
+	  			<map>
+	  				<entry key="worker" >
+	  					<ref bean="task" />
+	  				</entry>
 
-<!-- 	  			</map> -->
-<!-- 	  		</property> -->
-<!-- 	</bean> -->
+	  			</map>
+	  		</property>
+	</bean>
 	
 	<!-- Convenience subclass of Quartz's CronTrigger class, making bean-style usage easier. 
 			See: http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/scheduling/quartz/CronTriggerBean.html
 			Cron Expression: http://en.wikipedia.org/wiki/CRON_expression	-->
 	<!-- startDelay: Delay 10 seconds 
 			cronExpression:Repeat every morning at 10th of the second -->		
-<!-- 	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean" -->
-<!-- 	    	p:jobDetail-ref="jobDetailBean"  -->
-<!-- 	    	p:cronExpression="0 0/1 * 1/1 * ? *"   	 -->
-<!-- 	    	/> -->
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"
+	    	p:jobDetail-ref="jobDetailBean" 
+	    	p:cronExpression="0 0 3 ? * * *" 	
+	    	/>
 	    	
 	    		
 <!-- A LAS 3 AM	    		 -->
+                       
 <!-- p:cronExpression="0 0 3 ? * * *"	    		 -->
 <!-- CADA 5 MIN	    	 -->
-<!-- 	    	p:cronExpression="0 0/5 * 1/1 * ? *" -->	
+<!-- 	    	p:cronExpression="0 0/5 * 1/1 * ? *" -->
+<!-- CADA 1 MIN -->
+<!-- 	    	p:cronExpression="0 0/1 * 1/1 * ? *"  	 -->
 	<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 	<!--  SCHEDULER FOR BOTH JOBS -->
 	
@@ -55,20 +58,19 @@
 			SchedulerFactoryBean API
 			http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/scheduling/quartz/SchedulerFactoryBean.html
 			-->
-<!-- 	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean" -->
-<!-- 			p:waitForJobsToCompleteOnShutdown="true" > -->
-<!-- 		    <property name="triggers"> -->
-<!-- 		        <list> -->
-<!-- 		        <ref bean="simpleTrigger"/> -->
-<!-- 	            	<ref bean="cronTrigger" /> -->
-<!-- 		        </list> -->
-<!-- 		    </property> -->
-<!-- 		    <property name="quartzProperties">  -->
-<!-- 				<props>  -->
-<!-- 					<prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop> -->
-<!-- 					<prop key="org.quartz.threadPool.threadCount">5</prop>  -->
-<!-- 					<prop key="org.quartz.threadPool.threadPriority">4</prop> -->
-<!-- 				</props> -->
-<!-- 			</property> -->
-<!-- 	</bean> -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
+			p:waitForJobsToCompleteOnShutdown="true" >
+		    <property name="triggers">
+		        <list>
+	            	<ref bean="cronTrigger" />
+		        </list>
+		    </property>
+		    <property name="quartzProperties"> 
+				<props> 
+					<prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
+					<prop key="org.quartz.threadPool.threadCount">5</prop> 
+					<prop key="org.quartz.threadPool.threadPriority">4</prop>
+				</props>
+			</property>
+	</bean>
 </beans>

@@ -21,6 +21,7 @@ public class CompetitionForm {
 	private String temporada;
 	private BigDecimal presupuestoActual;
 	private BigDecimal presupuestoSiguiente;
+	private String balance;
 	
 
 	public List<Partido> listaUltimosPartidos= new ArrayList<Partido>();
@@ -130,6 +131,14 @@ public class CompetitionForm {
 
 	public void setPresupuestoSiguiente(BigDecimal presupuestoSiguiente) {
 		this.presupuestoSiguiente = presupuestoSiguiente;
+	}
+
+	public String getBalance() {
+		return balance;
+	}
+
+	public void setBalance(String balance) {
+		this.balance = balance;
 	}
 	
 }

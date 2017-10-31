@@ -23,6 +23,7 @@ import es.ligasnba.app.model.finanzas.finanzasService;
 import es.ligasnba.app.model.temporada.Temporada;
 import es.ligasnba.app.model.temporada.TemporadaDao;
 import es.ligasnba.app.model.usuario.Usuario;
+import es.ligasnba.app.model.util.CommonFunctions;
 import es.ligasnba.app.util.constants.Constants;
 import es.ligasnba.app.util.exceptions.InstanceNotFoundException;
 import es.ligasnba.app.util.jqgrid.CustomGenericResponse;
@@ -463,27 +464,34 @@ public class matchServiceImpl implements matchService{
 		if (idUsuario!=null){
 		
 			final ResumenValoraciones valoracionesRecibidas = this.actapartidodao.findValoracionesRecibidasUsuario(idUsuario);		
-			final ResumenValoraciones valoracionesRealizadas = this.actapartidodao.findValoracionesRealizadasUsuario(idUsuario);
+			ResumenValoraciones valoracionesRealizadas = this.actapartidodao.findValoracionesRealizadasUsuario(idUsuario);
 			
-			if ((valoracionesRecibidas.getNumeroValoraciones()>5) && (valoracionesRealizadas.getNumeroValoraciones()>5)){
+			if ((valoracionesRecibidas.getNumeroValoraciones()>=12) && (valoracionesRealizadas.getNumeroValoraciones()>=12)){
+				int valoracionesReducidas = Math.round((valoracionesRealizadas.getNumeroValoraciones() / 3));
+				
+				
 				BigDecimal coeficienteRecibidas  = valoracionesRecibidas.getValoracionMedia().multiply(new BigDecimal(valoracionesRecibidas.getNumeroValoraciones()));
-				BigDecimal coeficienteRealizadas = valoracionesRealizadas.getValoracionMedia().multiply(new BigDecimal(valoracionesRealizadas.getNumeroValoraciones()));
+				BigDecimal coeficienteRealizadas = valoracionesRealizadas.getValoracionMedia().multiply(new BigDecimal(valoracionesReducidas));
 				
 				BigDecimal dividendo = coeficienteRecibidas.add(coeficienteRealizadas);
-				BigDecimal divisor = new BigDecimal (valoracionesRecibidas.getNumeroValoraciones()+valoracionesRealizadas.getNumeroValoraciones());
+				BigDecimal divisor = new BigDecimal (valoracionesRecibidas.getNumeroValoraciones()+valoracionesReducidas);
 				
 				BigDecimal valoracion = (dividendo.divide(divisor, RoundingMode.HALF_UP));
 				
-				if (loyaltyInterest!=5){
-					final BigDecimal loyalty = new BigDecimal(loyaltyInterest);
-					valoracion = valoracion.multiply(loyalty).divide(new BigDecimal(5), RoundingMode.HALF_UP);
-				}
+				valoracion = valoracion.subtract(Constants.cNotaSueloValoraciones);
+
+				final BigDecimal loyalty = new BigDecimal(loyaltyInterest);
 				
-				return valoracion;
+				BigDecimal notaMaxima = new BigDecimal(5);
+				notaMaxima = notaMaxima.subtract(Constants.cNotaSueloValoraciones);
+				
+				valoracion = valoracion.multiply(loyalty).divide(notaMaxima, RoundingMode.HALF_UP);
+				
+				return valoracion.setScale(2, RoundingMode.CEILING);
 				
 			}
 			else {
-				return result;
+				return null;
 			}
 		}
 		
@@ -496,20 +504,32 @@ public class matchServiceImpl implements matchService{
 		
 		
 		try {
-			BigDecimal valoracionMinima = (new BigDecimal(valoracionWinning)).multiply(new BigDecimal(0.2));
-			
 			Equipo e = this.equipodao.find(idEquipo);
+			
+			BigDecimal valoracionMinima = (new BigDecimal(valoracionWinning)).multiply(new BigDecimal(0.3));
+			
+			
 			ResumenBalance balance = this.actapartidodao.findBalanceEquipo(idEquipo, e.getCompeticion().getIdTemporadaActual(), false);
 			
 			final BigDecimal totalPartidos = new BigDecimal(29);
 			final BigDecimal winningInterest = new BigDecimal(valoracionWinning);
-			BigDecimal valoracionEquipo = winningInterest.multiply(new BigDecimal(balance.getNumeroVictorias())).divide(totalPartidos, RoundingMode.HALF_UP);
+			BigDecimal valoracionEquipo = BigDecimal.ZERO;
 			
-			if (valoracionEquipo.compareTo(valoracionMinima)>0){
-				return valoracionEquipo;
+			
+			int numeroTotalPartidos = balance.getNumeroVictorias().intValue() + balance.getNumeroDerrotas().intValue();
+			
+			if (numeroTotalPartidos>12){			
+				valoracionEquipo = winningInterest.multiply(new BigDecimal(balance.getNumeroVictorias())).divide(totalPartidos, RoundingMode.HALF_UP);
 			}
 			else {
-				return valoracionMinima;
+				return null;
+			}
+			
+			if (valoracionEquipo.compareTo(valoracionMinima)>0){
+				return valoracionEquipo.setScale(2, RoundingMode.CEILING);
+			}
+			else {
+				return valoracionMinima.setScale(2, RoundingMode.CEILING);
 			}
 			
 		} catch (InstanceNotFoundException e1) {
@@ -542,6 +562,11 @@ public class matchServiceImpl implements matchService{
 		
 		return result;
 	}
-	
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<Partido> getPartidosPendientesEquipo(long idEquipo){
+		return this.partidodao.getPartidosPendientesEquipo(idEquipo);
+	}
 	
 }

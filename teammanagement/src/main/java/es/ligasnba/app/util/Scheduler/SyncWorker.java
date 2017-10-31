@@ -25,7 +25,7 @@ import es.ligasnba.app.util.Log;
 import es.ligasnba.app.util.constants.Constants;
 import es.ligasnba.app.util.exceptions.InstanceNotFoundException;
 
-//@Component("SchedulerImpl")
+@Component("SchedulerImpl")
 public class SyncWorker implements Worker{
 	
 	@Autowired
@@ -59,7 +59,11 @@ public class SyncWorker implements Worker{
 		
 			for (Competicion competicion : competiciones){							
 				
-				this.segundoPlanoService.ejecutarActualizacionCompeticion(competicion, false);
+				try {
+					this.segundoPlanoService.ejecutarActualizacionCompeticion(competicion.getIdCompeticion(), false);
+				} catch (InstanceNotFoundException e) {
+					logger.error(e.getMessage());
+				}
 			}			
 		}
 		

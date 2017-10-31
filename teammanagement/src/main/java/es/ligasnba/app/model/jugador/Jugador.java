@@ -42,7 +42,7 @@ public class Jugador {
     private List<Contrato> listaOfertasContrato = new ArrayList<Contrato>();
     private String imagen;
     private Integer minutos;
-    private int idEquipoOriginal;
+    private Integer idEquipoOriginal;
     private Integer posicion1;
     private Integer posicion2;
     private Integer media;
@@ -269,11 +269,11 @@ public class Jugador {
     	return (this.idJugador== jugador.idJugador);
     }
     @Column(name="idEquipoOriginal")
-	public int getIdEquipoOriginal() {
+	public Integer getIdEquipoOriginal() {
 		return idEquipoOriginal;
 	}
 
-	public void setIdEquipoOriginal(int idEquipoOriginal) {
+	public void setIdEquipoOriginal(Integer idEquipoOriginal) {
 		this.idEquipoOriginal = idEquipoOriginal;
 	}
 	@Column(name="loyaltyInterest")

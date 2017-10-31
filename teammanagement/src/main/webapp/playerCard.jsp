@@ -10,12 +10,12 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/styles-responsive.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootstrap.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-desktop.min.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/bootcards-demo.css" context="/teammanagement"/>">
-<link rel="stylesheet" type="text/css" media="all" href="<c:url value="/resources/css/font-awesome.min.css" context="/teammanagement"/>">
-<script type='text/javascript' src='<c:url value="/resources/js/jquery-3.1.0.min.js"/>'></script>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/styles-responsive.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-desktop.min.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/bootcards-demo.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css"/>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery-3.1.0.min.js"/></script>
 
 	<div id="contactCard">
 		
@@ -94,13 +94,13 @@
 		</div>					
 	
 	</div>
-	<script type='text/javascript' src='<c:url value="/resources/js/fastclick.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/raphael-min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/morris.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/bootstrap.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/bootcards.min.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/jquery.pjax.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/bootcards-demo-app.js"/>'></script>
+	<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/fastclick.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/raphael-min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/morris.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/bootcards.min.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/jquery.pjax.js"/></script>
+<script type='text/javascript' src="${pageContext.request.contextPath}/resources/js/bootcards-demo-app.js"/></script>
 <script type="text/javascript">
     
     if ( $('.list-group a.active').length === 0 ) {

@@ -64,7 +64,7 @@ CREATE TABLE equipo (
   presupuestoProximaTemporada DECIMAL(15,2) default 71000000,
   idEquipoOriginal INT REFERENCES equipodefault(idEquipo),
   midLevelExceptionUsed BOOLEAN default false,
-  idArquetipo BIGINT references arquetipoEquipo(idArquetipo) DEFAULT 1,
+  idArquetipo BIGINT DEFAULT 1 references arquetipoEquipo(idArquetipo),
   PRIMARY KEY(idEquipo)
 )ENGINE = InnoDB	;
 CREATE TABLE equipodefault (
@@ -229,8 +229,11 @@ CREATE TABLE actapartido(
 Create TABLE noticia(
   idNoticia BIGINT NOT NULL AUTO_INCREMENT,
   idEquipo BIGINT REFERENCES equipo(idEquipo),
+  idCompeticion BIGINT REFERENCES competicion(idCompeticion),
   texto VARCHAR(1000),
   fecha datetime,
+  mensajeNuevo BOOLEAN DEFAULT true,
+  notificar BOOLEAN DEFAULT false,  
   PRIMARY KEY(idNoticia)
 )
 ENGINE=InnoDB;
@@ -326,6 +329,29 @@ Create TABLE arquetipoEquipo(
   PRIMARY KEY(idArquetipo)
 )
 ENGINE=InnoDB;
+CREATE TABLE valoracion_ofertas (
+  ID_VALORACION_OFERTA BIGINT NOT NULL AUTO_INCREMENT,
+  ID_CONTRATO BIGINT REFERENCES contrato(idContrato),  
+  ID_COMPETICION BIGINT REFERENCES competicion(idCompeticion),
+  ID_EQUIPO BIGINT REFERENCES equipo(idEquipo),  
+  NOMBRE_EQUIPO VARCHAR(50),
+  ID_JUGADOR BIGINT REFERENCES jugador(idJugador),  
+  NOMBRE_JUGADOR VARCHAR(50),
+  SALARIO_T1 DECIMAL(15,2),
+  SALARIO_T2 DECIMAL(15,2),
+  SALARIO_T3 DECIMAL(15,2),
+  VALORACION_MONEY DECIMAL(15,2),
+  MONEY_INTEREST INT,
+  VALORACION_WINNING DECIMAL(15,2),
+  WINNING_INTEREST INT,
+  VALORACION_LOYALTY DECIMAL(15,2),
+  LOYALTY_INTEREST INT,
+  VALORACION_GLOBAL DECIMAL(15,2),
+  ES_SIGN_AND_TRADE BOOLEAN,
+  FECHA DATE,
+  PRIMARY KEY(ID_VALORACION_OFERTA)
+)
+ENGINE = InnoDB;
 INSERT INTO tipo_competicion (idTipoCompeticion,nombre,descripcion) VALUES (1,'Draft','Equipos sin jugadores. GM eligen a sus jugadores');
 INSERT INTO tipo_competicion (idTipoCompeticion,nombre,descripcion) VALUES (2,'Real','Plantillas reales de la NBA');
 INSERT INTO tipo_estado_competicion (idTipoEstado,nombre,descripcion) VALUES (1,'Pretemporada','GM configuran sus plantillas');
