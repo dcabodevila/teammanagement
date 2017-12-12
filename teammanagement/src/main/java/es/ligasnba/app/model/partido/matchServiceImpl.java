@@ -506,20 +506,21 @@ public class matchServiceImpl implements matchService{
 		try {
 			Equipo e = this.equipodao.find(idEquipo);
 			
-			BigDecimal valoracionMinima = (new BigDecimal(valoracionWinning)).multiply(new BigDecimal(0.3));
+			BigDecimal valoracionMinima = (new BigDecimal(valoracionWinning)).multiply(new BigDecimal(0.25));
 			
 			
 			ResumenBalance balance = this.actapartidodao.findBalanceEquipo(idEquipo, e.getCompeticion().getIdTemporadaActual(), false);
 			
-			final BigDecimal totalPartidos = new BigDecimal(29);
-			final BigDecimal winningInterest = new BigDecimal(valoracionWinning);
-			BigDecimal valoracionEquipo = BigDecimal.ZERO;
+			BigDecimal totalPartidos = new BigDecimal(29);
+			BigDecimal winningInterest = new BigDecimal(valoracionWinning);
+			BigDecimal valoracionEquipo = new BigDecimal(0);
 			
 			
 			int numeroTotalPartidos = balance.getNumeroVictorias().intValue() + balance.getNumeroDerrotas().intValue();
 			
-			if (numeroTotalPartidos>12){			
-				valoracionEquipo = winningInterest.multiply(new BigDecimal(balance.getNumeroVictorias())).divide(totalPartidos, RoundingMode.HALF_UP);
+			if (numeroTotalPartidos>12){
+				BigDecimal operando = winningInterest.multiply(new BigDecimal(balance.getNumeroVictorias())).setScale(2, RoundingMode.CEILING);
+				valoracionEquipo = operando.divide(new BigDecimal(29),BigDecimal.ROUND_HALF_UP);
 			}
 			else {
 				return null;

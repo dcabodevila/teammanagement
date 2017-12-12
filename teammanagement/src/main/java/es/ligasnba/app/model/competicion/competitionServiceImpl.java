@@ -994,7 +994,7 @@ public class competitionServiceImpl implements competitionService{
 					}
 				}
 			}
-			this.finanzasservice.ingresarObjetivosTemporadaRegular(e);	
+//			this.finanzasservice.ingresarObjetivosTemporadaRegular(e);	
 			
 		} 
 		

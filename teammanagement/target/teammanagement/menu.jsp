@@ -46,7 +46,7 @@
 <%-- 		<li role="presentation"><a href="${profile}">Perfil</a></li> --%>
 <%-- 		</sec:authorize> --%>
 		<sec:authorize access="isAuthenticated()">				
-		<li role="presentation"><a href="${createCompetitionUrl}">Nueva competición</a></li>
+<%-- 		<li role="presentation"><a href="${createCompetitionUrl}">Nueva competición</a></li> --%>
 		<li role="presentation"><a href="${joinCompetitionUrl}">Unirse a competición</a></li>		
 		<li role="presentation"><a href="${logoutUrl}">Logout</a></li>
 		</sec:authorize>

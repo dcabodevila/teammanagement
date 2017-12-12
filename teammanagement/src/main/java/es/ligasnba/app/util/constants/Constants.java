@@ -133,8 +133,8 @@ public interface Constants {
 	
 	//Contratos
 		
-	public static final BigDecimal cDefaultDificultadContratoSeason = new BigDecimal(6.5);
-	public static final BigDecimal cDefaultDificultadContratoPostSeason = new BigDecimal(6);
+	public static final BigDecimal cDefaultDificultadContratoSeason = new BigDecimal(6);
+	public static final BigDecimal cDefaultDificultadContratoPostSeason = new BigDecimal(5.5);
 	public static final BigDecimal cDefaultDificultadContratoFA = new BigDecimal(5);
 	
 	//Valoraciones
