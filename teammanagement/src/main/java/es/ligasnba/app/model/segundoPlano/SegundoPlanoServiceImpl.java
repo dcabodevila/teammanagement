@@ -544,7 +544,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 				salarioOfrecido = salarioOfrecido.add(lineaContrato.getSalario());
 			}
 			float moneyInterest = c.getJugador().getMoneyInterest();
-			float importanciaAnhosSalario = maxSeasons * (1-(moneyInterest/100));
+			float importanciaAnhosSalario = maxSeasons;
 			
 //			if ((c.getJugador().getMedia()!=null) && (c.getJugador().getMedia()<70)){
 //				importanciaAnhosSalario = 1;

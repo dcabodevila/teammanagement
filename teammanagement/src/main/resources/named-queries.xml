@@ -68,7 +68,7 @@
 	                            on jugador2_.idCompeticion=competicio3_.idCompeticion   
 	                    where  
 	                        competicio3_.idCompeticion=:idCompeticion    
-	          )) order by jugadordef0_.salario1 DESC			 			 
+	          )) order by jugadordef0_.media DESC			 			 
 			 ]]>
 
 	</sql-query>
