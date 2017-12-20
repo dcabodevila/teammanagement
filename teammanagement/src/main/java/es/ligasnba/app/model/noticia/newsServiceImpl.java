@@ -34,6 +34,7 @@ public class newsServiceImpl implements newsService{
 	public void AddNewToUser(Equipo e, String texto, Date fecha){
 		
 		Noticia noticia = new Noticia(e,texto,fecha);
+		noticia.setMensajeNuevo(true);
 		e.addNoticia(noticia);
 		
 		noticiadao.create(noticia);		
@@ -48,9 +49,16 @@ public class newsServiceImpl implements newsService{
 		cal.add(Calendar.DATE, Constants.cNewsMaxOldDate);
 		
 		return noticiadao.getLastNews(idEquipo, cal.getTime(), numNoticias);
-				
-		
+						
 	}
 	
+	
+	@Transactional(readOnly=true)
+	@Override
+	public List<NoticiaDto> getAllNews(long idEquipo){
+		
+		return noticiadao.findAllNewsEquipo(idEquipo);
+						
+	}	
 	
 }

@@ -961,7 +961,30 @@
 			WHERE t.idCompeticion = :idCompeticion
 		]]>
 
-	</sql-query>				
+	</sql-query>
+	
+	<sql-query name="FIND_ALL_NOTICIAS_BY_EQUIPO">
+	    <return-scalar column="idNoticia" type="long"/>
+	    <return-scalar column="texto" type="string"/>
+	    <return-scalar column="fecha" type="date"/>
+	    <return-scalar column="mensajeNuevo" type="boolean"/>
+	    <return-scalar column="notificar" type="boolean"/>
+		<![CDATA[		
+		select
+            noticia0_.idNoticia as idNoticia,
+            noticia0_.fecha as fecha,
+            noticia0_.mensajeNuevo as mensajeNuevo,
+            noticia0_.notificar as notificar,
+            noticia0_.texto as texto 
+        from
+            noticia noticia0_  
+        where
+            noticia0_.idEquipo=:idEquipo
+        order by
+            fecha DESC limit 30            
+		]]>
+
+	</sql-query>					
 
 </hibernate-mapping>
 

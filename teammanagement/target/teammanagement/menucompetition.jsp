@@ -57,6 +57,7 @@
 	    </c:if>	  
 		<li><a href="/contracts/${menuNavigationForm.idEquipo}">Contratos</a></li>
 		<li><a href="/finanzas/${menuNavigationForm.idEquipo}">Finanzas</a></li>
+		<li><a href="/noticias/${menuNavigationForm.idEquipo}">Noticias</a></li>		
 <%-- 		<li><a href="/competition/${menuNavigationForm.idEquipo}/configuration">Ajustes</a></li> --%>
 		<c:if test="${isAdmin}">
 			<li><a href="/admin/${menuNavigationForm.idCompeticion}/calendar">Comisionado</a></li>

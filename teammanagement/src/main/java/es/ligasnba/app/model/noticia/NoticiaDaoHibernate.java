@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import es.ligasnba.app.model.finanzas.AsientoDto;
 import es.ligasnba.app.model.generic.GenericDaoHibernate;
+
+import org.hibernate.SQLQuery;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 @Repository("NoticiaDao")
@@ -21,6 +25,19 @@ public class NoticiaDaoHibernate extends GenericDaoHibernate<Noticia,Long> imple
 		else 
 			return noticias;	
 		
+	}
+	
+	@Override
+	public List<NoticiaDto> findAllNewsEquipo(long idEquipo) {		 
+
+		@SuppressWarnings("unchecked")
+		List<NoticiaDto> j = (List<NoticiaDto>) ((SQLQuery) getSession().getNamedQuery("FIND_ALL_NOTICIAS_BY_EQUIPO").setParameter("idEquipo", idEquipo))
+				.setResultTransformer( Transformers.aliasToBean(NoticiaDto.class)).list();
+		if (j==null) {
+			return new ArrayList<NoticiaDto>();
+		}
+		return j;
+
 	}
 	
 }

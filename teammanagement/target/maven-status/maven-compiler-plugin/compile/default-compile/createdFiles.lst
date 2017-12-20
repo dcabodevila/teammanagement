@@ -115,6 +115,7 @@ es\ligasnba\app\model\actapartido\ActaPartidoBlock.class
 es\ligasnba\app\model\jugador\playerService.class
 es\ligasnba\app\model\tipo_estado_competicion\TipoEstadoCompeticion.class
 es\ligasnba\app\model\historicoEquipoJugador\HistoricoEquipoJugadorDao.class
+es\ligasnba\app\controller\NoticiasController.class
 es\ligasnba\app\model\actapartido\ActaPartidoDao.class
 es\ligasnba\app\model\segundoPlano\SegundoPlanoService.class
 es\ligasnba\app\model\contrato\ContractsForm.class
@@ -134,6 +135,7 @@ es\ligasnba\app\controller\AccessController.class
 es\ligasnba\app\model\contrato\contractServiceImpl.class
 es\ligasnba\app\model\jugador\PlayerData.class
 es\ligasnba\app\util\Scheduler\Worker.class
+es\ligasnba\app\model\noticia\NoticiaDto.class
 es\ligasnba\app\model\clasificacion\classificationServiceImpl.class
 es\ligasnba\app\model\util\SendMailSSL.class
 es\ligasnba\app\model\estadistica\EstadisticaDaoHibernate.class

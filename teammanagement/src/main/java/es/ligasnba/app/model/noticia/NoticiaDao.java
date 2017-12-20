@@ -9,5 +9,7 @@ public interface NoticiaDao extends GenericDao<Noticia,Long>{
 
 	public List<Noticia> getLastNews(long idEquipo, Date fecha, int numNoticias);
 
+	List<NoticiaDto> findAllNewsEquipo(long idEquipo);
+
 
 }

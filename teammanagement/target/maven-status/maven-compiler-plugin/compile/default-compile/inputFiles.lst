@@ -145,6 +145,7 @@ C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\mode
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\controller\DraftPlayersController.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\estadistica\statsService.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\finanzas\FinanzasDto.java
+C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\noticia\NoticiaDto.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\partido\MatchForm.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\clasificacion\Clasificacion.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\competitionrol\CompetitionRolDaoHibernate.java
@@ -178,6 +179,7 @@ C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\mode
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\util\exceptions\DuplicateInstanceException.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\competitionrol\competitionRolServiceImpl.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\partido\ValoracionData.java
+C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\controller\NoticiasController.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\estadistica\StatData.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\estadistica\Estadistica.java
 C:\Users\Sir\workspace\apps2.0\teammanagement\src\main\java\es\ligasnba\app\model\maintenance\maintenanceServiceImpl.java
