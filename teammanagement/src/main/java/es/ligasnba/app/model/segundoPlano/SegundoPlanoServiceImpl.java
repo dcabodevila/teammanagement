@@ -153,6 +153,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 				
 				this.playerservice.updateJugadoresCompeticionFromDefault(competicion.getIdCompeticion());
 				this.playerservice.updateCacheAgentesLibres(competicion.getIdCompeticion());
+				actualizarPresupuestoEquipos(competicion);
 			} catch (Exception e) {
 				logger.info(e.getMessage());
 				return false;
@@ -167,6 +168,15 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 		}
 
 		return true;
+	}
+	
+	private void actualizarPresupuestoEquipos(Competicion c){
+		if (CollectionUtils.isNotEmpty(c.getListaEquipos())){
+			for (Equipo e : c.getListaEquipos()){
+				this.finanzasservice.actualizarPresupuestoEquipo(e, true);
+				this.finanzasservice.actualizarPresupuestoEquipo(e, false);
+			}
+		}
 	}
 	
 	private void firmarContratoPospuesto(Jugador j) throws InstanceNotFoundException{
@@ -363,11 +373,9 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 				
 				if (sumaSalarial.compareTo(competicion.getLimiteSalarial())<0){
 					
-					final int daysLeft = CommonFunctions.daysBetween(competicion.getActualDate(), competicion.getOffSeasonFinishDate());
-					
-					if (daysLeft<=1){
-						return true;						
-					}
+					final int daysLeft = CommonFunctions.daysBetween(competicion.getActualDate(), competicion.getOffSeasonFinishDate());				
+					return (daysLeft>=1);						
+
 
 				}				
 			}
@@ -672,7 +680,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 			if (diasRestantes<=2){
 				notaExigida = new BigDecimal(6.0);
 			}
-			notaExigida = notaExigida.multiply(new BigDecimal(CommonFunctions.getPorcentajeRandomMas(30)));
+			notaExigida = notaExigida.multiply(new BigDecimal(CommonFunctions.getPorcentajeRandomMas(25)));
 		}
 		
 		return notaExigida.setScale(2, RoundingMode.CEILING);

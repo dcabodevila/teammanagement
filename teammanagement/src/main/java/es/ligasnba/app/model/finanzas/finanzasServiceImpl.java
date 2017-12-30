@@ -220,16 +220,20 @@ public class finanzasServiceImpl implements finanzasService{
 	@Override
 	public void actualizarPresupuestoEquipo(Equipo e, final boolean isTemporadaActual){
 		
-		Temporada t = isTemporadaActual ? this.seasonservice.getTemporadaActualCompeticion(e.getCompeticion()) : this.seasonservice.getTemporadaSiguienteCompeticion(e.getCompeticion());			
-		BigDecimal balance = getBalanceEquipoTemporada(e.getIdEquipo(),t.getIdTemporada());
+		final Temporada t = isTemporadaActual ? this.seasonservice.getTemporadaActualCompeticion(e.getCompeticion()) : this.seasonservice.getTemporadaSiguienteCompeticion(e.getCompeticion());
 		
-		if (isTemporadaActual){
+		if (t!=null){
 		
-			e.setPresupuestoActual(balance);
+			BigDecimal balance = getBalanceEquipoTemporada(e.getIdEquipo(),t.getIdTemporada());
+			
+			if (isTemporadaActual){
+			
+				e.setPresupuestoActual(balance);
+			}
+			else {
+				e.setPresupuestoProximaTemporada(balance);
+			}
 		}
-		else {
-			e.setPresupuestoProximaTemporada(balance);
-		}		
 	}
 	
 	@Override
@@ -247,27 +251,31 @@ public class finanzasServiceImpl implements finanzasService{
 	private void hacerBalanceEquipo(Equipo e){
 		
 		Temporada temporadaActual = seasonservice.getTemporadaActualCompeticion(e.getCompeticion());
+		final Temporada temporadaSiguiente = seasonservice.getTemporadaSiguienteCompeticion(e.getCompeticion());
 		final Long idTemporada = temporadaActual.getIdTemporada();
 		
 		BigDecimal sumaSalarial = this.contractservice.getSumSalaries(e.getIdEquipo(), idTemporada, true);		
 		final BigDecimal multaLuxury = this.contractservice.getMultaLuxuryTax(sumaSalarial, e.getCompeticion().getLimiteTope());			
 
-		nuevoAsiento(e, temporadaActual, "Liquidación salarios jugadores", e.getCompeticion().getActualDate(), sumaSalarial);
+		nuevoAsiento(e, temporadaActual, "Liquidación salarios jugadores", e.getCompeticion().getActualDate(), new BigDecimal(0).subtract(sumaSalarial));
 		
 		if (multaLuxury.compareTo(BigDecimal.ZERO)>0){
-			nuevoAsiento(e, temporadaActual, "Multa por pasarse de la tasa de lujo", e.getCompeticion().getActualDate(), multaLuxury);
+			nuevoAsiento(e, temporadaActual, "Multa por pasarse de la tasa de lujo", e.getCompeticion().getActualDate(), new BigDecimal(0).subtract(multaLuxury));
 		}
 		
-		final BigDecimal balance = getBalanceEquipoTemporada(e.getIdEquipo(),idTemporada );			
-		BigDecimal resultado = balance.subtract(sumaSalarial);
-		
+		BigDecimal balance = getBalanceEquipoTemporada(e.getIdEquipo(),idTemporada );			
 		e.setPresupuestoActual(BigDecimal.ZERO);
 		
-		if (resultado.compareTo(BigDecimal.ZERO)>0){
-			resultado = resultado.divide(new BigDecimal(2));
+		if (balance.compareTo(BigDecimal.ZERO)>0){
+			balance = balance.divide(new BigDecimal(2));
 		}
 		
-		e.setPresupuestoProximaTemporada( e.getPresupuestoProximaTemporada().add(resultado));
+		if (temporadaSiguiente!=null){
+			nuevoAsiento(e, temporadaActual, "Liquidación remanente temporada anterior", e.getCompeticion().getActualDate(), new BigDecimal(0).subtract(balance));
+			nuevoAsiento(e, temporadaSiguiente, "Remanente temporada anterior", e.getCompeticion().getActualDate(), balance);
+			final BigDecimal presupuestoTemporadaSiguiente = getBalanceEquipoTemporada(e.getIdEquipo(),temporadaSiguiente.getIdTemporada());
+			e.setPresupuestoProximaTemporada( presupuestoTemporadaSiguiente);
+		}
 		this.equipodao.update(e);
 		
 
