@@ -1096,6 +1096,7 @@ public class contractServiceImpl implements ContractService{
 						
 					}
 				}
+				//TODO: Check presupuesto
 				else {
 					if ((lc.getTemporada().getIdTemporada()==c. getJugador().getCompeticion().getIdTemporadaActual()) && (lc.getSalario().compareTo(contractData.getPresupuestoRestante())>0) && (!c.isUseMidLevelException())){
 						resultado.setValido(false);

@@ -446,7 +446,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 					
 					this.newsservice.AddNewToUser(equipoOferta, "Oferta de "+equipoOferta.getnombre()+" a " +ofertaContrato.getJugador().getNombre()+". Valoración global: "+ resultado.getValoracionGlobal()+ "/10."
 							+ " Valoración salario: "+ resultado.getValoracionMoney() + "/"+resultado.getMoneyInterest() + " Valoración competitiva: "+resultado.getValoracionWinning()+"/"+resultado.getWinningInterest() + 
-							" Valoración lealtad: "+ resultado.getValoracionLoyalty()+"/"+resultado.getLoyaltyInterest() ,
+							" Valoración lealtad: "+ resultado.getValoracionLoyalty()+"/"+resultado.getLoyaltyInterest() + " Nota exigida: "+ resultado.getNotaExigida(),
 							ofertaContrato.getEquipo().getCompeticion().getActualDate());														
 					
 					listaResultado.add(resultado);
@@ -554,16 +554,13 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 			float moneyInterest = c.getJugador().getMoneyInterest();
 			float importanciaAnhosSalario = maxSeasons;
 			
-//			if ((c.getJugador().getMedia()!=null) && (c.getJugador().getMedia()<70)){
-//				importanciaAnhosSalario = 1;
-//			}
 			
 			salarioOfrecido = salarioOfrecido.divide(new BigDecimal(importanciaAnhosSalario), RoundingMode.HALF_UP);
-			
-			final float valorCache = moneyInterest / 2;
+			BigDecimal notaExigida = getNotaBaseExigida(c);
+			BigDecimal valorCache = notaExigida.multiply(new BigDecimal(moneyInterest)).divide(new BigDecimal(10), RoundingMode.HALF_UP);
 			
 	
-			final BigDecimal operando= salarioOfrecido.multiply(new BigDecimal(valorCache));	
+			final BigDecimal operando= salarioOfrecido.multiply(valorCache);	
 			
 			result = operando.divide(c.getJugador().getCache(), RoundingMode.HALF_UP);
 		}
@@ -643,12 +640,33 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 	}
 	
 	private BigDecimal getNotaExigida(Contrato c){
+		BigDecimal notaExigida = getNotaBaseExigida(c);
+		
+		// Si son FA no restringidos
+		if (this.contractservice.isContratoTemporadaActual(c)){	
+			notaExigida = notaExigida.multiply(new BigDecimal(CommonFunctions.getPorcentajeRandomMas(15)));
+		}			
+
+		// Si es temporada actual y estamos en post temporada 
+		else if (c.getJugador().getCompeticion().getTipoEstadoCompeticion().getIdTipoEstadoCompeticion().equals(Constants.cTipoEstadoCompeticionPostTemporada)){			
+			notaExigida = notaExigida.multiply(new BigDecimal(CommonFunctions.getPorcentajeRandomMas(15)));
+		}
+		
+		//Si no estamos en post temporada, dificultad alta 
+		else {
+			notaExigida = notaExigida.multiply(new BigDecimal(CommonFunctions.getPorcentajeRandomMas(30)));
+		}		
+		
+		return notaExigida.setScale(2, RoundingMode.CEILING);
+		
+	}
+
+	private BigDecimal getNotaBaseExigida(Contrato c) {
 		BigDecimal notaExigida = new BigDecimal(0);
 
 		// Si son FA no restringidos
 		if (this.contractservice.isContratoTemporadaActual(c)){	
 			notaExigida = Constants.cDefaultDificultadContratoFA;
-			notaExigida = notaExigida.multiply(new BigDecimal(CommonFunctions.getPorcentajeRandomMas(15)));
 		}			
 
 		// Si es temporada actual y estamos en post temporada 
@@ -664,9 +682,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 				if (diasRestantes<=3){
 					notaExigida = new BigDecimal(5);
 				}								 
-			}
-			
-			notaExigida = notaExigida.multiply(new BigDecimal(CommonFunctions.getPorcentajeRandomMas(15)));
+			}			
 		}
 		
 		//Si no estamos en post temporada, dificultad alta 
@@ -680,11 +696,8 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 			if (diasRestantes<=2){
 				notaExigida = new BigDecimal(6.0);
 			}
-			notaExigida = notaExigida.multiply(new BigDecimal(CommonFunctions.getPorcentajeRandomMas(25)));
 		}
-		
-		return notaExigida.setScale(2, RoundingMode.CEILING);
-		
+		return notaExigida;
 	}
 	
 	private long daysBetween(Date date1, Date date2){
