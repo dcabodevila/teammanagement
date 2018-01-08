@@ -158,7 +158,7 @@ public class tradeServiceImpl implements tradeService{
 			response.setMessage("Algunos de los jugadores ya no están en sus equipos.");
 			return response;
 		}
-					
+		
 		if ( (plantillaOrigen.size() + listaJugadoresRecibidos.size() - listaJugadoresOfrecidos.size()  > Constants.cMaxPlayersByTeam)  ||
 			 (plantillaDestino.size() + listaJugadoresOfrecidos.size() - listaJugadoresRecibidos.size() > Constants.cMaxPlayersByTeam) ||
 			 (plantillaOrigen.size() + listaJugadoresRecibidos.size() - listaJugadoresOfrecidos.size()< Constants.cMinPlayersByTeam)  ||
@@ -188,7 +188,7 @@ public class tradeServiceImpl implements tradeService{
 		final Competicion com = equipo1.getCompeticion();
 		
 		final BigDecimal presupuestoEquipo1 = isSignAndTrade ? equipo1.getPresupuestoProximaTemporada() : equipo1.getPresupuestoActual();
-		final BigDecimal presupuestoEquipo2 = isSignAndTrade ? equipo1.getPresupuestoProximaTemporada() : equipo2.getPresupuestoActual();
+		final BigDecimal presupuestoEquipo2 = isSignAndTrade ? equipo2.getPresupuestoProximaTemporada() : equipo2.getPresupuestoActual();
 		
 		final Temporada temporadaSiguiente = this.seasonservice.getTemporadaSiguienteCompeticion(com);
 		
@@ -209,8 +209,8 @@ public class tradeServiceImpl implements tradeService{
 		final BigDecimal multaLuxuryTaxEquipo2 = this.contractService.getMultaLuxuryTax(sumaSalarialEquipo2, com.getLimiteTope());
 		sumaSalarialEquipo2.add(multaLuxuryTaxEquipo2);
 		
-		final BigDecimal sumaSalarialJugadoresSalientes = this.contractService.getSumaSalarialByIdsJugadores(jugadoresOfrecidos, idTemporada);
-		final BigDecimal sumaSalarialJugadoresEntrantes = this.contractService.getSumaSalarialByIdsJugadores(jugadoresRecibidos, idTemporada);
+		final BigDecimal sumaSalarialJugadoresSalientes = this.contractService.getSumaSalarialByIdsJugadores(jugadoresOfrecidos, com.getIdTemporadaActual());
+		final BigDecimal sumaSalarialJugadoresEntrantes = this.contractService.getSumaSalarialByIdsJugadores(jugadoresRecibidos, com.getIdTemporadaActual());
 		
 		boolean isValidoPresupuestoEquipo1 = true;
 //		if (sumaSalarialJugadoresEntrantes.compareTo(sumaSalarialJugadoresSalientes)>0){

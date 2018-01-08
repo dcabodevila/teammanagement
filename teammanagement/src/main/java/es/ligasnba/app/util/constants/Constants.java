@@ -9,8 +9,8 @@ public interface Constants {
 	public static final int cMinTeamsInCompetition = 0;
 	public static final int cMaxTeamsInCompetition = 30;	
 	
-	public static final int cMinPlayersByTeam = 14;
-	public static final int cMaxPlayersByTeam = 16;
+	public static final int cMinPlayersByTeam = 13;
+	public static final int cMaxPlayersByTeam = 17;
 	public static final int cMinCompetitionsByUser = 0;
 	public static final int cMaxCompetitionsByUser = cMaxTeamsByUser;
 	public static final int cMaxSeasonsPerCompetition = 3;

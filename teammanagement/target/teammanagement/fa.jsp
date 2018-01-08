@@ -76,7 +76,7 @@
 							</div>
 							<div class="list-group-item">
 								<img class="img-rounded pull-left" id="logoEquipoOriginal"/>
-								<label>Equipo real</label>
+								<label>Equipo liga</label>
 								<h4 class="list-group-item-heading" id="equipoOriginal"></h4>
 							</div>
 							<div class="list-group-item">

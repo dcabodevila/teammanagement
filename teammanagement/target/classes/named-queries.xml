@@ -305,8 +305,8 @@
 				 SELECT 
 	             jugador0_.idJugador as 'idJugador',
 	             e.idEquipo as 'idEquipo', 
-	             ed.nombreEquipo as 'equipoOriginal', 
-	             ed.logo as 'logoEquipoOriginal',
+	             COALESCE(e.nombreEquipo, ed.nombreEquipo) as 'equipoOriginal', 
+	             COALESCE(e.logo, ed.logo) as 'logoEquipoOriginal',
 	             YEAR(CURRENT_TIMESTAMP) - YEAR(jugador0_.fechaNacimiento) - (RIGHT(CURRENT_TIMESTAMP, 5) < RIGHT(jugador0_.fechaNacimiento, 5)) as 'edad',  
 	             jugador0_.imagen as 'imagen', 
 	             jugador0_.loyaltyInterest as 'loyaltyInterest', 

@@ -284,7 +284,7 @@ public class competitionServiceImpl implements competitionService{
 	private void resetVariablesEquipos(Competicion c){
 		
 		for (Equipo equipo : c.getListaEquipos()){
-			equipo.setMidLevelExceptionUsed(false);
+//			equipo.setMidLevelExceptionUsed(false);
 			equipo.setPresupuestoActual(equipo.getPresupuestoProximaTemporada());
 			equipo.setPresupuestoProximaTemporada(BigDecimal.ZERO);
 		

@@ -113,7 +113,11 @@ public class ViewMapper {
 		playerdata.setMoneyInterest(j.getMoneyInterest());
 		playerdata.setWinningInterest(j.getWinningInterest());
 		playerdata.setLoyaltyInterest(j.getLoyaltyInterest());
-		if ((j.getJugadorDefault()!=null) && (j.getJugadorDefault().getEquipoDefault()!=null)){
+		if (j.getEquipo()!=null){
+			playerdata.setEquipoOriginal(j.getEquipo().getnombre());
+			playerdata.setLogoEquipoOriginal(j.getEquipo().getLogo());
+		}
+		else if ((j.getJugadorDefault()!=null) && (j.getJugadorDefault().getEquipoDefault()!=null)){
 			playerdata.setEquipoOriginal(j.getJugadorDefault().getEquipoDefault().getnombre());
 			playerdata.setLogoEquipoOriginal(j.getJugadorDefault().getEquipoDefault().getLogo());
 		}

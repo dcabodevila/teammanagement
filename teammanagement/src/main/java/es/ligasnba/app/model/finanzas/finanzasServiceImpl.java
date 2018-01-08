@@ -263,16 +263,17 @@ public class finanzasServiceImpl implements finanzasService{
 			nuevoAsiento(e, temporadaActual, "Multa por pasarse de la tasa de lujo", e.getCompeticion().getActualDate(), new BigDecimal(0).subtract(multaLuxury));
 		}
 		
-		BigDecimal balance = getBalanceEquipoTemporada(e.getIdEquipo(),idTemporada );			
-		e.setPresupuestoActual(BigDecimal.ZERO);
+		BigDecimal balance = getBalanceEquipoTemporada(e.getIdEquipo(),idTemporada );
 		
+		e.setPresupuestoActual(BigDecimal.ZERO);
+		BigDecimal balanceDescontado = balance;
 		if (balance.compareTo(BigDecimal.ZERO)>0){
-			balance = balance.divide(new BigDecimal(2));
+			balanceDescontado = balance.divide(new BigDecimal(2));
 		}
 		
 		if (temporadaSiguiente!=null){
 			nuevoAsiento(e, temporadaActual, "Liquidación remanente temporada anterior", e.getCompeticion().getActualDate(), new BigDecimal(0).subtract(balance));
-			nuevoAsiento(e, temporadaSiguiente, "Remanente temporada anterior", e.getCompeticion().getActualDate(), balance);
+			nuevoAsiento(e, temporadaSiguiente, "Remanente temporada anterior", e.getCompeticion().getActualDate(), balanceDescontado);
 			final BigDecimal presupuestoTemporadaSiguiente = getBalanceEquipoTemporada(e.getIdEquipo(),temporadaSiguiente.getIdTemporada());
 			e.setPresupuestoProximaTemporada( presupuestoTemporadaSiguiente);
 		}

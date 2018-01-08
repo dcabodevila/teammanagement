@@ -163,6 +163,16 @@ public class contractServiceImpl implements ContractService{
 			contratoCreado = this.generateContractOfferSignAndTrade(idEquipo, idJugador, idTemporada, years,  baseSalary, increase, false, false, useMidLevelException, listaJugadoresST);
 			if (contratoCreado.getTraspaso()!=null){
 				response = this.tradeservice.isValidTradeEnviarTrade(contratoCreado.getTraspaso().getIdTraspaso(), true);
+				if (!response.getSuccess()){
+					Jugador j = contratoCreado.getJugador();
+					j.getListaOfertasContrato().remove(contratoCreado);
+					contratoCreado.setJugadorOfrecido(null);
+					this.contratodao.update(contratoCreado);
+					this.jugadordao.update(j);
+					
+					response.setSuccess(false);
+					return response;
+				}
 			}
 			resultado = isValidOfertaContrato(contratoCreado.getTraspaso().getEquipoDestino().getIdEquipo(), contratoCreado);
 
@@ -179,6 +189,8 @@ public class contractServiceImpl implements ContractService{
 			response.setSuccess(false);
 			response.setMessage(resultado.getMotivosNoValido());
 		}
+		
+
 		
 		if (response.getSuccess()){
 			response.setMessage("Oferta enviada correctamente");
