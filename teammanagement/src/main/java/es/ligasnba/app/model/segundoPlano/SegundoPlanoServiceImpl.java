@@ -422,8 +422,8 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 			}
 			
 			for (Contrato ofertaContrato : listaOfertasContrato) {
-				
-				if (contractservice.isValidOfertaContrato(ofertaContrato.getEquipo().getIdEquipo(), ofertaContrato).isValido()){
+				ResultadoValidacionContratoOfrecidoDto resultadoValidacion = contractservice.isValidOfertaContrato(ofertaContrato.getEquipo().getIdEquipo(), ofertaContrato);
+				if (resultadoValidacion.isValido()){
 
 					ResultadoValoracionContratoDto resultado = new ResultadoValoracionContratoDto(ofertaContrato);
 	
@@ -456,7 +456,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 					
 					final Equipo equipoOferta = ofertaContrato.getTraspaso()!=null ? ofertaContrato.getTraspaso().getEquipoDestino() : ofertaContrato.getEquipo();
 					
-					this.newsservice.AddNewToUser(equipoOferta, "La oferta de "+equipoOferta.getnombre()+" sobre "+ofertaContrato.getJugador().getNombre()+" no es válida.",
+					this.newsservice.AddNewToUser(equipoOferta, "La oferta de "+equipoOferta.getnombre()+" sobre "+ofertaContrato.getJugador().getNombre()+" no es válida: "+ resultadoValidacion.getMotivosNoValido(),
 							ofertaContrato.getEquipo().getCompeticion().getActualDate());				
 				}
 			}

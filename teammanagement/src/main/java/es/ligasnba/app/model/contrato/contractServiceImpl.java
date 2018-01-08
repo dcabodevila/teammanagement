@@ -1036,6 +1036,14 @@ public class contractServiceImpl implements ContractService{
 		
 		resultado.setValido(true);
 		
+		BigDecimal salarioOfrecido = c.getListLineasContrato().get(0).getSalario(); 
+		BigDecimal cache = c.getJugador().getCache();
+		if (salarioOfrecido.compareTo(cache.multiply(new BigDecimal(0.75)))<0){
+			resultado.setValido(false);
+			resultado.setMotivosNoValido("El salario ofrecido inferior al 75% del caché del jugador: ");
+			return resultado;
+		}
+		
 		//Si no es S&T
 		if (c.getTraspaso()==null){
 			int count = 0;
@@ -1090,13 +1098,17 @@ public class contractServiceImpl implements ContractService{
 							if ((lc.getSalario().compareTo(contractData.getCapSpace())>0) && (!c.isUseMidLevelException())){
 								resultado.setValido(false);
 								resultado.setMotivosNoValido("El salario ofrecido es superior al espacio salarial restante (espacio salarial restante: "+contractData.getCapSpace().toString()+" $)");
-							}							
+							}
+							if (lc.getSalario().compareTo(contractData.getPresupuestoRestante())>0){
+								resultado.setValido(false);
+								resultado.setMotivosNoValido("El salario ofrecido es superior al que se puede permitir la franquicia (presupuesto disponible: "+contractData.getPresupuestoRestante().toString()+" $)");									
+							}
+							
 						}					
 	
 						
 					}
 				}
-				//TODO: Check presupuesto
 				else {
 					if ((lc.getTemporada().getIdTemporada()==c. getJugador().getCompeticion().getIdTemporadaActual()) && (lc.getSalario().compareTo(contractData.getPresupuestoRestante())>0) && (!c.isUseMidLevelException())){
 						resultado.setValido(false);
