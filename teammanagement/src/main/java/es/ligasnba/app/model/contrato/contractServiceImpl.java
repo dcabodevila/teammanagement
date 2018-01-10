@@ -1050,9 +1050,9 @@ public class contractServiceImpl implements ContractService{
 		
 		BigDecimal salarioOfrecido = c.getListLineasContrato().get(0).getSalario(); 
 		BigDecimal cache = c.getJugador().getCache();
-		if (salarioOfrecido.compareTo(cache.multiply(new BigDecimal(0.75)))<0){
+		if (salarioOfrecido.compareTo(cache.multiply(new BigDecimal(0.8)))<0){
 			resultado.setValido(false);
-			resultado.setMotivosNoValido("El salario ofrecido inferior al 75% del caché del jugador: ");
+			resultado.setMotivosNoValido("El salario ofrecido inferior al 80% del caché del jugador: ");
 			return resultado;
 		}
 		
