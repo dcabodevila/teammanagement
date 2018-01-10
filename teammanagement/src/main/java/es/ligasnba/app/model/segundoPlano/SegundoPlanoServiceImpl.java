@@ -557,6 +557,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 			
 			salarioOfrecido = salarioOfrecido.divide(new BigDecimal(importanciaAnhosSalario), RoundingMode.HALF_UP);
 			BigDecimal notaExigida = getNotaBaseExigida(c);
+			notaExigida = notaExigida.add(getIncrementoNotaBaseMedio(c));
 			BigDecimal valorCache = notaExigida.multiply(new BigDecimal(moneyInterest)).divide(new BigDecimal(10), RoundingMode.HALF_UP);
 			
 	
@@ -659,6 +660,25 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 		
 		return notaExigida.setScale(2, RoundingMode.CEILING);
 		
+	}
+	
+	private BigDecimal getIncrementoNotaBaseMedio(Contrato c){
+		// Si son FA no restringidos
+		if (this.contractservice.isContratoTemporadaActual(c)){	
+			return new BigDecimal (0.5);
+		}			
+
+		// Si es temporada actual y estamos en post temporada 
+		else if (c.getJugador().getCompeticion().getTipoEstadoCompeticion().getIdTipoEstadoCompeticion().equals(Constants.cTipoEstadoCompeticionPostTemporada)){			
+			return new BigDecimal (0.5);
+		}
+		
+		//Si no estamos en post temporada, dificultad alta 
+		else {
+			return new BigDecimal (1);
+		}		
+		
+	
 	}
 
 	private BigDecimal getNotaBaseExigida(Contrato c) {

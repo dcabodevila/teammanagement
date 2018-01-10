@@ -96,6 +96,27 @@
 								<h4 class="list-group-item-heading" id="salary">								
 								</h4>
 							</div>
+							<div class="list-group-item">
+								<label>Caché</label>
+								<h4 class="list-group-item-heading" id="cache">								
+								</h4>
+							</div>
+							<div class="list-group-item">
+								<label>Interés económico</label>
+								<h4 class="list-group-item-heading" id="moneyInterest">								
+								</h4>
+							</div>
+							<div class="list-group-item">
+								<label>Interés competitivo</label>
+								<h4 class="list-group-item-heading" id="winningInterest">								
+								</h4>
+							</div>															
+							<div class="list-group-item">
+								<label>Lealtad</label>
+								<h4 class="list-group-item-heading" id="loyaltyInterest">								
+								</h4>
+							</div>															
+																						
 						</div>
 						<div class="panel-footer">
 							<small class="pull-left">Powered by LigasNBA.es</small>
@@ -195,6 +216,12 @@
     			$("#contractYears").text(response.contractYears);
     			var salaryFormatted = '$' + response.currentSalary.toFixed().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
     			$("#salary").text(salaryFormatted);
+    			var cacheFormatted = '$' + response.cache.toFixed().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+    			$("#cache").text(cacheFormatted);
+    			$("#moneyInterest").text(response.moneyInterest);
+    			$("#winningInterest").text(response.winningInterest);
+    			$("#loyaltyInterest").text(response.loyaltyInterest);
+    			
     			
     			$("#botonOfrecerContratoModal").attr("href", '/team/'+idEquipo+'/offerContractForm/'+response.idJugador);
     			
