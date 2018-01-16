@@ -480,7 +480,7 @@ public class contractServiceImpl implements ContractService{
 		return new ContratoBlock(contratos, existsMoreContracts);			
 	}
 	
-	@Transactional(readOnly=true)
+	@Transactional
 	public BigDecimal getSumSalaries(long idEquipo, long idTemporada, boolean pendiente){
 		
 		return this.contratodao.getSumSalaries(idEquipo, idTemporada, pendiente);
@@ -501,6 +501,8 @@ public class contractServiceImpl implements ContractService{
 
 				LineaContrato lc = contrato.getListLineasContrato().get(i);
 				contratoactual.addLineaContrato(lc);
+				lc.setContrato(contratoactual);
+				this.lineacontratodao.save(lc);
 
 			}
 
@@ -513,35 +515,56 @@ public class contractServiceImpl implements ContractService{
 			contratoactual.setFecha(CommonFunctions.getStartOfDay(contrato.getJugador().getCompeticion().getActualDate()));
 		}
 		
-		contratodao.save(contratoactual);
+		this.contratodao.save(contratoactual);
 		
 		return contratoactual;
 		
 	}
 	
 	@Override
+	@Transactional
 	public Contrato firmaContrato(Contrato nuevoContrato) throws InstanceNotFoundException{
 
-
-		Contrato contratoactual = nuevoContrato.getJugador().getContrato();
-
-		if (contratoactual!=null){
+		Contrato contratoActualizado =anadeLineasContrato(nuevoContrato, false);
 		
-			for (LineaContrato lineaContrato : nuevoContrato.getListLineasContrato()) {				
-					contratoactual.addLineaContrato(lineaContrato);
-			}
-			contratodao.save(contratoactual);
-			contratoactual.getJugador().setEquipo(nuevoContrato.getEquipo());
-			contratoactual.getEquipo().addJugador(nuevoContrato.getJugador());
-			equipodao.save(contratoactual.getEquipo());
-			jugadordao.save(contratoactual.getJugador());
-			
-		}
-		else {
-			return signContract(nuevoContrato.getJugador().getIdJugador(), nuevoContrato.getIdContrato());
-		}
+		Jugador j = this.jugadordao.find(contratoActualizado.getJugador().getIdJugador());
+		contratoActualizado.setEquipo(nuevoContrato.getEquipo());
+		contratoActualizado.getEquipo().addJugador(j);
+		contratoActualizado.getEquipo().addContrato(contratoActualizado);
+		j.setEquipo(nuevoContrato.getEquipo());		
+		j.setContrato(contratoActualizado);
+
+		this.contratodao.save(contratoActualizado);
+		this.jugadordao.save(j);
+		this.equipodao.save(contratoActualizado.getEquipo());
 		
-		return contratoactual;
+		
+		
+//		Contrato contratoactual = nuevoContrato.getJugador().getContrato();
+//
+//		if (contratoactual!=null){
+//		
+//			for (LineaContrato lineaContrato : nuevoContrato.getListLineasContrato()) {				
+//					contratoactual.addLineaContrato(lineaContrato);
+//			}
+//			
+//			contratoactual.getJugador().setEquipo(nuevoContrato.getEquipo());
+//			contratoactual.getEquipo().addJugador(nuevoContrato.getJugador());
+//			contratoactual.setFirmado(true);
+//			
+//			for (LineaContrato lineaContrato : contratoactual.getListLineasContrato()){
+//				this.lineacontratodao.save(lineaContrato);
+//			}
+//			this.contratodao.save(contratoactual);
+//			this.equipodao.save(contratoactual.getEquipo());
+//			this.jugadordao.save(contratoactual.getJugador());
+//			
+//		}
+//		else {
+//			return signContract(nuevoContrato.getJugador().getIdJugador(), nuevoContrato.getIdContrato());
+//		}
+		
+		return contratoActualizado;
 		
 	}
 	
@@ -614,7 +637,7 @@ public class contractServiceImpl implements ContractService{
 	}
 	
 	
-	
+	@Transactional
 	public PlayerContractData getPlayerResignContractData(long idPlayer, long idEquipo) throws InstanceNotFoundException{
 		
 		Jugador j = jugadordao.find(idPlayer);				
@@ -800,8 +823,8 @@ public class contractServiceImpl implements ContractService{
 		return contractdata;
 	}
 	
-	@Transactional(readOnly=true)
 	@Override
+	@Transactional
 	public PlayerContractData getContractDataAgente(Jugador j, Equipo e) throws InstanceNotFoundException{
 		PlayerContractData contractdata = new PlayerContractData();
 		contractdata.setImagen(j.getImagen());
@@ -817,23 +840,60 @@ public class contractServiceImpl implements ContractService{
 		Long idTemporada = (j.getEquipo()!=null && (temporadaSiguiente!=null)) ? temporadaSiguiente.getIdTemporada() : temporadaActual.getIdTemporada(); 
 		BigDecimal sumaSalarial = getSumaSalarialTemporada(e, ((temporadaSiguiente!=null) ? idTemporada : null), false);
 		
+		BigDecimal sumaSalarialConPospuestos = getSumaSalarialTemporada(e, ((temporadaSiguiente!=null) ? idTemporada : null), true);
+		BigDecimal presupuestoTotalTemporada = (j.getEquipo()!= null) ? e.getPresupuestoProximaTemporada() : e.getPresupuestoActual();
+		BigDecimal presupuestoRestante = (j.getEquipo()!= null) ? e.getPresupuestoProximaTemporada() : e.getPresupuestoActual();
+		
+		BigDecimal limiteMinimo = j.getCompeticion().getLimiteSalarial().compareTo(presupuestoRestante)>0 ? presupuestoRestante : j.getCompeticion().getLimiteSalarial();
+		
+		//Calculamos el Cap Space general
+		
+		BigDecimal capSpace = new BigDecimal(0);
 		// Si la suma de salarios ya se pasa del límite salarial
-		if (j.getCompeticion().getLimiteSalarial().compareTo(sumaSalarial)<0){
-			maxSalary = new BigDecimal(0);
+		if (limiteMinimo.compareTo(sumaSalarial)<0){
+			capSpace = new BigDecimal(0);
 		}
 		// Si estamos por debajo del limite salarial, permitimos completar hasta el límite. 
 		else {
-
-			maxSalary = j.getCompeticion().getLimiteSalarial().subtract( sumaSalarial );   
-		}		
-			
-		final BigDecimal salaryTop = getSalaryTop(j);
-		BigDecimal presupuestoRestante = (j.getEquipo()!= null) ? e.getPresupuestoProximaTemporada() : e.getPresupuestoActual();
-		
+			capSpace = limiteMinimo.subtract( sumaSalarial );
+		}
 		if (presupuestoRestante.compareTo(new BigDecimal(0))<=0){
 			presupuestoRestante = new BigDecimal(0);
-		}		
-		maxSalary = presupuestoRestante.compareTo(maxSalary)>0 ? maxSalary : presupuestoRestante; 
+		}
+		
+		final BigDecimal salaryTop = getSalaryTop(j);
+		
+		//Si hay contratos pospuestos
+		if (sumaSalarialConPospuestos.compareTo(sumaSalarial)>0){
+			presupuestoRestante = presupuestoRestante.subtract(sumaSalarialConPospuestos);
+			
+			BigDecimal sumaSalarialPospuestos =  sumaSalarialConPospuestos.subtract(sumaSalarial);
+			BigDecimal capSpaceUtilizado = new BigDecimal(0);
+			//A continuación debemos restar el CAP gastado en las renovaciones. (Renovaciones - (Presupuesto-100M))
+			//			capSpace = capSpace- capSpaceUtilizado;
+			BigDecimal presupuestoOverCap = presupuestoTotalTemporada.subtract(j.getCompeticion().getLimiteSalarial());
+			
+			if (presupuestoOverCap.compareTo(BigDecimal.ZERO)<=0){
+				capSpace = new BigDecimal(0);
+			}
+			else {
+				
+				if (sumaSalarialPospuestos.compareTo(presupuestoOverCap)>0){
+					capSpaceUtilizado = sumaSalarialPospuestos.subtract(presupuestoOverCap);
+					capSpace = capSpace.subtract(capSpaceUtilizado);
+					contractdata.setCapConsumido(capSpaceUtilizado);
+				}
+			}
+			capSpace = capSpace.compareTo(presupuestoRestante)>0 ? presupuestoRestante : capSpace;
+		}
+		//Si NO hay contratos pospuestos
+		else {
+			
+			presupuestoRestante = presupuestoRestante.subtract(sumaSalarial);
+			capSpace = capSpace.compareTo(presupuestoRestante)>0 ? presupuestoRestante : capSpace;
+		}
+		
+		maxSalary = capSpace;
 		if (maxSalary.compareTo(getMinSalary(j))<0){
 			maxSalary = getMinSalary(j);
 		}
@@ -843,15 +903,13 @@ public class contractServiceImpl implements ContractService{
 		final BigDecimal defaultOffer = getDefaultSalaryOffer(j);		  
 		contractdata.setCurrentSalary(((maxSalary.compareTo(defaultOffer)<0) ?  maxSalary : defaultOffer));
 
-		
-		
 		//Nº temporadas
 		int maxSeasons = competitionservice.getSeasonsRemaining(j.getCompeticion().getIdCompeticion()).size()-1;
 		contractdata.setMaxSeasons( maxSeasons );
 		
 		//Info económica
-		contractdata.setCapSpace(j.getCompeticion().getLimiteSalarial().subtract(sumaSalarial));
-		contractdata.setPresupuestoTotal((j.getEquipo()!= null) ? e.getPresupuestoProximaTemporada() : e.getPresupuestoActual());
+		contractdata.setCapSpace(capSpace);
+		contractdata.setPresupuestoTotal(presupuestoTotalTemporada);
 		contractdata.setSumaSalarial(sumaSalarial);
 		contractdata.setPresupuestoRestante(presupuestoRestante);
 		contractdata.setSalaryCap(j.getCompeticion().getLimiteSalarial());
@@ -864,11 +922,13 @@ public class contractServiceImpl implements ContractService{
 		else {
 			midLevelException =  Constants.cSalaryExcepcionNivelMedioUTax;
 		}
-		contractdata.setVisibleMidLevelException(!e.isMidLevelExceptionUsed() && (maxSalary.compareTo(midLevelException)<0));
+		contractdata.setVisibleMidLevelException(!e.isMidLevelExceptionUsed() && (presupuestoRestante.compareTo(midLevelException)>=0));
 		contractdata.setMidLevelException(midLevelException);		
 		
 		
 		return contractdata;
+		
+		
 	}	
 	
 	@Override
@@ -912,11 +972,12 @@ public class contractServiceImpl implements ContractService{
 		return minSalary;
 	}
 	
+	@Transactional
 	private BigDecimal getSumaSalarialTemporada(Equipo e, Long idTemporada, boolean pendiente) {
 		if (idTemporada==null){
 			return new BigDecimal(200000000);
 		}
-		BigDecimal sumaSalarial = getSumSalaries(e.getIdEquipo(), idTemporada, pendiente);
+		BigDecimal sumaSalarial = this.contratodao.getSumSalaries(e.getIdEquipo(), idTemporada, pendiente);
 		return sumaSalarial;
 	}
 	
@@ -1047,8 +1108,18 @@ public class contractServiceImpl implements ContractService{
 		ResultadoValidacionContratoOfrecidoDto resultado = new ResultadoValidacionContratoOfrecidoDto();
 		
 		resultado.setValido(true);
+		Temporada temporadaSiguiente = this.seasonService.getTemporadaSiguienteCompeticion(c.getJugador().getCompeticion());
+		Temporada temporadaActual = this.seasonService.getTemporadaActualCompeticion(c.getJugador().getCompeticion());
+		Long idTemporada = (c.getJugador().getEquipo()!=null && (temporadaSiguiente!=null)) ? temporadaSiguiente.getIdTemporada() : temporadaActual.getIdTemporada(); 
 		
-		BigDecimal salarioOfrecido = c.getListLineasContrato().get(0).getSalario(); 
+		BigDecimal salarioOfrecido = c.getListLineasContrato().get(0).getSalario();
+		for (LineaContrato lc : c.getListLineasContrato()){
+			if (lc.getTemporada().getIdTemporada()==idTemporada){
+				salarioOfrecido = lc.getSalario();
+			}
+		}
+		
+		 
 		BigDecimal cache = c.getJugador().getCache();
 		if (salarioOfrecido.compareTo(cache.multiply(new BigDecimal(0.8)))<0){
 			resultado.setValido(false);

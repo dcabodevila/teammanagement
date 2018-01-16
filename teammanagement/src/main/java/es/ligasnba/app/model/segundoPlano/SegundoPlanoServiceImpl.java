@@ -29,6 +29,7 @@ import es.ligasnba.app.model.equipo.Equipo;
 import es.ligasnba.app.model.equipo.EquipoDao;
 import es.ligasnba.app.model.finanzas.finanzasService;
 import es.ligasnba.app.model.jugador.Jugador;
+import es.ligasnba.app.model.jugador.JugadorDao;
 import es.ligasnba.app.model.jugador.playerService;
 import es.ligasnba.app.model.lineacontrato.LineaContrato;
 import es.ligasnba.app.model.noticia.newsService;
@@ -46,7 +47,6 @@ import es.ligasnba.app.util.constants.Constants;
 import es.ligasnba.app.util.exceptions.InstanceNotFoundException;
 
 @Service("segundoPlanoService")
-@Transactional
 public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 
 	@SuppressWarnings("unused")
@@ -74,6 +74,8 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 	private finanzasService finanzasservice;
 	@Autowired
 	private PartidoDao partidodao;
+	@Autowired
+	private JugadorDao jugadordao;
 
 	private static final Logger logger = Logger.getLogger(SegundoPlanoService.class);
 	
@@ -118,8 +120,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 		this.partidodao = partidodao;
 	}
 
-	@Override
-	@Transactional
+	@Override	
 	public boolean ejecutarActualizacionCompeticion(long idCompeticion, final boolean forced) throws InstanceNotFoundException {
 
 		Competicion competicion = this.competitionservice.findById(idCompeticion);
@@ -147,7 +148,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 
 					for (Jugador jugador : playersWithOffersList) {
 
-						this.tomarDecisionContrato(jugador);
+						this.tomarDecisionContrato(jugador.getIdJugador());
 					}
 				}
 				
@@ -169,7 +170,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 
 		return true;
 	}
-	
+	@Transactional
 	private void actualizarPresupuestoEquipos(Competicion c){
 		if (CollectionUtils.isNotEmpty(c.getListaEquipos())){
 			for (Equipo e : c.getListaEquipos()){
@@ -178,7 +179,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 			}
 		}
 	}
-	
+	@Transactional
 	private void firmarContratoPospuesto(Jugador j) throws InstanceNotFoundException{
 		
 		if (!j.getContrato().isFirmado()){
@@ -210,8 +211,11 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 		
 	}
 
-	public Contrato tomarDecisionContrato(Jugador j) throws Exception {
+	@Transactional
+	public Contrato tomarDecisionContrato(Long idJugador) throws Exception {
 
+		Jugador j = this.jugadordao.find(idJugador);
+		
 		List<Contrato> listaofertas = j.getListaOfertasContrato();
 
 		Contrato contratoelegido = new Contrato();
@@ -437,6 +441,16 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 					
 					resultado.setNotaExigida(getNotaExigida(resultado.getContrato()));
 					
+					if ((ofertaContrato.getEquipo().getCompeticion().getTipoEstadoCompeticion().getIdTipoEstadoCompeticion().equals(Constants.cTipoEstadoCompeticionPostTemporada))
+						&& (resultado.getValoracionGlobal().compareTo(resultado.getNotaExigida())>=0)){
+						resultado.setValoracionMaxima(getNotaMaxima(resultado));
+						resultado.setValoracionGlobalPrevia(resultado.getValoracionGlobal());
+						if (resultado.getValoracionGlobal().compareTo(resultado.getValoracionMaxima())>0){
+							resultado.setValoracionGlobal(resultado.getValoracionMaxima());
+						}
+
+					}
+					
 					final Equipo equipoOferta = resultado.getContrato().getTraspaso()!=null ? resultado.getContrato().getTraspaso().getEquipoDestino() : resultado.getContrato().getEquipo();				
 					
 					ValoracionOfertaContratoDto valoracion = obtenerValoracionOfertaDto(ofertaContrato, resultado,
@@ -446,7 +460,8 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 					
 					this.newsservice.AddNewToUser(equipoOferta, "Oferta de "+equipoOferta.getnombre()+" a " +ofertaContrato.getJugador().getNombre()+". Valoración global: "+ resultado.getValoracionGlobal()+ "/10."
 							+ " Valoración salario: "+ resultado.getValoracionMoney() + "/"+resultado.getMoneyInterest() + " Valoración competitiva: "+resultado.getValoracionWinning()+"/"+resultado.getWinningInterest() + 
-							" Valoración lealtad: "+ resultado.getValoracionLoyalty()+"/"+resultado.getLoyaltyInterest() + " Nota exigida: "+ resultado.getNotaExigida(),
+							" Valoración lealtad: "+ resultado.getValoracionLoyalty()+"/"+resultado.getLoyaltyInterest() + " Nota exigida: "+ resultado.getNotaExigida()+ " Valoración máxima: "+ resultado.getValoracionMaxima()+
+							" Valoración global previa: "+ resultado.getValoracionGlobalPrevia(),
 							ofertaContrato.getEquipo().getCompeticion().getActualDate());														
 					
 					listaResultado.add(resultado);
@@ -497,6 +512,8 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 		valoracion.setLoyaltyInterest(resultado.getLoyaltyInterest());
 		valoracion.setValoracionGlobal(resultado.getValoracionGlobal());
 		valoracion.setValoracionGlobalExigida(resultado.getNotaExigida());
+		valoracion.setValoracionMaxima(resultado.getValoracionMaxima());
+		valoracion.setValoracionGlobalPrevia(resultado.getValoracionGlobalPrevia());
 		valoracion.setEsSignAndTrade(ofertaContrato.getTraspaso()!=null);
 		valoracion.setFecha(equipoOferta.getCompeticion().getActualDate());
 		return valoracion;
@@ -609,8 +626,6 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 				if ((mejorValoracion.getContrato().getTraspaso()!=null)){
 					
 					if (this.tradeService.isValidTradeTomarDecisionContrato(mejorValoracion.getContrato().getTraspaso().getIdTraspaso()).getSuccess()){
-				
-						
 									
 						if (mejorValoracion.getValoracionGlobal().compareTo(mejorValoracion.getNotaExigida())>0){
 							
@@ -640,17 +655,21 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 		return new ResultadoValoracionContratoDto(null);
 	}
 	
+	private BigDecimal getNotaMaxima(ResultadoValoracionContratoDto valoracion){
+		return new BigDecimal(CommonFunctions.getRandomIniFin(valoracion.getNotaExigida().floatValue(), valoracion.getValoracionGlobal().floatValue()));
+	}
+	
 	private BigDecimal getNotaExigida(Contrato c){
 		BigDecimal notaExigida = getNotaBaseExigida(c);
 		
 		// Si son FA no restringidos
 		if (this.contractservice.isContratoTemporadaActual(c)){	
-			notaExigida = notaExigida.multiply(new BigDecimal(CommonFunctions.getPorcentajeRandomMas(15)));
+			notaExigida = notaExigida.multiply(new BigDecimal(CommonFunctions.getPorcentajeRandomMas(20)));
 		}			
 
 		// Si es temporada actual y estamos en post temporada 
 		else if (c.getJugador().getCompeticion().getTipoEstadoCompeticion().getIdTipoEstadoCompeticion().equals(Constants.cTipoEstadoCompeticionPostTemporada)){			
-			notaExigida = notaExigida.multiply(new BigDecimal(CommonFunctions.getPorcentajeRandomMas(15)));
+			notaExigida = notaExigida.multiply(new BigDecimal(CommonFunctions.getPorcentajeRandomMas(20)));
 		}
 		
 		//Si no estamos en post temporada, dificultad alta 
@@ -670,7 +689,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 
 		// Si es temporada actual y estamos en post temporada 
 		else if (c.getJugador().getCompeticion().getTipoEstadoCompeticion().getIdTipoEstadoCompeticion().equals(Constants.cTipoEstadoCompeticionPostTemporada)){			
-			return new BigDecimal (0.5);
+			return new BigDecimal (0.8);
 		}
 		
 		//Si no estamos en post temporada, dificultad alta 
@@ -697,7 +716,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 			
 			if (diasRestantes<diasTotales){
 				if (diasRestantes<=5){
-					notaExigida = new BigDecimal(5.5);
+					notaExigida = new BigDecimal(5.7);
 				}
 				if (diasRestantes<=3){
 					notaExigida = new BigDecimal(5);

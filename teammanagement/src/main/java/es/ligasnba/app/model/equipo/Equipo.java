@@ -140,7 +140,7 @@ private long version;
 		this.listaJugadores = l;
 	}
 	
-	@OneToMany(cascade = CascadeType.REMOVE, mappedBy="equipo")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="equipo")
 	@JsonIgnore
 	public List<Contrato> getListaContratos() {
 		return this.listaContratos;

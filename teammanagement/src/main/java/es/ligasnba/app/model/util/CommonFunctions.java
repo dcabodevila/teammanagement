@@ -38,6 +38,12 @@ public class CommonFunctions {
 		return min + r.nextFloat() * (max - min);
 	}
 	
+	public static float getRandomIniFin(float inicio, float fin){
+		
+		final Random r = new Random();
+		return inicio + r.nextFloat() * (fin - inicio);
+	}
+	
 	
 	public static float getPorcentajeRandomMas(int porcentaje){
 		

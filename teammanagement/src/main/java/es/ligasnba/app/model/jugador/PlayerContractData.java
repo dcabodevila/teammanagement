@@ -25,6 +25,7 @@ public class PlayerContractData {
 	private BigDecimal salaryCap;
 	private BigDecimal luxuryTax;
 	private BigDecimal midLevelException;
+	private BigDecimal capConsumido = BigDecimal.ZERO;
 	
 	
 	private int increase;
@@ -193,6 +194,12 @@ public class PlayerContractData {
 	}
 	public void setTopSalary(BigDecimal topSalary) {
 		this.topSalary = topSalary;
+	}
+	public BigDecimal getCapConsumido() {
+		return capConsumido;
+	}
+	public void setCapConsumido(BigDecimal capConsumido) {
+		this.capConsumido = capConsumido;
 	}
 
 }

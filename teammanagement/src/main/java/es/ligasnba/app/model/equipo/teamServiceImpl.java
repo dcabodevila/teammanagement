@@ -364,7 +364,7 @@ public class teamServiceImpl implements teamService{
 	@Override
 	public boolean isMercadoAbierto(Competicion com){
 		
-		return (!com.getActualDate().after(com.getFechaCierreMercado()));
+		return (com.isMercadoAbierto());
 		
 	}
 	

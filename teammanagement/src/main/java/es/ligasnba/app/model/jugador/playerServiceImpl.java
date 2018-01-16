@@ -321,9 +321,18 @@ public JugadorDefault findDefaultPlayerByIdNotSigned(long idJugador, long idComp
 	    		if (CollectionUtils.isNotEmpty(j.getContrato().getListLineasContrato())){
 	    			    		
 		    		for ( LineaContrato linea : j.getContrato().getListLineasContrato()){
-	    			
-		    			final BigDecimal importe = BigDecimal.ZERO.subtract(linea.getSalario().multiply(new BigDecimal(0.5)));		    			
-	    				this.finanzasservice.nuevoAsiento(j.getEquipo(), linea.getTemporada(), "Despido de "+ j.getNombre(), j.getCompeticion().getActualDate(), importe);
+		    			
+		    			if (Constants.cTipoEstadoCompeticionPostTemporada.equals(e.getCompeticion().getTipoEstadoCompeticion().getIdTipoEstadoCompeticion())){
+	    					if (linea.getTemporada().getIdTemporada() != e.getCompeticion().getIdTemporadaActual()){
+				    			final BigDecimal importe = BigDecimal.ZERO.subtract(linea.getSalario().multiply(new BigDecimal(0.5)));		    			
+			    				this.finanzasservice.nuevoAsiento(j.getEquipo(), linea.getTemporada(), "Despido de "+ j.getNombre(), j.getCompeticion().getActualDate(), importe);		    					    						
+	    					}
+		    			}
+		    			else {
+			    			final BigDecimal importe = BigDecimal.ZERO.subtract(linea.getSalario().multiply(new BigDecimal(0.5)));		    			
+		    				this.finanzasservice.nuevoAsiento(j.getEquipo(), linea.getTemporada(), "Despido de "+ j.getNombre(), j.getCompeticion().getActualDate(), importe);		    				
+		    			}
+		    			
 
 		    		
 		    		}
@@ -354,11 +363,13 @@ public JugadorDefault findDefaultPlayerByIdNotSigned(long idJugador, long idComp
 	}
 	
 	@Override
+	@Transactional
 	public void insertJugadoresCompeticionFromDefault(long idCompeticion){
 		this.jugadordao.insertJugadoresCompeticionFromDefault(idCompeticion);
 	}
 	
 	@Override
+	@Transactional
 	public void updateJugadoresCompeticionFromDefault(long idCompeticion){
 		this.jugadordao.updateJugadoresCompeticionFromDefault(idCompeticion);
 	}

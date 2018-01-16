@@ -105,6 +105,7 @@ $( document ).ready(function() {
     var luxuryTax = ${contractData.topSalary};
     var presupuestoRestante = ${contractData.presupuestoRestante};
     var midLevelException = ${contractData.midLevelException};
+    var capConsumido = ${contractData.capConsumido};
     	
 	$( "#baseSalary" ).slider({
 		min : minSalary,	
@@ -122,7 +123,7 @@ $( document ).ready(function() {
 	$( "#years" ).slider({
 		min : 1,
 		max : maxSeasons,
-		value : 1,
+		value : maxSeasons,
 		slide:function(event, ui){
 
 			$( "#yearsText" ).text( ui.value );
@@ -137,7 +138,7 @@ $( document ).ready(function() {
 	$( "#increase" ).slider({
 		min : -5,
 		max : 5,
-		value : 0,
+		value : 5,
 		slide:function(event, ui){
 
 			$( "#increaseText" ).text( ui.value + "%");
@@ -151,6 +152,7 @@ $( document ).ready(function() {
 	$( "#presupuestoTotal" ).text($.number( presupuestoTotal, 0 ) +"$");
 	$( "#sumaSalarial" ).text($.number( sumaSalarial, 0 ) +"$");
 	$( "#presupuestoRestante" ).text($.number( presupuestoRestante, 0 ) +"$");
+	$( "#capConsumido" ).text($.number( capConsumido, 0 ) +"$");
 	
     $('#useMidLevel').change(function() {
         if($(this).is(":checked")) {
@@ -174,6 +176,15 @@ $( document ).ready(function() {
 
 	    $('#infoLuxuryTax').removeClass("visible");
 	    $('#infoLuxuryTax').addClass("hidden");
+    }
+    
+    if (($.number( capConsumido, 0 ))>($.number( 0, 0 ))){
+        $('#capConsumidoDiv').removeClass('hidden');
+        $('#capConsumidoDiv').addClass("visible");
+    }
+    else {
+        $('#capConsumidoDiv').removeClass('visible');
+        $('#capConsumidoDiv').addClass("hidden");    	
     }
     
     $('#modalContent').removeClass('hidden');
@@ -438,6 +449,12 @@ $( document ).ready(function() {
 						<h4 class="list-group-item-heading" id="presupuestoRestante"></h4>
 					</div>
 				</div>
+				<div class="form-group" id="capConsumidoDiv">
+					<label class="col-xs-4 control-label">Espacio salarial consumido</label>
+					<div class="col-xs-6" align="right">							
+						<h4 class="list-group-item-heading" id="capConsumido"></h4>
+					</div>
+				</div>				
 
 							
 			</div>

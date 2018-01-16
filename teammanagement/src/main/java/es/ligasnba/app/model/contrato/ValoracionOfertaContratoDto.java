@@ -21,6 +21,8 @@ public class ValoracionOfertaContratoDto {
 	private int loyaltyInterest;
 	private BigDecimal valoracionGlobal;	
 	private BigDecimal valoracionGlobalExigida;
+	private BigDecimal valoracionMaxima;
+	private BigDecimal valoracionGlobalPrevia;
 	
 	private boolean esSignAndTrade;
 	private Date fecha;
@@ -138,6 +140,18 @@ public class ValoracionOfertaContratoDto {
 	}
 	public void setValoracionGlobalExigida(BigDecimal valoracionGlobalExigida) {
 		this.valoracionGlobalExigida = valoracionGlobalExigida;
+	}
+	public BigDecimal getValoracionMaxima() {
+		return valoracionMaxima;
+	}
+	public void setValoracionMaxima(BigDecimal valoracionMaxima) {
+		this.valoracionMaxima = valoracionMaxima;
+	}
+	public BigDecimal getValoracionGlobalPrevia() {
+		return valoracionGlobalPrevia;
+	}
+	public void setValoracionGlobalPrevia(BigDecimal valoracionGlobalPrevia) {
+		this.valoracionGlobalPrevia = valoracionGlobalPrevia;
 	}
 	
 	

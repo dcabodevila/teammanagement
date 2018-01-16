@@ -9,8 +9,8 @@ public interface Constants {
 	public static final int cMinTeamsInCompetition = 0;
 	public static final int cMaxTeamsInCompetition = 30;	
 	
-	public static final int cMinPlayersByTeam = 13;
-	public static final int cMaxPlayersByTeam = 17;
+	public static final int cMinPlayersByTeam = 1;
+	public static final int cMaxPlayersByTeam = 18;
 	public static final int cMinCompetitionsByUser = 0;
 	public static final int cMaxCompetitionsByUser = cMaxTeamsByUser;
 	public static final int cMaxSeasonsPerCompetition = 3;
@@ -134,7 +134,7 @@ public interface Constants {
 	//Contratos
 		
 	public static final BigDecimal cDefaultDificultadContratoSeason = new BigDecimal(6);
-	public static final BigDecimal cDefaultDificultadContratoPostSeason = new BigDecimal(5.5);
+	public static final BigDecimal cDefaultDificultadContratoPostSeason = new BigDecimal(5.7);
 	public static final BigDecimal cDefaultDificultadContratoFA = new BigDecimal(5);
 	
 	//Valoraciones

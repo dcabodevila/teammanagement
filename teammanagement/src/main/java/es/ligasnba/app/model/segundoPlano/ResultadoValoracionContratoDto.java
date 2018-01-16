@@ -15,6 +15,8 @@ public class ResultadoValoracionContratoDto implements Comparable<ResultadoValor
 	private Integer loyaltyInterest;
 	private BigDecimal valoracionGlobal;
 	private BigDecimal notaExigida;
+	private BigDecimal valoracionMaxima;
+	private BigDecimal valoracionGlobalPrevia;
 	
 	public ResultadoValoracionContratoDto(Contrato c) {
 		this.contrato = c;
@@ -136,6 +138,22 @@ public class ResultadoValoracionContratoDto implements Comparable<ResultadoValor
 
 	public void setNotaExigida(BigDecimal notaExigida) {
 		this.notaExigida = notaExigida;
+	}
+
+	public BigDecimal getValoracionMaxima() {
+		return valoracionMaxima;
+	}
+
+	public void setValoracionMaxima(BigDecimal valoracionMaxima) {
+		this.valoracionMaxima = valoracionMaxima;
+	}
+
+	public BigDecimal getValoracionGlobalPrevia() {
+		return valoracionGlobalPrevia;
+	}
+
+	public void setValoracionGlobalPrevia(BigDecimal valoracionGlobalPrevia) {
+		this.valoracionGlobalPrevia = valoracionGlobalPrevia;
 	}
 	
 
