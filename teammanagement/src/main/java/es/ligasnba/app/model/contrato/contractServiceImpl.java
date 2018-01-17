@@ -839,7 +839,6 @@ public class contractServiceImpl implements ContractService{
 		Temporada temporadaActual = this.seasonService.getTemporadaActualCompeticion(j.getCompeticion());
 		Long idTemporada = (j.getEquipo()!=null && (temporadaSiguiente!=null)) ? temporadaSiguiente.getIdTemporada() : temporadaActual.getIdTemporada(); 
 		BigDecimal sumaSalarial = getSumaSalarialTemporada(e, ((temporadaSiguiente!=null) ? idTemporada : null), false);
-		
 		BigDecimal sumaSalarialConPospuestos = getSumaSalarialTemporada(e, ((temporadaSiguiente!=null) ? idTemporada : null), true);
 		BigDecimal presupuestoTotalTemporada = (j.getEquipo()!= null) ? e.getPresupuestoProximaTemporada() : e.getPresupuestoActual();
 		BigDecimal presupuestoRestante = (j.getEquipo()!= null) ? e.getPresupuestoProximaTemporada() : e.getPresupuestoActual();
@@ -864,9 +863,8 @@ public class contractServiceImpl implements ContractService{
 		final BigDecimal salaryTop = getSalaryTop(j);
 		
 		//Si hay contratos pospuestos
-		if (sumaSalarialConPospuestos.compareTo(sumaSalarial)>0){
-			presupuestoRestante = presupuestoRestante.subtract(sumaSalarialConPospuestos);
-			
+		if (sumaSalarialConPospuestos.compareTo(sumaSalarial)>0){			
+			presupuestoRestante = getPresupuestoRestante(j.getCompeticion().getLimiteTope(), e.getPresupuestoProximaTemporada(), sumaSalarialConPospuestos);
 			BigDecimal sumaSalarialPospuestos =  sumaSalarialConPospuestos.subtract(sumaSalarial);
 			BigDecimal capSpaceUtilizado = new BigDecimal(0);
 			//A continuación debemos restar el CAP gastado en las renovaciones. (Renovaciones - (Presupuesto-100M))
@@ -888,8 +886,7 @@ public class contractServiceImpl implements ContractService{
 		}
 		//Si NO hay contratos pospuestos
 		else {
-			
-			presupuestoRestante = presupuestoRestante.subtract(sumaSalarial);
+			presupuestoRestante = getPresupuestoRestante(j.getCompeticion().getLimiteTope(), e.getPresupuestoProximaTemporada(), sumaSalarial);
 			capSpace = capSpace.compareTo(presupuestoRestante)>0 ? presupuestoRestante : capSpace;
 		}
 		
@@ -1121,9 +1118,9 @@ public class contractServiceImpl implements ContractService{
 		
 		 
 		BigDecimal cache = c.getJugador().getCache();
-		if (salarioOfrecido.compareTo(cache.multiply(new BigDecimal(0.8)))<0){
+		if (salarioOfrecido.compareTo(cache.multiply(new BigDecimal(0.75)))<0){
 			resultado.setValido(false);
-			resultado.setMotivosNoValido("El salario ofrecido inferior al 80% del caché del jugador: ");
+			resultado.setMotivosNoValido("El salario ofrecido inferior al 75% del caché del jugador: ");
 			return resultado;
 		}
 		

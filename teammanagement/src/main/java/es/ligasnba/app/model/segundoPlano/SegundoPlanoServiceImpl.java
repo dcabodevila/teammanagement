@@ -689,7 +689,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 
 		// Si es temporada actual y estamos en post temporada 
 		else if (c.getJugador().getCompeticion().getTipoEstadoCompeticion().getIdTipoEstadoCompeticion().equals(Constants.cTipoEstadoCompeticionPostTemporada)){			
-			return new BigDecimal (0.8);
+			return new BigDecimal (1);
 		}
 		
 		//Si no estamos en post temporada, dificultad alta 
@@ -716,7 +716,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 			
 			if (diasRestantes<diasTotales){
 				if (diasRestantes<=5){
-					notaExigida = new BigDecimal(5.7);
+					notaExigida = new BigDecimal(5.5);
 				}
 				if (diasRestantes<=3){
 					notaExigida = new BigDecimal(5);
