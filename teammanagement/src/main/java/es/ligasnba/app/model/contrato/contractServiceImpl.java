@@ -495,6 +495,10 @@ public class contractServiceImpl implements ContractService{
 
 		// aÃ±adimos las lineas del contrato ofrecido al contrato que ya
 		// tiene
+		if (contratoactual==null){
+			contratoactual = contrato;
+		}
+		
 		for (int i = 0; i < years; i++) {
 
 			if (contratoactual.getListLineasContrato().size() > 0) {
