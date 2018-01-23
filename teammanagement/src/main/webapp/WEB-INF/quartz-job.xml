@@ -33,8 +33,8 @@
 	<!-- startDelay: Delay 10 seconds 
 			cronExpression:Repeat every morning at 10th of the second -->		
 	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"
-	    	p:jobDetail-ref="jobDetailBean" 
-	    	p:cronExpression="0 0 3 ? * * *" 	
+	    	p:jobDetail-ref="jobDetailBean"
+	    	p:cronExpression="0 0 3 ? * * *" 
 	    	/>
 	    	
 	    		

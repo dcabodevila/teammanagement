@@ -27,6 +27,7 @@ import es.ligasnba.app.model.contrato.ResultadoValidacionContratoOfrecidoDto;
 import es.ligasnba.app.model.contrato.ValoracionOfertaContratoDto;
 import es.ligasnba.app.model.equipo.Equipo;
 import es.ligasnba.app.model.equipo.EquipoDao;
+import es.ligasnba.app.model.equipo.teamService;
 import es.ligasnba.app.model.finanzas.finanzasService;
 import es.ligasnba.app.model.jugador.Jugador;
 import es.ligasnba.app.model.jugador.JugadorDao;
@@ -76,6 +77,8 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 	private PartidoDao partidodao;
 	@Autowired
 	private JugadorDao jugadordao;
+	@Autowired
+	private teamService teamservice;
 
 	private static final Logger logger = Logger.getLogger(SegundoPlanoService.class);
 	
@@ -154,7 +157,7 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 				
 				this.playerservice.updateJugadoresCompeticionFromDefault(competicion.getIdCompeticion());
 				this.playerservice.updateCacheAgentesLibres(competicion.getIdCompeticion());
-				actualizarPresupuestoEquipos(competicion);
+				this.teamservice.actualizarPresupuestoEquipos(competicion);
 			} catch (Exception e) {
 				logger.info(e.getMessage());
 				return false;
@@ -164,21 +167,11 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
 			
 			
 			
-			logger.info("Fecha siguiente: " +competicion.getActualDate());
-			logger.info("Estado competición: " +competicion.getTipoEstadoCompeticion().getNombre());
 		}
 
 		return true;
 	}
-	@Transactional
-	private void actualizarPresupuestoEquipos(Competicion c){
-		if (CollectionUtils.isNotEmpty(c.getListaEquipos())){
-			for (Equipo e : c.getListaEquipos()){
-				this.finanzasservice.actualizarPresupuestoEquipo(e, true);
-				this.finanzasservice.actualizarPresupuestoEquipo(e, false);
-			}
-		}
-	}
+
 	@Transactional
 	private void firmarContratoPospuesto(Jugador j) throws InstanceNotFoundException{
 		
@@ -758,6 +751,14 @@ public class SegundoPlanoServiceImpl implements SegundoPlanoService {
         
         return diffDays;
 		
+	}
+
+	public teamService getTeamservice() {
+		return teamservice;
+	}
+
+	public void setTeamservice(teamService teamservice) {
+		this.teamservice = teamservice;
 	}
 	
 

@@ -3,6 +3,7 @@ package es.ligasnba.app.model.equipo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import es.ligasnba.app.util.constants.Constants;
@@ -17,6 +18,7 @@ import es.ligasnba.app.model.competicion.Competicion;
 import es.ligasnba.app.model.competicion.CompeticionDao;
 import es.ligasnba.app.model.dto.EquipoSeleccionDto;
 import es.ligasnba.app.model.equipodefault.EquipoDefault;
+import es.ligasnba.app.model.finanzas.finanzasService;
 import es.ligasnba.app.model.historicoEquipoJugador.HistoricoEquipoJugador;
 import es.ligasnba.app.model.historicoEquipoJugador.HistoricoEquipoJugadorDao;
 import es.ligasnba.app.model.jugador.Jugador;
@@ -60,6 +62,9 @@ public class teamServiceImpl implements teamService{
 	private PartidoDao partidodao;
 	@Autowired
 	private TemporadaDao temporadadao;
+	
+	@Autowired
+	private finanzasService finanzasservice;
 	@Autowired
 	private HistoricoEquipoJugadorDao historicoEquipoJugadorDao;
 	
@@ -366,6 +371,19 @@ public class teamServiceImpl implements teamService{
 		
 		return (com.isMercadoAbierto());
 		
+	}
+	
+	@Transactional
+	public void actualizarPresupuestoEquipos(Competicion c) throws InstanceNotFoundException{
+		
+		Competicion com = this.competiciondao.find(c.getIdCompeticion());
+		
+		if (CollectionUtils.isNotEmpty(com.getListaEquipos())){
+			for (Equipo e : com.getListaEquipos()){
+				this.finanzasservice.actualizarPresupuestoEquipo(e, true);
+				this.finanzasservice.actualizarPresupuestoEquipo(e, false);
+			}
+		}
 	}
 	
 

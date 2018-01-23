@@ -34,5 +34,6 @@ public interface teamService {
 	List<EquipoSeleccionDto> findAllEquiposFromCompetition(long idCompeticion);
 	boolean isPermitidoRenovarJugadores(Competicion com);
 	boolean isMercadoAbierto(Competicion com);
+	void actualizarPresupuestoEquipos(Competicion c) throws InstanceNotFoundException;
 
 }

@@ -52,7 +52,7 @@
 		<li><a href="/games/${menuNavigationForm.idEquipo}">Partidos</a></li>
 		<c:if test="${menuNavigationForm.mercadoAbierto}">
 	    <li>	    	   
-	      <a href="/market/${menuNavigationForm.idEquipo}/trades">Traspasos</a>
+	      <a href="/market/${menuNavigationForm.idEquipo}/trades">Mercado</a>
 	    </li>
 	    </c:if>	  
 		<li><a href="/contracts/${menuNavigationForm.idEquipo}">Contratos</a></li>

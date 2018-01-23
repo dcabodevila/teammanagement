@@ -103,7 +103,7 @@ public class ContratoDaoHibernate extends GenericDaoHibernate<Contrato, Long> im
 		// ").setParameter("idCompeticion",idCompeticion).list();
 		List<Contrato> listaContratos = getSession()
 				.createQuery(
-						"SELECT c FROM Contrato c, Equipo e, Competicion com WHERE com.idCompeticion=:idCompeticion AND e.competicion=com AND c.equipo=e AND 1=(SELECT Count(linea) FROM LineaContrato linea WHERE linea.contrato=c AND linea.temporada.idTemporada>=com.idTemporadaActual) ")
+						"SELECT c FROM Contrato c, Equipo e, Competicion com WHERE com.idCompeticion=:idCompeticion AND e.competicion=com AND c.equipo=e AND c.firmado=true AND 1=(SELECT Count(linea) FROM LineaContrato linea WHERE linea.contrato=c AND linea.temporada.idTemporada>=com.idTemporadaActual) ")
 				.setParameter("idCompeticion", idCompeticion).list();
 
 		if (listaContratos == null)
