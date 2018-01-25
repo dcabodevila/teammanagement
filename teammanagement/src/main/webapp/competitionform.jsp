@@ -174,7 +174,10 @@ function LoadClassification(response){
 		  				    <p class="list-group-item-text">Presupuesto temporada siguiente</p>
 							<h4 class="list-group-item-heading">$<fmt:formatNumber type = "number" pattern = "###,###,###,###" value = "${competitionForm.presupuestoSiguiente}" /></h4>
 					      </div>				      				      
-					      				      				      
+		      			  <div class="list-group-item">
+		  				    <p class="list-group-item-text">Objetivo</p>
+							<h4 class="list-group-item-heading">${competitionForm.nombreArquetipo}</h4>
+					      </div>					      				      				      
 				        </div>
 			        </c:if>				      						
 		

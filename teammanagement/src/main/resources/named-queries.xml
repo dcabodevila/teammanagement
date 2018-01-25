@@ -170,6 +170,9 @@
 	    <return-scalar column="temporada" type="string"/>
 	    <return-scalar column="presupuestoActual" type="big_decimal"/>
 	    <return-scalar column="presupuestoSiguiente" type="big_decimal"/>
+	    <return-scalar column="idArquetipo" type="long"/>
+	    <return-scalar column="nombreArquetipo" type="string"/>
+	    
 		<![CDATA[
 			SELECT 
 				c.idCompeticion as "idCompeticion",  
@@ -182,7 +185,9 @@
 			    tec.nombre as "descripcionEstadoCompeticion",
 			    t.orden as "temporada",
 			    e.presupuestoActual as "presupuestoActual",
-			    e.presupuestoProximaTemporada as "presupuestoSiguiente"
+			    e.presupuestoProximaTemporada as "presupuestoSiguiente",
+                ar.idArquetipo as "idArquetipo",
+                ar.nombre as "nombreArquetipo"
 			FROM 	
 				 competicion c
 			    inner join equipo e     
@@ -191,6 +196,8 @@
 					on c.idTipoEstado = tec.idTipoEstado
 				inner join temporada t
 					on c.idTemporadaActual = t.idTemporada
+				inner join arquetipoEquipo ar
+					on e.idArquetipo=ar.idArquetipo					
 			WHERE c.idCompeticion = :idCompeticion
 			AND e.idEquipo = :idEquipo				 			 
 		]]>

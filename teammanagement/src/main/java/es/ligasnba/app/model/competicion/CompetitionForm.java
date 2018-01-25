@@ -22,6 +22,8 @@ public class CompetitionForm {
 	private BigDecimal presupuestoActual;
 	private BigDecimal presupuestoSiguiente;
 	private String balance;
+	private Long idArquetipo;
+	private String nombreArquetipo;
 	
 
 	public List<Partido> listaUltimosPartidos= new ArrayList<Partido>();
@@ -139,6 +141,22 @@ public class CompetitionForm {
 
 	public void setBalance(String balance) {
 		this.balance = balance;
+	}
+
+	public Long getIdArquetipo() {
+		return idArquetipo;
+	}
+
+	public void setIdArquetipo(Long idArquetipo) {
+		this.idArquetipo = idArquetipo;
+	}
+
+	public String getNombreArquetipo() {
+		return nombreArquetipo;
+	}
+
+	public void setNombreArquetipo(String nombreArquetipo) {
+		this.nombreArquetipo = nombreArquetipo;
 	}
 	
 }

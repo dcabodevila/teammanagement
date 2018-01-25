@@ -55,5 +55,6 @@ public interface ContractService {
 	PlayerContractData getContractDataAgente(Jugador j, Equipo e) throws InstanceNotFoundException;
 	PlayerContractData getContractDataAgenteLibrePropio(Jugador j, Temporada t) throws InstanceNotFoundException;
 	TeamContractData findTeamContractDataByIdEquipo(long idEquipo) throws InstanceNotFoundException;
-	void registrarValoracionOferta(ValoracionOfertaContratoDto valoracionOferta);		
+	void registrarValoracionOferta(ValoracionOfertaContratoDto valoracionOferta);
+	Contrato tomarDecisionContrato(Long idJugador) throws Exception;		
 }
